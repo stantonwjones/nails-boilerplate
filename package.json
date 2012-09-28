@@ -1,0 +1,19 @@
+{
+  "name": "nails-boilerplate",
+  "version": "0.0.0",
+  "description": "A node.js webserver scaffold",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stantonwjones/nails-boilerplate.git"
+  },
+  "keywords": [
+    "nails",
+    "boilerplate"
+  ],
+  "author": "Stanton W. Jones",
+  "license": "MIT"
+}
