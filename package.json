@@ -4,7 +4,9 @@
   "description": "A node.js webserver scaffold",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "install": "node setCommands.js",
+    "uninstall": "node removeCommands.js"
   },
   "repository": {
     "type": "git",

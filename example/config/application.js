@@ -1,0 +1,1 @@
+// Initializes application before server starts
