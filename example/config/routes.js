@@ -18,7 +18,9 @@
  */
 
 var routes = [
+	// Routes the root request to index.html
 	['get', /^\/$/, {file: 'index.html'}],
+	// A test route which routes the first part of pathname to controller and the second to the action
 	['get', /^\/(\w+)\/(\w+)$/i, {1: 'controller', 2: 'action'}]
 ];
 
