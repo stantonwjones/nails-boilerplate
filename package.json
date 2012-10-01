@@ -18,6 +18,10 @@
     "nails",
     "boilerplate"
   ],
+  "dependencies": {
+    "underscore": ">= 1.4.0",
+    "mocha": ">= 0.4.0"
+  },
   "author": "Stanton W. Jones",
   "license": "MIT"
 }
