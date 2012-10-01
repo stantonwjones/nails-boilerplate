@@ -18,5 +18,8 @@
  */
 
 var routes = [
-	['get', '/', {file: 'index.html'}]
+	['get', /^\/$/, {file: 'index.html'}],
+	['get', /^\/(\w+)\/(\w+)$/i, {1: 'controller', 2: 'action'}]
 ];
+
+exports.routes = routes;
