@@ -4,11 +4,7 @@
   "description": "A node.js webserver scaffold",
   "main": "index.js",
   "scripts": {
-    "test": "test",
-    // pre-install script for adding command line generators
-    "install": "node setCommands.js",
-    // post-install script for removing command line generators
-    "uninstall": "node removeCommands.js"
+    "test": "test"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,9 @@
 // Initializes application before server starts
+// Each of these is REQUIRED
 var SERVER_ROOT = __dirname + '/..';
 var APP_ROOT = SERVER_ROOT + '/app';
 var ASSETS_ROOT = SERVER_ROOT + '/assets';
+var ENV = 'development'; // So we can figure out whether to load compiled assets or not
 
 // CONFIG OPTIONS USED BY NAILS TO DELIVER ASSETS AND TEMPLATES
 var config = {
