@@ -4,7 +4,7 @@
  *	Routes are checked in series, and the first matching route is applied.
  *	A route definition is as follows:
  *		['METHOD', 'REGEX', 'OPTIONS']
- *		
+ *
  *		METHOD => crud methods (GET, PUT, POST, DELETE)
  *		REGEX  => to be matched against the path.  Captured elements will be passed to options.
  *		OPTIONS => an object with parametes deciding how the route will be handled in order of execution:
