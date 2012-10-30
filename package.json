@@ -19,7 +19,7 @@
         "mocha": ">= 0.4.0"
     },
     "bin": {
-
+        "nails": "./bin/nails.js"
     },
     "author": "Stanton W. Jones",
     "license": "MIT"
