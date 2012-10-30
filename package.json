@@ -4,7 +4,9 @@
   "description": "A node.js webserver scaffold",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "install": "node scripts/install.js",
+    "uninstall": "node scripts/uninstall.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,6 @@
   "dependencies": {
     "underscore": ">= 1.4.0",
     "mocha": ">= 0.4.0"
-  },
-  "bin": {
-    "nails": "./bin/nails.js"
   },
   "author": "Stanton W. Jones",
   "license": "MIT"
