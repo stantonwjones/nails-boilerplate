@@ -1,26 +1,26 @@
 {
-    "name": "nails-boilerplate",
-    "version": "0.0.1",
-    "description": "A node.js webserver scaffold",
-    "main": "index.js",
-    "scripts": {
-        "test": "test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:stantonwjones/nails-boilerplate.git"
-    },
-    "keywords": [
-        "nails",
-        "boilerplate"
-    ],
-    "dependencies": {
-        "underscore": ">= 1.4.0",
-        "mocha": ">= 0.4.0"
-    },
-    "bin": {
-        "nails": "./bin/nails.js"
-    },
-    "author": "Stanton W. Jones",
-    "license": "MIT"
+  "name": "nails-boilerplate",
+  "version": "0.1.0",
+  "description": "A node.js webserver scaffold",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stantonwjones/nails-boilerplate.git"
+  },
+  "keywords": [
+    "nails",
+    "boilerplate"
+  ],
+  "dependencies": {
+    "underscore": ">= 1.4.0",
+    "mocha": ">= 0.4.0"
+  },
+  "bin": {
+    "nails": "./bin/nails.js"
+  },
+  "author": "Stanton W. Jones",
+  "license": "MIT"
 }
