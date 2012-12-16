@@ -3,10 +3,11 @@
   "version": "0.0.2-3",
   "description": "A node.js webserver scaffold",
   "main": "index.js",
+  "bin": {
+    "nails": "./bin/nails.js"
+  },
   "scripts": {
-    "test": "test",
-    "install": "node scripts/install.js",
-    "uninstall": "node scripts/uninstall.js"
+    "test": "test"
   },
   "repository": {
     "type": "git",
