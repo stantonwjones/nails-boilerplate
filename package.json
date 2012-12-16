@@ -4,7 +4,8 @@
   "description": "A node.js webserver scaffold",
   "main": "index.js",
   "bin": {
-    "nails": "./bin/nails.js"
+    "nails": "./bin/nails.sh",
+    "nails": "./bin/nails.bat"
   },
   "scripts": {
     "test": "test"
