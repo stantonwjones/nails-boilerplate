@@ -1,5 +1,6 @@
 // Install script which adds commands for running nails
 // to the path
+var fs = require('fs');
 var wrench = require('wrench');
 var exec = require('child_process').exec;
 var args = process.argv.slice(2);
@@ -31,7 +32,7 @@ function isNailsApp( originalDir, directory ) {
     var nailsAppRootHere = files.indexOf('NAILS') >= 0;
     
     if (nextDir == dir) {
-        process.chdir(oringalDir);
+        process.chdir(originalDir);
         return nailsAppRootHere;
     } else {
         return nailsAppRootHere || isNailsApp( originalDir, nextDir );
@@ -39,17 +40,36 @@ function isNailsApp( originalDir, directory ) {
 }
 
 function createApp( name ) {
-    var templateRoot =  __dirname + "/../../template";
+    var templateRoot =  __dirname + "/../../templates";
     fs.mkdir(name);
-    fs.writeFileSync('name/NAILS', '/* This marks the root of the NAILS app */');
-    wrench.copyDirSyncRecursive(templateRoot + '/app', name);
-    wrench.copyDirSyncRecursive(templateRoot + '/assets', name);
-    wrench.copyDirSyncRecursive(templateRoot + '/config', name);
-
-    fs.readFile(templateRoot + '/server.js', 'utf8', function(err, data) {
+    fs.open(name + '/NAILS','w', 0666, function(err, fd) {
         if (err) throw err;
-        fs.writeFileSync( 'name/server.js', data.replace('XXXXXXX', __dirname + '/../..') );
-        console.log("Initialized new Nails Application successfully");
-        exit(0);
+        fs.writeFileSync(name + '/NAILS', '/* This marks the root of the NAILS app */');
+        fs.closeSync(fd);
+
+        wrench.copyDirSyncRecursive(templateRoot + '/app', name + '/app');
+        wrench.copyDirSyncRecursive(templateRoot + '/assets', name + '/assets');
+        wrench.copyDirSyncRecursive(templateRoot + '/config', name + '/config');
+
+        checkWrites();
     });
+
+    fs.open(name + '/server.js','w', 0666, function(err, fd) {
+        if (err) throw err;
+        fs.readFile(templateRoot + '/server.js', 'utf8', function(err, data) {
+            if (err) throw err;
+            fs.writeFileSync( name + '/server.js', data.replace('XXXXXXX', __dirname + '/../..') );
+            fs.closeSync(fd);
+            checkWrites();
+        });
+    });
+}
+
+var numWrites = 0;
+function checkWrites() {
+    numWrites++;
+    if (numWrites == 2) {
+        console.log("Initialized new Nails Application successfully");
+        process.exit(0);
+    }
 }

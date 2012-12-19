@@ -34,19 +34,24 @@ int main( int argc, char *argv[] ) {
         FILE *fp;
         int status;
         char path[1035];
+        char *quote = "'";
         char args[500];
         
         /* concatenate the args to be passed to nails.js script */
-        std::strcpy(args, argv[1]);
-        for (int i = 2; i < argc; i++) {
+        std::strcpy( args, quote );
+        for (int i = 1; i < argc; i++) {
             // TODO: refractor this into a function dedicated to processing the additiional arguments
-            std::strcat(args, argv[i]);
+            if ( i > 1 ) {
+                std::strcat( args, " " );
+            }
+            std::strcat( args, argv[i] );
         }
+        std::strcat( args, quote );
 
         /* Open the command for reading. */
         fp = popen("npm root -g", "r");
         if (fp == NULL) {
-            printf("Failed to run command\n" );
+            printf( "Failed to run command\n" );
             return -1;
         }
 
@@ -60,7 +65,7 @@ int main( int argc, char *argv[] ) {
             std::strcpy(command, commandPre);
             std::strcat(command, trimwhitespace(path));
             std::strcat(command, comPathSuf);
-            std::strcat(command, argv[1]);
+            std::strcat(command, args);
             /* print for testing only */
             //printf("%s", command);
             system(command);
