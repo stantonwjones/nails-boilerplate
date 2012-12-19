@@ -50,5 +50,6 @@ function createApp( name ) {
         if (err) throw err;
         fs.writeFileSync( 'name/server.js', data.replace('XXXXXXX', __dirname + '/../..') );
         console.log("Initialized new Nails Application successfully");
-    }
+        exit(0);
+    });
 }
