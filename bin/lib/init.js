@@ -5,6 +5,7 @@ var wrench = require('wrench');
 var exec = require('child_process').exec;
 var args = process.argv.slice(2);
 console.log(args);
+console.log(process.argv);
 
 var appName = args[0];
 var originalDir = process.cwd();

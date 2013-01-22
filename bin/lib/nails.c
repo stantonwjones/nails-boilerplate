@@ -39,6 +39,7 @@ int main( int argc, char *argv[] ) {
         
         /* concatenate the args to be passed to nails.js script */
         std::strcpy( args, quote );
+        std::cout << argc << std::endl;
         for (int i = 1; i < argc; i++) {
             // TODO: refractor this into a function dedicated to processing the additiional arguments
             if ( i > 1 ) {
@@ -61,7 +62,8 @@ int main( int argc, char *argv[] ) {
             char comPathSuf[] = "/nails-boilerplate/bin/lib/nails.js ";
 
             // Concatenate the strings into a command to run the nails script
-            char command[std::strlen(commandPre) + std::strlen(path) + std::strlen(comPathSuf) + std::strlen(argv[1]) + 1];
+            int strLen = std::strlen(commandPre) + std::strlen(path) + std::strlen(comPathSuf) + std::strlen(args) + 1;
+            char command[strLen];
             std::strcpy(command, commandPre);
             std::strcat(command, trimwhitespace(path));
             std::strcat(command, comPathSuf);
