@@ -4,6 +4,7 @@ var fs = require('fs');
 var wrench = require('wrench');
 var exec = require('child_process').exec;
 var args = process.argv.slice(2);
+console.log(args);
 
 var appName = args[0];
 var originalDir = process.cwd();
@@ -58,7 +59,8 @@ function createApp( name ) {
         if (err) throw err;
         fs.readFile(templateRoot + '/server.js', 'utf8', function(err, data) {
             if (err) throw err;
-            fs.writeFileSync( name + '/server.js', data.replace('XXXXXXX', __dirname + '/../..') );
+            fs.writeFileSync( name + '/server.js', data );
+            //fs.writeFileSync( name + '/server.js', data.replace('XXXXXXX', __dirname + '/../..') );
             fs.closeSync(fd);
             checkWrites();
         });
@@ -70,6 +72,12 @@ function checkWrites() {
     numWrites++;
     if (numWrites == 2) {
         console.log("Initialized new Nails Application successfully");
+        console.log("installing nails locally");
+        // change into app directory
+        process.chdir(appName);
+
+        // change back to original directory
+        process.chdir('..');
         process.exit(0);
     }
 }
