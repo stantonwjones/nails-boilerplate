@@ -9,7 +9,7 @@ for (var i = 1; i < args.length; i++) {
     command = command + " " + args[i];
 }
 
-exec( command, function callback(error, stdout, stderr) {
+exec( command, function(error, stdout, stderr) {
     console.log(stdout);
     if (error) {
         console.log(error);
