@@ -1,6 +1,6 @@
 {
   "name": "nails-boilerplate",
-  "version": "0.0.6-4",
+  "version": "0.0.6-5",
   "description": "A node.js webserver scaffold",
   "main": "index.js",
   "bin": {
