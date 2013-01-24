@@ -39,16 +39,13 @@ int main( int argc, char *argv[] ) {
         
         /* concatenate the args to be passed to nails.js script */
         std::strcpy( args, quote );
-        std::cout << argc << std::endl;
         for (int i = 1; i < argc; i++) {
             // TODO: refractor this into a function dedicated to processing the additiional arguments
             if ( i > 1 ) {
                 std::strcat( args, " " );
             }
             std::strcat( args, argv[i] );
-            printf("%s", args);
         }
-        printf("%s", args);
         std::strcat( args, quote );
 
         /* Open the command for reading. */
@@ -71,7 +68,8 @@ int main( int argc, char *argv[] ) {
             std::strcat(command, comPathSuf);
             std::strcat(command, args);
             /* print for testing only */
-            printf("%s", command);
+            //printf("%s", command);
+            // commented out for testing
             system(command);
         }
 
