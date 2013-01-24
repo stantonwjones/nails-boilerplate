@@ -46,7 +46,9 @@ int main( int argc, char *argv[] ) {
                 std::strcat( args, " " );
             }
             std::strcat( args, argv[i] );
+            printf("%s", args);
         }
+        printf("%s", args);
         std::strcat( args, quote );
 
         /* Open the command for reading. */
@@ -69,7 +71,7 @@ int main( int argc, char *argv[] ) {
             std::strcat(command, comPathSuf);
             std::strcat(command, args);
             /* print for testing only */
-            //printf("%s", command);
+            printf("%s", command);
             system(command);
         }
 
