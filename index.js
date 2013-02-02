@@ -1,2 +1,2 @@
 // Sets the Nails global object
-global.Nails = require('./lib/nails.js').Nails;
+module.exports =  require('./lib/nails.js').Nails;

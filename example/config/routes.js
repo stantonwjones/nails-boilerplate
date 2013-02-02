@@ -18,6 +18,8 @@
  */
 
 var routes = [
+    // Default setting for routing to public folder
+    ['get', '/public', {public: true}],
 	// Routes the root request to index.html
 	['get', /^\/$/, {file: 'index.html'}],
 	// A test route which routes the first part of pathname to controller and the second to the action

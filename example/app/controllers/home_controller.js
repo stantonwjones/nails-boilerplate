@@ -1,3 +1,5 @@
-exports.homeController = new Nails.Controller({
-	name: 'home'
-});
+module.exports = function(Nails) {
+	return new Nails.Controller({
+		name: 'home'
+	});
+}

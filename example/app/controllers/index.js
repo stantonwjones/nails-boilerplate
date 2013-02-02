@@ -1,4 +1,8 @@
 /**
  *	Manifest file for controllers
  */
- exports.home = require('./home_controller.js').homeController;
+ module.exports = function(Nails) {
+ 	return {
+	 	home: require('./home_controller.js')(Nails);
+	}
+ }
