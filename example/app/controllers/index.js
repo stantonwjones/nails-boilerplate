@@ -3,6 +3,6 @@
  */
  module.exports = function(Nails) {
  	return {
-	 	home: require('./home_controller.js')(Nails);
+	 	home: require('./home_controller.js')(Nails)
 	}
  }
