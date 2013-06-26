@@ -3,9 +3,9 @@
 var SERVER_ROOT = __dirname + '/..';
 var APP_ROOT = SERVER_ROOT + '/app';
 var ASSETS_ROOT = SERVER_ROOT + '/assets';
-var ENV = 'development'; // So we can figure out whether to load compiled assets or not
 
 // CONFIG OPTIONS USED BY NAILS TO DELIVER ASSETS AND TEMPLATES
+// TODO: simplify this. let the url path do the work
 var config = {
 	ASSETS_ROOT: ASSETS_ROOT,
 	JS_ROOT: ASSETS_ROOT + '/scripts',
