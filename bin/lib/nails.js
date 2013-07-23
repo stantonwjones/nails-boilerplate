@@ -1,3 +1,5 @@
+#!/usr/bin/node
+
 // The entry point for the nails executable
 var exec = require('child_process').exec;
 console.log('nailsargs are: ', process.argv);
@@ -9,6 +11,7 @@ for (var i = 1; i < args.length; i++) {
     command = command + " " + args[i];
 }
 
+//TODO can use require for this
 exec( command, function(error, stdout, stderr) {
     console.log(stdout);
     if (error) {

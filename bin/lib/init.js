@@ -50,7 +50,7 @@ function createApp( name ) {
         fs.closeSync(fd);
 
         wrench.copyDirSyncRecursive(templateRoot + '/app', name + '/app');
-        wrench.copyDirSyncRecursive(templateRoot + '/assets', name + '/assets');
+        wrench.copyDirSyncRecursive(templateRoot + '/public', name + '/assets');
         wrench.copyDirSyncRecursive(templateRoot + '/config', name + '/config');
 
         checkWrites();
@@ -61,7 +61,18 @@ function createApp( name ) {
         fs.readFile(templateRoot + '/server.js', 'utf8', function(err, data) {
             if (err) throw err;
             fs.writeFileSync( name + '/server.js', data );
-            //fs.writeFileSync( name + '/server.js', data.replace('XXXXXXX', __dirname + '/../..') );
+            fs.closeSync(fd);
+            checkWrites();
+        });
+    });
+
+    //TODO: use toJSON to dynamically create package.json
+    //TODO: install dependencies after writing package.json
+    fs.open(name + '/package.json','w', 0666, function(err, fd) {
+        if (err) throw err;
+        fs.readFile(templateRoot + '/package.json', 'utf8', function(err, data) {
+            if (err) throw err;
+            fs.writeFileSync( name + '/package.json', data.replace('nails_app', name) );
             fs.closeSync(fd);
             checkWrites();
         });
@@ -71,7 +82,7 @@ function createApp( name ) {
 var numWrites = 0;
 function checkWrites() {
     numWrites++;
-    if (numWrites == 2) {
+    if (numWrites == 3) {
         console.log("Initialized new Nails Application successfully");
         console.log("installing nails locally");
         // change into app directory

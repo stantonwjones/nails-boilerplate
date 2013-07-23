@@ -1,3 +1,7 @@
+/**
+    NOT USING THIS RIGHT NOW
+    save as preinstall script for cross patform compatibility in the future
+**/
 // The install script to add executables
 var execute = require('child_process').exec;
 var fs = require('fs');

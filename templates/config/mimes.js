@@ -19,7 +19,6 @@
     };
     */
 
-// RENAMING THIS OBJECT BREAKS EVERYTHING
 var mimes = {
     html: {
         type: 'page',
@@ -59,5 +58,4 @@ var mimes = {
     }
 }
 
-// RENAMING THIS PROPERTY BREAKS EVERYTHING
- exports.mimes = mimes;
+module.exports = mimes;
