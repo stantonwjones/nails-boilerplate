@@ -5,7 +5,7 @@ var APP_ROOT = SERVER_ROOT + '/app';
 
 var config = {
     // root directory for delivering static assets
-    STATIC_ROOT: '/static',
+    PUBLIC_ROOT: '/public',
     CONTROLLERS_ROOT: APP_ROOT + '/controllers',
     VIEWS_ROOT: APP_ROOT + '/views',
 	APP_ROOT: APP_ROOT,
