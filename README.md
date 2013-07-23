@@ -11,7 +11,7 @@ functionality to fit your needs, and you are encouraged to do so.
 
 ### Install
 
-npm install -g nails-boilerplate
+sudo npm install -g nails-boilerplate
     
 nails init <app_name>
 
