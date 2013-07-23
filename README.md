@@ -11,9 +11,9 @@ functionality to fit your needs, and you are encouraged to do so.
 
 ### Install
 
-sudo npm install -g nails-boilerplate
+    sudo npm install -g nails-boilerplate
     
-nails init <app_name>
+    nails init <app_name>
 
 This will initialize a barebones app in the directory of the same name.  Take a
 look at the self-documented config files and example controller and view before
