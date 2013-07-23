@@ -4,8 +4,6 @@ var fs = require('fs');
 var wrench = require('wrench');
 var exec = require('child_process').exec;
 var args = process.argv.slice(2);
-console.log(args);
-console.log(process.argv);
 
 var appName = args[0];
 var originalDir = process.cwd();
@@ -50,7 +48,7 @@ function createApp( name ) {
         fs.closeSync(fd);
 
         wrench.copyDirSyncRecursive(templateRoot + '/app', name + '/app');
-        wrench.copyDirSyncRecursive(templateRoot + '/public', name + '/assets');
+        wrench.copyDirSyncRecursive(templateRoot + '/public', name + '/public');
         wrench.copyDirSyncRecursive(templateRoot + '/config', name + '/config');
 
         checkWrites();
