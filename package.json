@@ -22,7 +22,8 @@
   "dependencies": {
     "underscore": "*",
     "wrench": "*",
-    "cookies": "*"
+    "cookies": "*",
+    "formidable": "*"
   },
   "devDependencies": {
     "mocha": ">= 0.4.0"
