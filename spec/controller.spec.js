@@ -6,7 +6,7 @@ describe('Controller', function() {
     describe('#Controller.setRouter', function() {
         it('should set Controller.router to the router');
     });
-    dexcribe('#Controller.extend', function() {
+    describe('#Controller.extend', function() {
         it('should set the appropriate listener on the router');
         it('should set itself as the prototype of the passed constructor method');
         it('should return an initialized instance of the constructor');
