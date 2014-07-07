@@ -15,5 +15,6 @@ var config = {
 
 module.exports.routes = require( './routes.js' );
 module.exports.mimes = require( './mimes.js' );
+module.exports.db = require('./db.js');
 
 module.exports.config = config;
