@@ -1,10 +1,6 @@
 var assert = require('assert');
 var MongoDBConnector = require('../lib/mongodb_connector.js');
-var test_config = {
-    url: 'localhost',
-    port: '27017',
-    database: 'test'
-}
+var test_config = {}
 
 var mdbc = new MongoDBConnector(test_config);
 

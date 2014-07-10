@@ -1,5 +1,7 @@
 var assert = require('assert');
 var Model = require('../lib/model.js');
+var default_connector = require('../lib/mongodb_connector.js');
+Model.set_connector(default_connector, {});
 
 var test_model = new Model();
 var model_prot = Model.prototype;
@@ -36,6 +38,49 @@ describe('Model', function() {
         });
     });
     describe('#save', function() {
-
+        it('should save a new model to the database and update attributes with the new id', function() {
+            var model0 = new Model();
+            var model_name = 'testname0';
+            model0.attributes = {
+                name: model_name
+            }
+            model0.save();
+            assert.ok(model0.attributes._id);
+            assert.ok(model_name == model0.attributes.name);
+        });
+        it('should save changes to an existing model to the database', function(done) {
+            var model0 = new Model();
+            model0.attributes = {
+                name: 'testname1'
+            }
+            model0.save();
+            model0.set('x', 5);
+            model0.save();
+            var model1 = new Model();
+            model1.id = model0.id;
+            model1.fetch();
+            setTimeout(function() {
+                assert.ok(model1.attributes.x == 5);
+                done()
+            }, 200);
+        });
+    });
+    describe('#fetch', function() {
+        it('should retrieve attributes for this model id from the database', function(done) {
+            var model0 = new Model();
+            model0.set('x', 7);
+            model0.save();
+            var model1 = new Model();
+            model1.id = model0.id;
+            model1.fetch();
+            setTimeout(function() {
+                assert.ok(model1.attributes.x == 7);
+                done();
+            }, 200);
+        });
+    });
+    describe('#attributes', function() {
+        it('should be a plain object');
+        it('should not change by reference if set to a different attributes hash');
     });
 });
