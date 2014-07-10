@@ -8,6 +8,7 @@ var config = {
     PUBLIC_ROOT: '/public',
     CONTROLLERS_ROOT: APP_ROOT + '/controllers',
     VIEWS_ROOT: APP_ROOT + '/views',
+    MODELS_ROOT: APP_ROOT + '/models',
 	APP_ROOT: APP_ROOT,
 	SERVER_ROOT: SERVER_ROOT,
 	PORT: 3333

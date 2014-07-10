@@ -1,3 +1,4 @@
+var User = require('../models/user.js');
 module.exports = function HomeController() {
     // TODO:
     //  1. add example functions for rendering a view
@@ -7,5 +8,11 @@ module.exports = function HomeController() {
     };
     this.json = function(params, request, response) {
         response.json({test: 'json'});
+    };
+    this.test_model = function(params, request, response) {
+        var u = new User();
+        u.set('created_at', (new Date()).getTime());
+        u.save();
+        response.json({new_user_id: u.id.toString()});
     };
 }

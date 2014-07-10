@@ -1,6 +1,7 @@
 module.exports = {
-    connector: 'MongoDBConnector',
-    url: 'localhost',
-    port: '270017',
+    connector: 'mongodb_connector.js',
+    //connector: 'MongoDBConnector',
+    //url: 'localhost',
+    //port: '27017',
     database: 'development'
 }
