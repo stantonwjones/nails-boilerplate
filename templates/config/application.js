@@ -8,6 +8,7 @@ var config = {
     PUBLIC_ROOT: '/public',
     CONTROLLERS_ROOT: APP_ROOT + '/controllers',
     VIEWS_ROOT: APP_ROOT + '/views',
+    MODELS_ROOT: APP_ROOT + '/models',
 	APP_ROOT: APP_ROOT,
 	SERVER_ROOT: SERVER_ROOT,
 	PORT: 3333
@@ -15,5 +16,6 @@ var config = {
 
 module.exports.routes = require( './routes.js' );
 module.exports.mimes = require( './mimes.js' );
+module.exports.db = require('./db.js');
 
 module.exports.config = config;
