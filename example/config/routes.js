@@ -3,10 +3,10 @@
  *
  *	Routes are checked in series, and the first matching route is applied.
  *	A route definition is as follows:
- *		['METHOD', 'REGEX', 'OPTIONS']
+ *		['METHOD', 'MATCHER', 'OPTIONS']
  *
  *		METHOD => crud methods (GET, PUT, POST, DELETE)
- *		REGEX  => to be matched against the path.  Captured elements will be passed to options.
+ *		MATCHER  => to be matched against the path.  Captured elements will be passed to options. Delegates to express application routing.
  *		OPTIONS => an object with parametes deciding how the route will be handled in order of execution:
  *			path: => the path to a static file ( index.html f/e)
  *			controller: => controller to route the request to. TODO: May implement a resource definition for automatically routing cruds
@@ -23,7 +23,9 @@ var routes = [
     ['get', /^\/favicon\.ico$/, {public: true}],
     ['get', /^\/public\/*/, {public: true}],
 	// A test route which routes the first part of pathname to controller and the second to the action
-	['get', /^\/(\w+)\/(\w+)$/i, {1: 'controller', 2: 'action'}]
+	['get', /^\/(\w+)\/(\w+)$/i, {0: 'controller', 1: 'action'}],
+    // Maps the first two parts of the path to controller and action, and the third to the id parameter
+    ['get', "/:controller/:action/:id"]
 ];
 
 module.exports = routes;

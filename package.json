@@ -25,7 +25,8 @@
     "cookies": "*",
     "formidable": "*",
     "mime": "*",
-    "mongodb": "*"
+    "mongodb": "*",
+    "express": "*"
   },
   "devDependencies": {
     "mocha": ">= 0.4.0"
