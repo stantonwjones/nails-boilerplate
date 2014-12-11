@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 
 // The entry point for the nails executable
 var exec = require('child_process').exec;
