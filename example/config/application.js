@@ -11,7 +11,8 @@ var config = {
     VIEWS_ROOT: APP_ROOT + '/views',
     MODELS_ROOT: APP_ROOT + '/models',
 	SERVER_ROOT: SERVER_ROOT,
-	PORT: 3333
+	PORT: 3333,
+    VIEW_ENGINE: 'underscore'
 };
 
 module.exports.routes = require( './routes.js' );

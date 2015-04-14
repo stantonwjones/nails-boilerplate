@@ -15,4 +15,9 @@ module.exports = function HomeController() {
         u.save();
         response.json({new_user_id: u.id.toString()});
     };
+    this.test_id_template = function(params, request, response) {
+        var varz = {};
+        varz.id = params.id || "no id set";
+        response.render('test_id', varz);
+    };
 }

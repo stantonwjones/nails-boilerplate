@@ -26,7 +26,8 @@
     "formidable": "*",
     "mime": "*",
     "mongodb": "*",
-    "express": "*"
+    "express": "*",
+    "consolidate": "*"
   },
   "devDependencies": {
     "mocha": ">= 0.4.0"
