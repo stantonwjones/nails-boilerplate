@@ -20,10 +20,6 @@
     "mvc"
   ],
   "dependencies": {
-    "underscore": "*",
-    "wrench": "*",
-    "cookies": "*",
-    "formidable": "*",
     "mime": "*",
     "mongodb": "*",
     "express": "*",
