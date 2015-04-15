@@ -13,6 +13,7 @@
         "url": "https://github.com/stantonwjones/nails-boilerplate/issues"
     },
     "dependencies": {
-        "nails-boilerplate": ">=0.1.0"
+        "nails-boilerplate": ">=0.1.0",
+        "underscore": "*"
     }
 }
