@@ -19,7 +19,7 @@
 
 var routes = [
 	// Routes the root request to index.html, as well as all other requests to static
-    ['get', "/", {public: true}],
+    ['get', "/", {controller: 'home'}],
     // Routes all requests starting with /public as static requests to the public folder.
     ['get', '/public', {public: true}],
 	// A test route which routes the first part of pathname to controller and the second to the action

@@ -2,7 +2,7 @@
 // Each of these is REQUIRED
 var SERVER_ROOT = __dirname + '/..';
 var APP_ROOT = SERVER_ROOT + '/app';
-var VIEW_ENGINE = 'underscore';
+var VIEW_ENGINE = 'ejs';
 
 var config = {
 	APP_ROOT: APP_ROOT,
