@@ -71,7 +71,8 @@ Docs coming soon...
 Docs coming soon...
 
 ###### Response
-Docs coming soon...
+
+The response object provided by <express.js>. The <#render()> method has been overridden to allow for the rendering of views by name.
 
 #### Model
 
