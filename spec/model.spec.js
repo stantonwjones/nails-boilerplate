@@ -15,7 +15,7 @@ describe('Model', function() {
             attr0 = {a:7, b:'test', c:null, o: {}};
             attr1 = {a:8, c:'test0', o: {a:0}};
         });
-        it('should rewrite non object attributes', function(){
+        it('should rewrite non object attributes', function() {
             model_prot._extend_deeply(attr0, attr1);
             // these should change
             assert(attr0.a == attr1.a);
