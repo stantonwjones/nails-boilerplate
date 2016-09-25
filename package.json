@@ -17,14 +17,15 @@
     "nails",
     "framework",
     "server",
-    "mvc"
+    "mvc",
+    "express",
+    "rails"
   ],
   "dependencies": {
     "mime": "*",
     "mongodb": "*",
     "express": "*",
-    "consolidate": "*",
-    "wrench": "*"
+    "consolidate": "*"
   },
   "devDependencies": {
     "mocha": ">= 0.4.0"
