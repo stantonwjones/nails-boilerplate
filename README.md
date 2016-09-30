@@ -38,6 +38,52 @@ Remember: each object comes with an example file to use for reference when build
 
 #### Config
 
+Your configuration files are stored in app_name/config/. There are three default config files:
+
+```
+application.js
+routes.js
+db.js
+```
+
+Each default config file is annotated with comments documenting each field to help you tailor your application to your needs.
+
+##### application.js
+
+application.js contains information necessary to run your server. By default, it specifies the port and the location of important libraries. To override these values in different runtime environments, add a child object.
+```js
+module.exports = {
+  ...
+  PORT: 3000,
+  PROD: {
+    PORT: 80
+  }
+}
+```
+
+Nails checks the NODE_ENV environment variable. If a matching child config object is present, then those values will override the parent config. In the above example, PORT will be overridden to 80 if NODE_ENV is set to PROD.
+
+While most of these values don't need to be changed, feel free to add custom fields. The resulting config will be available to your application through the nails module:
+
+```js
+var application_config = require('nails-boilerplate').config
+```
+
+If the config contains a custom field,
+
+```js
+module.exports = {
+  ...
+  PORT: 3000,
+  yourCustomField: 'yourCustomValue'
+}
+```
+
+then `application_config.yourCustomField` as defined above will be equal to `'yourCustomValue'`.
+
+##### routes.js
+-- Coming soon... For now, take a look at the files in the example config directory --
+##### db.js
 -- Coming soon... For now, take a look at the files in the example config directory --
 
 #### Controller
