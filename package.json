@@ -25,7 +25,8 @@
     "mime": "*",
     "mongodb": "*",
     "express": "*",
-    "consolidate": "*"
+    "consolidate": "*",
+    "wrench": "*"
   },
   "devDependencies": {
     "mocha": ">= 0.4.0"
