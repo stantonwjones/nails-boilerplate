@@ -41,7 +41,7 @@ function isNailsApp( originalDir, directory ) {
 
 function createApp( name ) {
     var templateRoot =  __dirname + "/../../templates";
-    fs.mkdir(name);
+    if (!fs.existsSync(name)) fs.mkdir(name);
     fs.open(name + '/NAILS','w', 0666, function(err, fd) {
         if (err) throw err;
         fs.writeFileSync(name + '/NAILS', '/* This marks the root of the NAILS app */');
