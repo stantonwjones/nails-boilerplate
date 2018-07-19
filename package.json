@@ -26,7 +26,10 @@
     "mongodb": "*",
     "express": "*",
     "consolidate": "*",
-    "wrench": "*"
+    "wrench": "*",
+    "express-react-views": "*",
+    "react": "*",
+    "react-dom": "*"
   },
   "devDependencies": {
     "mocha": ">= 0.4.0"
