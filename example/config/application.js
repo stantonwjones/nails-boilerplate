@@ -2,7 +2,6 @@
 // Each of these is REQUIRED
 var SERVER_ROOT = __dirname + '/..';
 var APP_ROOT = SERVER_ROOT + '/app';
-var VIEW_ENGINE = 'ejs';
 
 var config = {
   APP_ROOT: APP_ROOT,
@@ -13,13 +12,16 @@ var config = {
   MODELS_ROOT: APP_ROOT + '/models',
   SERVER_ROOT: SERVER_ROOT,
   PORT: 3333,
-  VIEW_ENGINE: VIEW_ENGINE,
-  VIEW_ENGINE_PATH: require.resolve(VIEW_ENGINE),
+
+  // Delete these to use ejs view engine.
+  VIEW_ENGINE: require('express-react-views').createEngine(),
+  VIEW_ENGINE_EXT: 'jsx',
+
   ASYNC: false
 };
 
-module.exports.routes = require( './routes.js' );
-module.exports.mimes = require( './mimes.js' );
+module.exports.routes = require('./routes.js');
+module.exports.mimes = require('./mimes.js');
 module.exports.db = require('./db.js');
 
 module.exports.config = config;

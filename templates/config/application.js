@@ -1,10 +1,10 @@
 // Initializes application before server starts
 // Each of these is REQUIRED
-var SERVER_ROOT = __dirname + '/..';
-var APP_ROOT = SERVER_ROOT + '/app';
-var VIEW_ENGINE = 'ejs';
+const SERVER_ROOT = __dirname + '/..';
+const APP_ROOT = SERVER_ROOT + '/app';
+const VIEW_ENGINE = 'ejs';
 
-var config = {
+const config = {
   APP_ROOT: APP_ROOT,
   // root directory for delivering static assets
   PUBLIC_ROOT: SERVER_ROOT + '/public',
