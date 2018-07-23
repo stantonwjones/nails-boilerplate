@@ -11,6 +11,8 @@ var config = {
   VIEWS_ROOT: APP_ROOT + '/views',
   MODELS_ROOT: APP_ROOT + '/models',
   SERVER_ROOT: SERVER_ROOT,
+
+  //IP: "0.0.0.0",
   PORT: 3333,
 
   // Delete these to use ejs view engine.
@@ -18,6 +20,8 @@ var config = {
   VIEW_ENGINE_EXT: 'jsx',
 
   ASYNC: false
+
+  // For HTTPS
 };
 
 module.exports.routes = require('./routes.js');
