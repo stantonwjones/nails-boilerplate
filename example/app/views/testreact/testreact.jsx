@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 var React = require('react');
 
 class TestReact extends React.Component {

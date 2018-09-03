@@ -1,10 +1,9 @@
 // Initializes application before server starts
 // Each of these is REQUIRED
-const SERVER_ROOT = __dirname + '/..';
-const APP_ROOT = SERVER_ROOT + '/app';
-const VIEW_ENGINE = 'ejs';
+var SERVER_ROOT = __dirname + '/..';
+var APP_ROOT = SERVER_ROOT + '/app';
 
-const config = {
+var config = {
   APP_ROOT: APP_ROOT,
   // root directory for delivering static assets
   PUBLIC_ROOT: SERVER_ROOT + '/public',
@@ -12,14 +11,21 @@ const config = {
   VIEWS_ROOT: APP_ROOT + '/views',
   MODELS_ROOT: APP_ROOT + '/models',
   SERVER_ROOT: SERVER_ROOT,
+
+  //IP: "0.0.0.0",
   PORT: 3333,
-  VIEW_ENGINE: VIEW_ENGINE,
-  VIEW_ENGINE_PATH: require.resolve(VIEW_ENGINE),
+
+  // Delete these to use ejs view engine.
+  VIEW_ENGINE: require('express-react-views').createEngine(),
+  VIEW_ENGINE_EXT: 'jsx',
+
   ASYNC: false
+
+  // For HTTPS
 };
 
-module.exports.routes = require( './routes.js' );
-module.exports.mimes = require( './mimes.js' );
+module.exports.routes = require('./routes.js');
+module.exports.mimes = require('./mimes.js');
 module.exports.db = require('./db.js');
 
 module.exports.config = config;
