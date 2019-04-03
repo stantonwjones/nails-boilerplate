@@ -30,7 +30,7 @@ function isNailsApp( originalDir, directory ) {
     var nextDir = process.cwd();
     var files = fs.readdirSync(dir);
     var nailsAppRootHere = files.indexOf('NAILS') >= 0;
-    
+
     if (nextDir == dir) {
         process.chdir(originalDir);
         return nailsAppRootHere;
@@ -41,7 +41,7 @@ function isNailsApp( originalDir, directory ) {
 
 function createApp( name ) {
     var templateRoot =  __dirname + "/../../templates";
-    if (!fs.existsSync(name)) fs.mkdir(name);
+    if (!fs.existsSync(name)) fs.mkdirSync(name);
     fs.open(name + '/NAILS','w', 0666, function(err, fd) {
         if (err) throw err;
         fs.writeFileSync(name + '/NAILS', '/* This marks the root of the NAILS app */');
@@ -53,6 +53,8 @@ function createApp( name ) {
 
         checkWrites();
     });
+
+    fs.copyFileSync(templateRoot + '/.babelrc', name + '/.babelrc');
 
     fs.open(name + '/server.js','w', 0666, function(err, fd) {
         if (err) throw err;

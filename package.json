@@ -22,14 +22,15 @@
     "rails"
   ],
   "dependencies": {
+    "express": "*",
+    "express-react-views": "*",
+    "@babel/core": "*",
+    "@babel/preset-react": "*",
     "mime": "*",
     "mongodb": "*",
-    "express": "*",
-    "consolidate": "*",
-    "wrench": "*",
-    "express-react-views": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "wrench": "*"
   },
   "devDependencies": {
     "mocha": ">= 0.4.0"
