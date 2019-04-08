@@ -16,6 +16,6 @@
         "nails-boilerplate": ">=0.1.0",
         "express-react-views": "*",
         "react": "*",
-        "react-dom": "*",
+        "react-dom": "*"
     }
 }
