@@ -54,7 +54,7 @@ function createApp( name ) {
         checkWrites();
     });
 
-    fs.copyFileSync(templateRoot + '/.babelrc', name + '/.babelrc');
+    //fs.copyFileSync(templateRoot + '/.babelrc', name + '/.babelrc');
 
     fs.open(name + '/server.js','w', 0666, function(err, fd) {
         if (err) throw err;
