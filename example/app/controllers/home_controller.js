@@ -4,6 +4,8 @@ module.exports = function HomeController() {
   //  1. add example functions for rendering a view
   this.index = function() {
   };
+  this.test_ejs = function() {
+  };
   this.public_index = function(params, request, response) {
     response.public({path: 'index.html'});
   };
