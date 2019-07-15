@@ -164,7 +164,8 @@ params object:
 An express Request object.
 
 ###### Response
-The response object provided by <express.js>. The <#render()> method has been overridden to allow for the rendering of views by name.
+The response object provided by <express.js>. The <#render()> method has been
+overridden to allow for the rendering of views by name.
 
 #### Model
 
