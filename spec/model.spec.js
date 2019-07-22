@@ -61,7 +61,7 @@ describe('Model', function() {
             model1.fetch();
             setTimeout(function() {
                 assert.ok(model1.attributes.x == 5);
-                done()
+                done();
             }, 200);
         });
     });
