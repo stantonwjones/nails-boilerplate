@@ -1,9 +1,9 @@
 # Nails-Boilerplate: A Node Webservice Framework
 
 This framework is designed to provide a lightweight, configurable MVC backend
-for node developers.  With minimal dependencies, Nails offers a greater syntactical
-familiarity than php alongside the creative freedom of bleeding edge solutions
-like Rails and Django.
+for node developers.  With minimal dependencies, Nails offers a greater
+syntactical familiarity than php alongside the creative freedom of bleeding edge
+solutions like Rails and Django.
 
 This boilerplate offers the basic necessities to get your MVC site off the ground.
 The modules used in Nails Boilerplate can be easily extended to produce the custom
@@ -96,12 +96,34 @@ then `service_config.yourCustomField` as defined above will be equal to
 #### Controller
 
 Controllers are defined in app/controllers/. Each controller module should
-define a constructor (named function) to be used when initializing the
-controller. The name of the controller will be used to match routes defined in
-config/routes.js for incoming requests.  Methods on the controller can be used
-to match actions, receiving <params>, <request>, <response> as arguments.
+define a Controller subclass. The name will be used to match routes defined in
+config/routes.js for incoming requests. Methods on the controller can be used as
+actions, receiving <params>, <request>, and <response> as arguments.
 
 For Example:
+``` js
+const Controller = requre("nails-boilerplate").Controller
+class HomeController extends Controller {
+  index(params, request, response) {
+    // default action
+  }
+
+  signin(params, request, response) {
+    // does something then renders a view
+  }
+}
+module.exports = HomeController;
+
+function helperMethod() {
+  // does something but does not have access to response
+}
+```
+
+defines a controller which will match any route to 'home#<action>'. "index" and
+"signin" are actions which can be used to render a response to the client.
+
+<DEPRECATED>
+Alternatively, you can use named constructor methods:
 ``` js
 module.exports = function HomeController() {
     this.index = function(params, request, response) {
@@ -115,9 +137,6 @@ module.exports = function HomeController() {
     };
 }
 ```
-
-defines a controller which will match any route to 'home#<action>'. "index" and
-"signin" are actions which can be used to render a response to the client.
 
 ###### Actions
 Actions are used to define how nails should respond to an incoming request.

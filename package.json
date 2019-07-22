@@ -34,7 +34,10 @@
     "wrench": "*"
   },
   "devDependencies": {
-    "mocha": ">= 0.4.0"
+    "mocha": ">= 0.4.0",
+    "sinon": "*",
+    "chai": "*",
+    "chai-http": "*"
   },
   "author": "Stanton W. Jones",
   "license": "MIT"
