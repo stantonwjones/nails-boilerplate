@@ -4,6 +4,11 @@ module.exports = function HomeController() {
       home_index: true
     });
   };
+  this.testaction = function(params, request, response) {
+    response.json({
+      home_testaction: true
+    });
+  }
   this.test_ejs = function() {
   };
 /*

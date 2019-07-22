@@ -27,10 +27,30 @@ describe("Integration", function() {
           .get('/classbased')
           .end((err, res) => {
             res.should.have.status(200);
-            console.log("response: ", res.text);
             assert(res.text == JSON.stringify({classbased_index: true}));
             done();
           });
     });
+  });
+  describe("GET /^\\/(\\w+)\\/(\\w+)$/i", function() {
+    it ('should route to home_controller#testaction', function(done) {
+      chai.request(express_app)
+          .get('/home/testaction')
+          .end((err, res) => {
+            res.should.have.status(200);
+            assert(res.text == JSON.stringify({home_testaction: true}));
+            done();
+          });
+    });
+    it('should route to classbased_controller#testaction', function(done) {
+      chai.request(express_app)
+          .get('/classbased/testaction')
+          .end((err, res) => {
+            res.should.have.status(200);
+            assert(res.text == JSON.stringify({classbased_testaction: true}));
+            done();
+          });
+    });
+
   });
 });

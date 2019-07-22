@@ -7,6 +7,12 @@ class ClassbasedController extends Controller {
       classbased_index: true
     });
   }
+
+  testaction(params, request, response) {
+    response.json({
+      classbased_testaction: true
+    });
+  }
 }
 
 module.exports = ClassbasedController;
