@@ -7,7 +7,7 @@
     "nails": "./bin/lib/nails.js"
   },
   "scripts": {
-    "test": "mocha spec"
+    "test": "mocha --exit spec"
   },
   "repository": {
     "type": "git",
@@ -37,7 +37,8 @@
     "mocha": ">= 0.4.0",
     "sinon": "*",
     "chai": "*",
-    "chai-http": "*"
+    "chai-http": "*",
+    "mongodb-memory-server": "*"
   },
   "author": "Stanton W. Jones",
   "license": "MIT"
