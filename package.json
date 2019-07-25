@@ -7,7 +7,8 @@
     "nails": "./bin/lib/nails.js"
   },
   "scripts": {
-    "test": "mocha --exit spec"
+    "test": "mocha --exit spec",
+    "debug": "mocha --exit debug spec"
   },
   "repository": {
     "type": "git",

@@ -12,7 +12,7 @@ class MongoDBConnectorUtil {
     const dbName = await this.mongod.getDbName();
     const dbConfig =
         {uri: uri, port: port, database: dbName, dbPath: dbPath};
-    console.log(JSON.stringify(dbConfig));
+    //console.log(JSON.stringify(dbConfig));
     return new MongoDBConnector(dbConfig);
   }
   cleanup() {

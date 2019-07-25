@@ -48,45 +48,42 @@ describe('Model', function() {
     });
   });
   describe('#save', function() {
-    it('should save a new model to the database and update attributes with the new id', function() {
+    it('should save a new model to the database and update attributes with the new id', async function() {
       var model0 = new Model();
       var model_name = 'testname0';
       model0.attributes = {
         name: model_name
       }
-      model0.save();
+      await model0.save();
       assert.ok(model0.attributes._id);
       assert.ok(model_name == model0.attributes.name);
     });
-    it('should save changes to an existing model to the database', function(done) {
+    it('should save changes to an existing model to the database', async function() {
       var model0 = new Model();
       model0.attributes = {
         name: 'testname1'
       }
-      model0.save();
+      await model0.save();
       model0.set('x', 5);
-      model0.save();
+      await model0.save();
       var model1 = new Model();
       model1.id = model0.id;
-      model1.fetch();
-      setTimeout(function() {
-        assert.ok(model1.attributes.x == 5);
-        done();
-      }, 200);
+      await model1.fetch();
+      console.log(JSON.stringify(model0.attributes));
+      console.log(JSON.stringify(model1.attributes));
+      assert.ok(model1.attributes.x == 5);
+      return null;
     });
   });
   describe('#fetch', function() {
-    it('should retrieve attributes for this model id from the database', function(done) {
+    it('should retrieve attributes for this model id from the database', async function() {
       var model0 = new Model();
       model0.set('x', 7);
-      model0.save();
+      await model0.save();
       var model1 = new Model();
       model1.id = model0.id;
-      model1.fetch();
-      setTimeout(function() {
-        assert.ok(model1.attributes.x == 7);
-        done();
-      }, 200);
+      await model1.fetch();
+      assert.ok(model1.attributes.x == 7);
     });
   });
   describe('#attributes', function() {

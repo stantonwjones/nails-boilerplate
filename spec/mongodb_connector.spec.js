@@ -27,19 +27,15 @@ describe('MongoDBConnector', function() {
       it('should return an array of docments when collection is passed');
     });
     describe('#_get_one', function() {
-      it('should return a single document with the matching _id', function(done) {
+      it('should return a single document with the matching _id', async function() {
         var test_model = get_test_model('custom0');
         var test_attr = test_model.attributes;
-        mdbc._post_one(test_model.collection_name(), test_attr);
-        debugger;
-        mdbc._get_one(test_model.collection_name(),
-        test_model.attributes._id, null,
-        function(err, doc) {
-          assert.ok(!err);
-          assert.ok(doc.custom_attr == test_attr.custom_attr);
-          assert.ok(doc._id.equals(test_attr._id));
-          done();
-        });
+        await mdbc._post_one(test_model.collection_name(), test_attr);
+        let doc = await mdbc._get_one(test_model.collection_name(),
+        test_model.attributes._id, null);
+        assert.ok(doc.custom_attr == test_attr.custom_attr);
+        assert.ok(doc._id.equals(test_attr._id));
+        return null;
       });
     });
     describe('#_get_many', function() {
