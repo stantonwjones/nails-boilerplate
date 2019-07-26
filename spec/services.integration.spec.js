@@ -51,6 +51,48 @@ describe("Integration", function() {
             done();
           });
     });
+    it('should render correctly when a promise is returned', function(done) {
+      chai.request(express_app)
+          .get('/classbased/testpromise')
+          .end((err, res) => {
+            res.should.have.status(200);
+            assert(res.text == JSON.stringify({classbased_testpromise: true}));
+            done();
+          });
+    })
+  });
+  describe("GET /json/:action", function() {
+    it('should render params if nothing is returned by the action',
+      function(done) {chai.request(express_app)
+          // Route to index action.
+          .get('/json/testparams?testkey=testvalue')
+          .end((err, res) => {
+            res.should.have.status(200);
+            assert(JSON.parse(res.text).testkey == "testvalue");
+            done();
+          });
+      }
+    );
+    it('should render the returned object as json', function(done) {
+      chai.request(express_app)
+          .get('/json/testaction')
+          .end((err, res) => {
+            res.should.have.status(200);
+            assert(res.text == JSON.stringify({json_testaction: true}));
+            done();
+          });
+    });
+    it('should asynchronously render the resolved promise as json',
+      function(done) {
+        chai.request(express_app)
+            .get('/json/testpromise')
+            .end((err, res) => {
+              res.should.have.status(200);
+              assert(res.text == JSON.stringify({json_testpromise: true}));
+              done();
+            });
+      }
+    );
 
   });
 });

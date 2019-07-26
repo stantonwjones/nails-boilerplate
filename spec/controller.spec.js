@@ -25,7 +25,7 @@ describe('Controller', function() {
     it('should set the appropriate listener on the router',
         function() {
       mockRouter = new EventEmitter();
-      mockParams = {};
+      mockParams = {_controller: "test"};
       mockRequest = {};
       mockResponse = {headersSent: true};
       Controller.setRouter(mockRouter);
@@ -51,7 +51,7 @@ describe('Controller', function() {
     it('should set the appropriate listener on the router',
         function() {
       mockRouter = new EventEmitter();
-      mockParams = {};
+      mockParams = {_controller: "test"};
       mockRequest = {};
       mockResponse = {headersSent: true};
       Controller.setRouter(mockRouter);

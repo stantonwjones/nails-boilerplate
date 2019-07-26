@@ -13,6 +13,12 @@ class ClassbasedController extends Controller {
       classbased_testaction: true
     });
   }
+
+  async testpromise(params, request, response) {
+    response.json({
+      classbased_testpromise: true
+    });
+  }
 }
 
 module.exports = ClassbasedController;
