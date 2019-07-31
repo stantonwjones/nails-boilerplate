@@ -98,7 +98,7 @@ then `service_config.yourCustomField` as defined above will be equal to
 Controllers are defined in app/controllers/. Each controller module should
 define a Controller subclass. The name will be used to match routes defined in
 config/routes.js for incoming requests. Methods on the controller can be used as
-actions, receiving <params>, <request>, and <response> as arguments.
+actions, receiving **params**, **request**, and **response** as arguments.
 
 For Example:
 ``` js
@@ -119,10 +119,10 @@ function helperMethod() {
 }
 ```
 
-defines a controller which will match any route to 'home#<action>'. "index" and
-"signin" are actions which can be used to render a response to the client.
+defines a controller which will match any route to *home#\<action\>*. **index**
+and **signin** are actions which can be used to render a response to the client.
 
-<DEPRECATED>
+*DEPRECATED*
 Alternatively, you can use named constructor methods:
 ``` js
 module.exports = function HomeController() {
@@ -147,30 +147,28 @@ For example, HomeController#index will attempt to render the view defined in
 //app/views/home/index.jsx
 
 The view each action searches for will always follow the pattern:
-//app/views/[controller name]/[action name].jsx
+//app/views/*\[controller name\]*/*\[action name\]*.jsx
 
 The file extension may differ based on which template engine you configure.
 
 Depending on the return value, Nails will pass a different set of parameters to
 the view engine:
-* <undefined> If there is no return statement in the action, Nails will pass the
-  <params> obect to the rendering engine.
-* <Object> If a generic object is returned, Nails will attempt to autorender the
-  view immediately using the returned object instead of <params>.
-* <Promise> If a promise is returned, Nails will wait to autorender the view
-  until the <Promise> resolves. If it resolves with no return value, the view
-  is rendered using <params>. Otherwise, the view is rendered using the resolved
-  value of the <Promise>
-* <Controller.DISABLE_AUTORENDER> The controller class defines a static constant
-  you can use to disable Nails autorendering. Nails will wait for the <action>
-  to explicitly send a response to the client. If the action takes to long to
-  send a response, Nails will respond to the client with a timeout error.
+* **undefined** If there is no return statement in the action, Nails will pass
+  the *params* obect to the rendering engine.
+* **Object** If a generic object is returned, Nails will attempt to autorender
+  the view immediately using the returned object instead of *params*.
+* **Promise** If a promise is returned, Nails will wait to autorender the view
+  until the *Promise* resolves. If it resolves with no return value, the view
+  is rendered using *params*. Otherwise, the view is rendered using the resolved
+  value of the *Promise*
+
+If a response has already been sent to the client, autorender will be skipped.
 
 ###### Params
 Params is a generic JSON object which represents the request details. Usually,
 Params will correspond to the query portion of your request.
 
-For example, a GET request to <//some/path?item0=a&item1=b> will generate the
+For example, a GET request to *//some/path?item0=a&item1=b* will generate the
 params object:
 ``` js
 {
@@ -183,14 +181,16 @@ params object:
 An express Request object.
 
 ###### Response
-The response object provided by <express.js>. The <#render()> method has been
+The response object provided by *express.js*. The *#render()* method has been
 overridden to allow for the rendering of views by name.
 
 #### Model
 
-Models are programmatic representations of data you wish to persist in a database.  They are a special kind of object which
-come with 'save()' and 'fetch()' methods to (respectively) persist the model to the database or retrieve the model from the database and update
-its attributes. Consider app/models/user.js:
+Models are programmatic representations of data you wish to persist in a
+database.  They are a special kind of object which come with 'save()' and
+'fetch()' methods to (respectively) persist the model to the database or
+retrieve the model from the database and update its attributes. Consider
+app/models/user.js:
 
 ``` js
 module.exports = function User(attr) {
@@ -228,9 +228,8 @@ you can focus on business logic.
 Views are basically templates used to render an html response for a browser.
 Nails comes prepackaged with React.js serverside templating, and EJS templates.
 If no template engine is specified in the service config, Nails will Default to
-EJS. Nails will always attempt to autorender your views unless the <action>
-returns <Controller.DISABLE_AUTORENDER>. If you disable autorender in an action,
-you must explicitly send a response using the express Response object.
+EJS. Nails will always attempt to autorender your views unless a response has
+already been sent to the client.
 
 Stay tuned as nails evolves:
 
