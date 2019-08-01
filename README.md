@@ -110,8 +110,9 @@ then *userId* will be set in the params object:
 
 You can define *:controller* and *:action* as route parameters as well. Not only
 will those values be set in the params object, but the request will be routed
-to the matching controller and action. See [express routes][0] for more
-information on how route parameters work.
+to the matching controller and action. See
+[express routes][express_routing_docs] for more information on how route
+parameters work.
 
 \*requests for static assets will only match the prefix of the path.
 
@@ -208,7 +209,7 @@ params object:
 ```
 
 #### Request
-An express Request object.
+An [express Request object][express_request_docs].
 
 #### Response
 The response object provided by *express.js*. The *#render()* method has been
@@ -274,4 +275,5 @@ Stay tuned as nails evolves:
 
 Enjoy! Feature requests, bug reports, and comments are welcome on github.
 
-[0][https://expressjs.com/en/guide/routing.html]
+[express_routing_docs][https://expressjs.com/en/guide/routing.html]
+[express_request_docs][https://expressjs.com/en/5x/api.html#req]
