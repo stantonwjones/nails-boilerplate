@@ -275,5 +275,5 @@ Stay tuned as nails evolves:
 
 Enjoy! Feature requests, bug reports, and comments are welcome on github.
 
-[express_routing_docs][https://expressjs.com/en/guide/routing.html]
-[express_request_docs][https://expressjs.com/en/5x/api.html#req]
+[express_routing_docs]: https://expressjs.com/en/guide/routing.html
+[express_request_docs]: https://expressjs.com/en/5x/api.html#req
