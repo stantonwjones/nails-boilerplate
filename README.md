@@ -9,7 +9,7 @@ This boilerplate offers the basic necessities to get your MVC site off the groun
 The modules used in Nails Boilerplate can be easily extended to produce the custom
 functionality to fit your needs, and you are encouraged to do so.
 
-### Install
+## Install
 
 ```
 sudo npm install -g nails-boilerplate
@@ -31,12 +31,12 @@ npm install
 node server
 ```
 
-### Getting to know your Nails service
+## Getting to know your Nails service
 
 For your convenience, here is a quick outline of the main components of a nails service.
 Remember: each object comes with an example file to use for reference when building your service.
 
-#### Config
+### Config
 Your configuration files are stored in app_name/config/. There are three default config files:
 
 ```
@@ -48,7 +48,7 @@ db.js
 Each default config file is annotated with comments documenting each field to
 help you tailor your service to your needs.
 
-##### service.js
+#### service.js
 service.js contains information necessary to run your server. By default, it
 specifies the port and the location of important libraries. To override these
 values in different runtime environments, add a child object.
@@ -87,7 +87,7 @@ module.exports = {
 then `service_config.yourCustomField` as defined above will be equal to
 `'yourCustomValue'`.
 
-##### routes.js
+#### routes.js
 *routes.js* is a list defining mappings from a url path to a *Controller* and
 *Action*. Each entry in the list is an array with three elements:
 `[method, path, options]`
@@ -135,10 +135,10 @@ information on how route parameters work.
   than indices. You can name your regex captures "controller" and/or "action"
   to dynamically route your request to the appropriate handler.
 
-##### db.js
+#### db.js
 -- Coming soon... For now, take a look at the files in the example config directory --
 
-#### Controller
+## Controller
 
 Controllers are defined in app/controllers/. Each controller module should
 define a Controller subclass. The name will be used to match routes defined in
@@ -210,7 +210,7 @@ the view engine:
 \*If a response has already been sent to the client, autorender will be skipped.
 \*\*For JSON routes, the returned object will be rendered as stringified JSON.
 
-###### Params
+### Params
 Params is a generic JSON object which represents the request details. Usually,
 Params will correspond to the query portion of your request.
 
@@ -223,14 +223,14 @@ params object:
 }
 ```
 
-###### Request
+#### Request
 An express Request object.
 
-###### Response
+#### Response
 The response object provided by *express.js*. The *#render()* method has been
 overridden to allow for the rendering of views by name.
 
-#### Model
+### Model
 
 Models are programmatic representations of data you wish to persist in a
 database.  They are a special kind of object which come with 'save()' and
@@ -270,7 +270,7 @@ And voila! The user is now available for future requests:
 Note that Nails extends your model objects with the methods needed for interacting with a database, so
 you can focus on business logic.
 
-#### View
+### View
 Views are basically templates used to render an html response for a browser.
 Nails comes prepackaged with React.js serverside templating, and EJS templates.
 If no template engine is specified in the service config, Nails will Default to
