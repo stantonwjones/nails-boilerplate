@@ -194,7 +194,7 @@ the view engine:
 \*If a response has already been sent to the client, autorender will be skipped.
 \*\*For JSON routes, the returned object will be rendered as stringified JSON.
 
-### Params
+#### Params
 Params is a generic JSON object which represents the request details. Usually,
 Params will correspond to the query portion of your request.
 
