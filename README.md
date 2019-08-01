@@ -88,7 +88,51 @@ then `service_config.yourCustomField` as defined above will be equal to
 `'yourCustomValue'`.
 
 ##### routes.js
--- Coming soon... For now, take a look at the files in the example config directory --
+*routes.js* is a list defining mappings from a url path to a *Controller* and
+*Action*. Each entry in the list is an array with three elements:
+`[method, path, options]`
+
+**method** is a string defining the HTTP request method of the route. Supported
+methods are *GET*, *PUT*, *POST*, *DELETE*, and *ALL*. All is a special case
+which matches all HTTP request methods.
+
+**path** is a string or regular expression which matches the path of the
+incoming request. If *path* is a string, then the request must match exactly*.
+You can use route parameters to dynamically match parts of the path and assign
+them to the *params* object. For example, if you define a route with the path:
+`'/users/:userId'`
+and your service receives a request with the path:
+`'/users/777'`
+then *userId* will be set in the params object:
+```js
+{ userId: 777 }
+```
+
+You can define *:controller* and *:action* as route parameters as well. Not only
+will those values be set in the params object, but the request will be routed
+to the matching controller and action.
+
+\*requests for static assets will only match the prefix of the path.
+
+**options** is a JSON object which modifies how the request will be routed:
+* *controller* a String indicating the controller to route to.
+* *action* a String indicating the action to route to.
+* *json* a boolean indicating whether to render a JSON response rather than an
+  HTML response. If true, nails will not attempt to render a view for this
+  route. Instead, your service will respond with JSON for this route.
+* *public* a boolean indicating whether this route is for static assets. If
+  true, the router will only attempt to match the prefix of the request path.
+  The child portion of the path will be forwarded to the *public/* folder in
+  your service directory. For route:
+  `['GET', '/public_url_path', {public: true}]`
+  if your service receives a request to:
+  `/public_url_path/js/index.js`
+  then the response will be the file:
+  `your_service_root_path/public/js/index.js`
+* *0, 1, 2...* a string which gives regex captures named keys in the params
+  object. This will give your regex captures more meaningful named keys rather
+  than indices. You can name your regex captures "controller" and/or "action"
+  to dynamically route your request to the appropriate handler.
 
 ##### db.js
 -- Coming soon... For now, take a look at the files in the example config directory --
@@ -140,8 +184,8 @@ module.exports = function HomeController() {
 
 ###### Actions
 Actions are used to define how nails should respond to an incoming request.
-By default, actions are synchronous. This means that each action will attempt to
-render a corresponding view immediately after the action returns.
+If no action has been defined for a route, nails will default to the index
+action.*
 
 For example, HomeController#index will attempt to render the view defined in
 //app/views/home/index.jsx
@@ -156,13 +200,14 @@ the view engine:
 * **undefined** If there is no return statement in the action, Nails will pass
   the *params* obect to the rendering engine.
 * **Object** If a generic object is returned, Nails will attempt to autorender
-  the view immediately using the returned object instead of *params*.
+  the view immediately using the returned object instead of *params*.**
 * **Promise** If a promise is returned, Nails will wait to autorender the view
   until the *Promise* resolves. If it resolves with no return value, the view
-  is rendered using *params*. Otherwise, the view is rendered using the resolved
-  value of the *Promise*
+  is rendered using *params*. Otherwise, the view is rendered using the
+  resolved value of the *Promise*\**
 
-If a response has already been sent to the client, autorender will be skipped.
+\*If a response has already been sent to the client, autorender will be skipped.
+\*\*For JSON routes, the returned object will be rendered as stringified JSON.
 
 ###### Params
 Params is a generic JSON object which represents the request details. Usually,
