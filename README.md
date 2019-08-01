@@ -167,23 +167,7 @@ function helperMethod() {
 defines a controller which will match any route to *home#\<action\>*. **index**
 and **signin** are actions which can be used to render a response to the client.
 
-*DEPRECATED*
-Alternatively, you can use named constructor methods:
-``` js
-module.exports = function HomeController() {
-    this.index = function(params, request, response) {
-        // default action
-    };
-    this.signin = function(params, request, response) {
-        // does something then renders a view
-    };
-    this.helper_method = function() {
-        // does something but does not have access to response
-    };
-}
-```
-
-###### Actions
+### Actions
 Actions are used to define how nails should respond to an incoming request.
 If no action has been defined for a route, nails will default to the index
 action.*
