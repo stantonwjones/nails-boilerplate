@@ -9,7 +9,7 @@ var config = {
   PUBLIC_ROOT: SERVER_ROOT + '/public',
   CONTROLLERS_ROOT: APP_ROOT + '/controllers',
   VIEWS_ROOT: APP_ROOT + '/views',
-  MODELS_ROOT: APP_ROOT + '/models',
+  //MODELS_ROOT: APP_ROOT + '/models',
   SERVER_ROOT: SERVER_ROOT,
 
   //IP: "0.0.0.0",

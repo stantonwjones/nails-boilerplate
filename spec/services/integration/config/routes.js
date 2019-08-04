@@ -24,6 +24,8 @@ var routes = [
   ['get', "/classbased", {controller: 'classbased'}],
   // Test implicit JSON responses
   ['get', "/json/:action", {controller: 'json', json: true}],
+  // Test Model creation and retrieval using MongooseConnector
+  ['get', "/modeltest/:action", {controller: 'modeltest', json: true}],
   // Routes all requests starting with /public as static requests to the public folder.
   ['get', '/public', {public: true}],
   // A test route which routes the first part of pathname to controller and the second to the action

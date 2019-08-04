@@ -4,6 +4,7 @@ var chaiHttp = require('chai-http');
 var nails = require('./services/integration/server.js');
 var express_app = nails.application;
 const assert = require('assert');
+const {MongoMemoryServer} = require('mongodb-memory-server');
 
 // Configure chai
 chai.use(chaiHttp);
@@ -93,6 +94,33 @@ describe("Integration", function() {
             });
       }
     );
+  });
+  describe("Mongoose Model", function() {
+    let mongod = null;
+    beforeEach(async function() {
+      mongod = new MongoMemoryServer({port: 55555, dbName: "development"});
+      await mongod.getConnectionString();
+    });
+    afterEach(async function() {
+      await mongod.stop();
+    });
+    it('should save to the correct database', async function() {
+      let dogName = "Penny";
+      let dogId = null;
+      chai.request(express_app)
+          .get(`/modeltest/createdog?name=${dogName}`)
+          .end((err, res) => {
+            res.should.have.status(200);
+            dogId = res.text;
+            chai.request(express_app)
+                .get(`modeltest/getdogbyid?id=${dogId}`)
+                .end((err, res) => {
+                  asset.equals(
+                    res.text, JSON.stringify({name: dogName, good: true}));
+                  done();
+                });
+          });
+    });
 
   });
 });
