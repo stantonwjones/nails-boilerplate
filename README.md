@@ -215,47 +215,40 @@ An [express Request object][express_request_docs].
 The response object provided by *express.js*. The *#render()* method has been
 overridden to allow for the rendering of views by name.
 
-### Model
+## Model
 
 Models are programmatic representations of data you wish to persist in a
-database.  They are a special kind of object which come with 'save()' and
-'fetch()' methods to (respectively) persist the model to the database or
-retrieve the model from the database and update its attributes. Consider
-app/models/user.js:
+database. By default, models are subclasses of
+[Mongoose Models][mongoose_model_docs], and come with the `save()`, `find()`,
+and `where()` methods, to name a few. You can define your own models by
+extending an instance of the `Model` class provided by Nails:
 
 ``` js
-module.exports = function User(attr) {
-    this.set('name', attr.name);
-    this.set('age', attr.name);
-}
+const Model = require("nails-boilerplate").Model;
+const userSchema = {name: String, email: String};
+module.exports = class User extends new Model("User", {schema: userSchema}) {
+  // Define your helper methods here
+};
 ```
 
-When you execute the following code in your nails service, you create a user
-with the specified name and age, and save it to the database:
+The constructor for Model accepts two arguments: the `modelName` and an
+`options` object which is passed to the database connector module. The
+Mongoose connector accepts a schema field that is used to describe how
+documents are stored in MongoDB.
 
-``` js
-    // require user constructor
-    var User = require('<service root>/app/models/user.js');
-    // create a user instance
-    var u = new User({name: 'foobar', age: 25});
-    // save the user to the database
-    u.save();
-```
+### Database Connectors
 
-And voila! The user is now available for future requests:
+Database connectors are intermediaries which define how a Model interacts with
+a database. Database connector modules need to export two methods:
+* _connect(db_config)_ uses the db config defined in *db.js* to connect to
+  a database. This function will be called once by Nails.
+* _generateModelSuperclass(name, options)_ uses the provided Model name and
+  options to generate a Model prototype for use as an interface. A Model
+  interface is generated for each of your models, allowing them to interact with
+  a database. Ideally, interfaces will define save() and find() methods, but
+  these methods and their implementations are up to the individual connector.
 
-``` js
-    var u2 = new User();
-    u2.id = <id of a persisted user>;
-
-    // now update u2 with the data from the databse
-    u2.fetch();
-```
-
-Note that Nails extends your model objects with the methods needed for interacting with a database, so
-you can focus on business logic.
-
-### View
+## View
 Views are basically templates used to render an html response for a browser.
 Nails comes prepackaged with React.js serverside templating, and EJS templates.
 If no template engine is specified in the service config, Nails will Default to
@@ -264,16 +257,14 @@ already been sent to the client.
 
 Stay tuned as nails evolves:
 
-* Intuitive support for template engines
 * Server/client redirects
 * Custom Request middleware
 * Fancy Logging
 * Sessions
-* Custom ORM/ODM support
 * Server security
-*
 
 Enjoy! Feature requests, bug reports, and comments are welcome on github.
 
 [express_routing_docs]: https://expressjs.com/en/guide/routing.html
 [express_request_docs]: https://expressjs.com/en/5x/api.html#req
+[mongoose_model_docs]: https://mongoosejs.com/docs/api/model.html
