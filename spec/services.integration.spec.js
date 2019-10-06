@@ -95,6 +95,35 @@ describe("Integration", function() {
       }
     );
   });
+  describe("Get /ManualRenderAsync", function() {
+    it("./testmanualrenderasync Should not throw an exception after manually"
+       + " rendering json asynchronously",
+      done => {
+        chai.request(express_app)
+            .get("/manualrenderasync/testmanualrenderasync")
+            .end((err, res) => {
+              res.should.have.status(200);
+              assert(res.text ==
+                JSON.stringify({json_testmanualrenderasync: true}));
+              done();
+            });
+      });
+
+      it("./testmanualrenderexplicitasync Should not throw an exception after"
+         + " manually rendering json asynchronously using the async function"
+         + " tag",
+        done => {
+          chai.request(express_app)
+              .get("/manualrenderasync/testmanualrenderexplicitasync")
+              .end((err, res) => {
+                res.should.have.status(200);
+                assert(res.text ==
+                  JSON.stringify({json_testmanualrenderexplicitasync: true}));
+                done();
+              });
+        });
+
+  });
   describe("Mongoose Model", function() {
     let mongod = null;
     beforeEach(async function() {
