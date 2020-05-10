@@ -26,6 +26,7 @@
     "ejs": "*",
     "express": "*",
     "express-react-views": "*",
+    "express-ws": "*",
     "@babel/core": "*",
     "@babel/preset-react": "*",
     "mime": "*",
