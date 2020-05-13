@@ -23,25 +23,26 @@
     "rails"
   ],
   "dependencies": {
+    "@babel/core": "*",
+    "@babel/preset-react": "*",
     "ejs": "*",
     "express": "*",
     "express-react-views": "*",
     "express-ws": "*",
-    "@babel/core": "*",
-    "@babel/preset-react": "*",
     "mime": "*",
-    "mongodb": "*",
+    "mongodb": "^3.5.7",
+    "mongoose": "*",
     "react": "*",
-    "react-dom": "*",
-    "wrench": "*",
-    "mongoose": "*"
+    "react-dom": "^16.13.1",
+    "wrench": "*"
   },
   "devDependencies": {
-    "mocha": ">= 0.4.0",
-    "sinon": "*",
     "chai": "*",
     "chai-http": "*",
-    "mongodb-memory-server": "*"
+    "mocha": "^7.1.2",
+    "mongodb-memory-server": "*",
+    "sinon": "*",
+    "ws": "*"
   },
   "author": "Stanton W. Jones",
   "license": "MIT"
