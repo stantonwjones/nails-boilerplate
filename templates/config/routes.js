@@ -26,6 +26,9 @@ var routes = [
 	['get', /^\/(\w+)\/(\w+)$/i, {0: 'controller', 1: 'action'}],
   // Maps the first two parts of the path to controller and action, and the third to the id parameter
   ['get', "/:controller/:action/:id"]
+
+  // Defines a WebSocket handler
+  ['ws', "/:controller/:action/:id"]
 ];
 
 module.exports = routes;

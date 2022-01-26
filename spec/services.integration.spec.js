@@ -1,6 +1,8 @@
 // Import the dependencies for testing
 var chai = require('chai');
 var chaiHttp = require('chai-http');
+const WebSocket = require('ws');
+
 var nails = require('./services/integration/server.js');
 var express_app = nails.application;
 const assert = require('assert');
@@ -62,6 +64,47 @@ describe("Integration", function() {
           });
     })
   });
+
+  describe("WebSockets", function() {
+    it("should listen on /", function(done) {
+      this.timeout(2000);
+      var requester = chai.request(express_app).keepOpen();
+      var wsClient = new WebSocket("ws://localhost:3333/");
+
+      wsClient.on('close', () => done());
+      wsClient.on('message', (message) => {
+        assert(message == "It worked");
+      });
+    });
+    it("should listen on /voodoo", function(done) {
+      this.timeout(2000);
+      var requester = chai.request(express_app).keepOpen();
+      var wsClient = new WebSocket("ws://localhost:3333/voodoo");
+
+      wsClient.on('message', (message) => {
+          assert(message == "Voodoo worked");
+      });
+      wsClient.on('close', (code, reason) => done());
+    });
+    it("should not listen on /voodootwo", function(done) {
+      // TODO: this doesn't fail. Figure out why.
+      //done();
+      this.timeout(2000);
+      var requester = chai.request(express_app).keepOpen();
+      var wsClient = new WebSocket("ws://localhost:3333/voodootwo");
+
+      wsClient.on('close', (code, reason) => {
+        console.log('voodootwo closed', code, reason);
+        done();
+      });
+      debugger;
+    });
+    it("should be closed with the correct code if the action is absent");
+    it("should be closed with the correct code if the controller is absent");
+    it("should correctly parse the params");
+    it("should correctly handle dynamic controller and action");
+  });
+
   describe("GET /json/:action", function() {
     it('should render params if nothing is returned by the action',
       function(done) {chai.request(express_app)
