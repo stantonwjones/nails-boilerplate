@@ -30,7 +30,7 @@
     "express-react-views": "*",
     "express-ws": "*",
     "mime": "*",
-    "mongodb": "^3.5.7",
+    "mongodb": "^4.3.1",
     "mongoose": "*",
     "react": "*",
     "react-dom": "^16.13.1",
