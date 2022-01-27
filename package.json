@@ -31,7 +31,7 @@
     "express-ws": "*",
     "mime": "*",
     "mongodb": "^4.3.1",
-    "mongoose": "*",
+    "mongoose": "^6.1.8",
     "react": "*",
     "react-dom": "^16.13.1",
     "wrench": "*"
