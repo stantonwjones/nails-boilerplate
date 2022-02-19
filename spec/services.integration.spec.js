@@ -3,16 +3,28 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 const WebSocket = require('ws');
 
-var nails = require('./services/integration/server.js');
-var express_app = nails.application;
+var express_app;
 const assert = require('assert');
 const {MongoMemoryServer} = require('mongodb-memory-server');
+let mongod = null;
+var service_config = require('./services/integration/config/service.js');
 
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
 
 describe("Integration", function() {
+  before(function(done) {
+    MongoMemoryServer.create({instance: service_config.db}).then((mongodb) => {
+      mongod = mongodb;
+      var nails = require('./services/integration/server.js');
+      express_app = nails.application;
+      nails.events.on("ready", () => {
+        console.log("ready was emitted!");
+        done();
+      });
+    });
+  });
   describe("GET /", function() {
     it('should return the expected JSON from index', function(done) {
       chai.request(express_app)
@@ -168,13 +180,11 @@ describe("Integration", function() {
 
   });
   describe("Mongoose Model", function() {
-    let mongod = null;
     beforeEach(async function() {
-      mongod = new MongoMemoryServer({port: 55555, dbName: "development"});
-      await mongod.getConnectionString();
+      // Used to initialize mongod here
     });
     afterEach(async function() {
-      await mongod.stop();
+      //await mongod.stop();
     });
     it('should save to the correct database', async function() {
       let dogName = "Penny";
@@ -187,7 +197,7 @@ describe("Integration", function() {
             chai.request(express_app)
                 .get(`modeltest/getdogbyid?id=${dogId}`)
                 .end((err, res) => {
-                  asset.equals(
+                  assert.equals(
                     res.text, JSON.stringify({name: dogName, good: true}));
                   done();
                 });

@@ -1,23 +1,32 @@
 const MongooseConnector = require('../lib/mongoose_connector.js');
 const {MongoMemoryServer} = require('mongodb-memory-server');
+const mongoose = require('mongoose');
+
+let promisedMongod = null;
 
 class MongooseConnectorUtil {
   constructor() {
-    this.mongod = new MongoMemoryServer();
+    this.mongoose = mongoose;
+    promisedMongod = MongoMemoryServer.create();
   }
 
   async getTestConnector() {
-    const uri = await this.mongod.getConnectionString();
-    const port = await this.mongod.getPort();
-    const dbPath = await this.mongod.getDbPath();
-    const dbName = await this.mongod.getDbName();
-    const dbConfig =
-        {uri: uri, port: port, database: dbName, dbPath: dbPath};
-    MongooseConnector.connect(dbConfig);
-    return MongooseConnector;
+    this.mongod = await promisedMongod;
+    const uri = this.mongod.getUri();
+    const port = this.mongod.instanceInfo.port;
+    const dbPath = this.mongod.instanceInfo.dbPath;
+    const dbName = this.mongod.instanceInfo.dbName;
+    const dbConfig = {uri: uri};
+        //{uri: uri, port: port, database: dbName, dbPath: dbPath};
+    const dbConnector = new MongooseConnector();
+    this.connection = await dbConnector.connect(dbConfig);
+    debugger;
+    return dbConnector;
   }
-  cleanup() {
-    return this.mongod.stop();
+  async cleanup() {
+    //await this.mongod.stop();
+    //await this.connection.close();
+    debugger;
   }
 }
 

@@ -44,10 +44,13 @@ describe('MongoDBConnector', function() {
   });
   describe('Document Creation', function(){
     describe('#_post_one', function() {
-      it('should set an _id attribute on the given attributes hash', function() {
+      it('should set an _id attribute on the given attributes hash', function(done) {
         var test_model = get_test_model();
-        mdbc._post_one(test_model.collection_name(), test_model.attributes);
-        assert.ok(test_model.attributes._id);
+        mdbc._post_one(test_model.collection_name(), test_model.attributes)
+          .then(() => {
+            assert.ok(test_model.attributes._id);
+            done();
+          });
       });
     });
   });

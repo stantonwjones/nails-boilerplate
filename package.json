@@ -40,7 +40,7 @@
     "chai": "*",
     "chai-http": "*",
     "mocha": "^7.1.2",
-    "mongodb-memory-server": "*",
+    "mongodb-memory-server": "^8.2.0",
     "sinon": "*",
     "ws": "*"
   },

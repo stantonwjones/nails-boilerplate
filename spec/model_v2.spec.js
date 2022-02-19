@@ -1,6 +1,7 @@
 const assert = require('assert');
 const Model = require('../lib/model_v2.js');
 const MongooseConnectorUtil = require("./mongoose_connector.util.js");
+const mongoose = require('mongoose');
 
 const testSchema = {
   name: String,
@@ -14,17 +15,16 @@ describe('ModelV2', function() {
   var util;
   beforeEach(async function() {
     util = new MongooseConnectorUtil();
-    await util.getTestConnector().then(connector => {
-      Model.setConnector(connector);
-      TestModel =
-          class Test extends new Model(
-              "" + Math.random(), {schema: testSchema}) {
-                whatsMyName() {return this.name};
-              };
-    });
+    let connector = await util.getTestConnector();
+    Model.setConnector(connector);
+    TestModel =
+        class Test extends new Model(
+            "" + Math.random(), {schema: testSchema}) {
+              whatsMyName() {return this.name};
+            };
   });
-  afterEach(function(done) {
-    util.cleanup().then(() => done());
+  afterEach(async function() {
+    await util.cleanup();
   });
   describe('Mongoose Model Inheritance', function() {
     const testAttr = {
@@ -32,15 +32,13 @@ describe('ModelV2', function() {
       isTrue: false,
       index: 7
     };
-    it("should be able to create a model", function(done) {
+    it("should be able to create a model", async function() {
       const testModel = new TestModel(testAttr);
       assert(testModel.name == testAttr.name);
       assert(testModel.isTrue == testAttr.isTrue);
       assert(testModel.index == testAttr.index);
-      testModel.save().then(() => {
-        console.log("The ID is:", testModel._id);
-        done();
-      });
+      await testModel.save();
+      console.log("The ID is:", testModel._id);
     })
     it("should be able to update a model", function() {
       const testModel = new TestModel(testAttr);
