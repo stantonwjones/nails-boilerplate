@@ -39,7 +39,7 @@
   "devDependencies": {
     "chai": "*",
     "chai-http": "*",
-    "mocha": "^7.1.2",
+    "mocha": "^10.2.0",
     "mongodb-memory-server": "^8.2.0",
     "sinon": "*",
     "ws": "*"
