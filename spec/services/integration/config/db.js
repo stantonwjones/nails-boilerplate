@@ -2,7 +2,7 @@ module.exports = {
   //connector: 'sqlite3_connector.js',
   connector: 'mongoose_connector.js',
   //url: 'mongodb://localhost',
-  port: 5555,
+  //port: 5555,
 
   dbName: 'development',
 
