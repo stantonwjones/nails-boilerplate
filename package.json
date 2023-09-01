@@ -25,6 +25,7 @@
   "dependencies": {
     "@babel/core": "*",
     "@babel/preset-react": "*",
+    "body-parser": "^1.20.2",
     "ejs": "*",
     "express": "*",
     "express-react-views": "*",
