@@ -1,7 +1,8 @@
 // Initializes application before server starts
 // Each of these is REQUIRED
-var SERVER_ROOT = __dirname + '/..';
-var APP_ROOT = SERVER_ROOT + '/app';
+const path = require('path');
+var SERVER_ROOT = path.resolve(__dirname, '/..');
+var APP_ROOT = path.resolve(SERVER_ROOT, '/app');
 
 // Only for reading the certificates for SSL
 const fs = require('fs');
