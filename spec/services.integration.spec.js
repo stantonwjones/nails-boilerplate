@@ -77,6 +77,33 @@ describe("Integration", function() {
     })
   });
 
+  describe("GET /error/fivehundred", function() {
+    it('should log the stack trace', function(done) {
+      chai.request(express_app)
+          .get('/error/fivehundred/500')
+          .end((err, res) => {
+            res.should.have.status(500);
+            //console.log(res.text);
+            //console.log(res);
+            //console.log(err);
+            done();
+          })
+    });
+    it('should return meaningful JSON', function(done) {
+      chai.request(express_app)
+          .get('/error/fivehundred')
+          .end((err, res) => {
+            res.should.have.status(500);
+            console.log("ZZZZZZZZZZ");
+            console.log(res.text);
+            //console.log(res.text);
+            //console.log(res);
+            //console.log(err);
+            done();
+          })
+    });
+  });
+
   describe("WebSockets", function() {
     it("should listen on /", function(done) {
       this.timeout(2000);

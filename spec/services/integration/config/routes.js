@@ -32,6 +32,7 @@ var routes = [
   ['get', /^\/(\w+)\/(\w+)$/i, {0: 'controller', 1: 'action'}],
   // Maps the first two parts of the path to controller and action, and the third to the id parameter
   ['get', "/:controller/:action/:id"],
+  ['get', "/error/fivehundred", {json: true}],
 
   ['ws', "/", {controller: 'websocket'}],
   ['ws', "/voodoo", {controller: 'websocket', action: 'voodoo'}]
