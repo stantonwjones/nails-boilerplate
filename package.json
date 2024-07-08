@@ -31,8 +31,9 @@
     "express-react-views": "*",
     "express-ws": "*",
     "mime": "*",
-    "mongodb": "^4.3.1",
-    "mongoose": "^6.1.8",
+    "mongodb": "^4.17.2",
+    "mongodb-memory-server": "^8.16.0",
+    "mongoose": "^6.13.0",
     "react": "*",
     "react-dom": "^16.13.1",
     "wrench": "*"
@@ -41,9 +42,13 @@
     "chai": "*",
     "chai-http": "*",
     "mocha": "^10.2.0",
-    "mongodb-memory-server": "^8.2.0",
     "sinon": "*",
     "ws": "*"
+  },
+  "config": {
+    "mongodbMemoryServer": {
+      "version": "latest"
+    }
   },
   "author": "Stanton W. Jones",
   "license": "MIT"

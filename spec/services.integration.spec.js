@@ -15,15 +15,15 @@ chai.should();
 
 describe("Integration", function() {
   before(function(done) {
-    MongoMemoryServer.create({instance: service_config.db}).then((mongodb) => {
-      mongod = mongodb;
+    // MongoMemoryServer.create({instance: service_config.db}).then((mongodb) => {
+    //   mongod = mongodb;
       var nails = require('./services/integration/server.js');
       express_app = nails.application;
       nails.events.on("ready", () => {
         console.log("ready was emitted!");
         done();
       });
-    });
+    // });
   });
   describe("GET /", function() {
     it('should return the expected JSON from index', function(done) {
