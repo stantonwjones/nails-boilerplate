@@ -12,6 +12,11 @@
     "bugs": {
         "url": "https://github.com/stantonwjones/nails-boilerplate/issues"
     },
+    "config": {
+      "mongodbMemoryServer": {
+        "version": "latest"
+      }
+    },
     "dependencies": {
         "nails-boilerplate": ">=0.1.0",
         "express-react-views": "*",
