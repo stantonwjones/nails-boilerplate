@@ -22,5 +22,10 @@
         "express-react-views": "*",
         "react": "*",
         "react-dom": "*"
+    },
+    "config": {
+      "mongodbMemoryServer": {
+        "version": "latest"
+      }
     }
 }
