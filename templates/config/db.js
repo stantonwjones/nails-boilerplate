@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   //connector: 'sqlite3_connector.js',
   // connector: 'mongoose_connector.js',
   connector: 'mongoose_mem_connector.js',

@@ -31,4 +31,4 @@ var routes = [
   ['ws', "/:controller/:action/:id"]
 ];
 
-module.exports = routes;
+export default routes;

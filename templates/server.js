@@ -1,5 +1,5 @@
-var nails = require('nails-boilerplate');
+import nails from 'nails-boilerplate';
 
 // See self-documented config files
-var service_config = require('./config/service.js');
+import service_config from './config/service.js';
 nails( service_config ).startServer();

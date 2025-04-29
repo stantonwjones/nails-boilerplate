@@ -1,11 +1,12 @@
 // Initializes application before server starts
 // Each of these is REQUIRED
-const path = require('path');
-var SERVER_ROOT = path.resolve(__dirname, '..');
+import path from 'node:path';
+import fs from 'node:fs';
+
+var SERVER_ROOT = path.resolve(import.meta.dirname, '..');
 var APP_ROOT = path.resolve(SERVER_ROOT, 'app');
 
 // Only for reading the certificates for SSL
-const fs = require('fs');
 const PRIVATE_KEY_FILE = fs.readFileSync(`${__dirname}/ssl/key.pem`);
 const CERTIFICATE_FILE = fs.readFileSync(`${__dirname}/ssl/certificate.pem`);
 
@@ -33,8 +34,7 @@ var config = {
   CERTIFICATE: CERTIFICATE_FILE,
 };
 
-module.exports.routes = require('./routes.js');
-module.exports.mimes = require('./mimes.js');
-module.exports.db = require('./db.js');
-
-module.exports.config = config;
+import routes from './routes.js';
+import mimes from './mimes.js';
+import db from './db.js';
+export default {routes, mimes, db, config};

@@ -1,5 +1,6 @@
-module.exports =
-  class HomeController extends require("nails-boilerplate").Controller {
+import nails from "nails-boilerplate";
+
+export default class HomeController extends nails.Controller {
     index(params, request, response) {
       return {
         title: "My first Nails Service",
