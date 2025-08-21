@@ -47,9 +47,12 @@ function createApp( name ) {
         fs.writeFileSync(name + '/NAILS', '/* This marks the root of the NAILS app */');
         fs.closeSync(fd);
 
-        wrench.copyDirSyncRecursive(templateRoot + '/app', name + '/app');
-        wrench.copyDirSyncRecursive(templateRoot + '/public', name + '/public');
+        wrench.copyDirSyncRecursive(templateRoot + '/server', name + '/server');
+        wrench.copyDirSyncRecursive(templateRoot + '/client', name + '/client');
         wrench.copyDirSyncRecursive(templateRoot + '/config', name + '/config');
+        wrench.copyDirSyncRecursive(templateRoot + '/common', name + '/common');
+        wrench.copyDirSyncRecursive(templateRoot + '/spec', name + '/spec');
+        wrench.copyDirSyncRecursive(templateRoot + '/bin', name + '/bin');
 
         checkWrites();
     });

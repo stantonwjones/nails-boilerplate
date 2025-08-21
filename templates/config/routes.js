@@ -17,18 +17,17 @@
  *							 ['get, '/\/home\/(5)/, {controller: 'home', 0: 'id'}] => routes to home controller and adds {id: 5} to the params hash.
  */
 
-var routes = [
+export default [
 	// Routes the root request to index.html, as well as all other requests to static
   ['get', "/", {controller: 'home'}],
   // Routes all requests starting with /public as static requests to the public folder.
-  ['get', '/public', {public: true}],
+  ['get', '/client', {public: true}],
 	// A test route which routes the first part of pathname to controller and the second to the action
 	['get', /^\/(\w+)\/(\w+)$/i, {0: 'controller', 1: 'action'}],
   // Maps the first two parts of the path to controller and action, and the third to the id parameter
   ['get', "/:controller/:action/:id"],
 
   // Defines a WebSocket handler
-  ['ws', "/:controller/:action/:id"]
+  // ['ws', "/:controller/:action/:id"]
 ];
 
-export default routes;

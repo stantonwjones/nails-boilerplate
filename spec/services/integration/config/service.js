@@ -21,10 +21,6 @@ var config = {
   //IP: "0.0.0.0",
   PORT: 3333,
 
-  // Delete these to use ejs view engine.
-  VIEW_ENGINE: require('express-react-views').createEngine(),
-  VIEW_ENGINE_EXT: 'jsx',
-
   ASYNC: false,
 
   // For HTTPS

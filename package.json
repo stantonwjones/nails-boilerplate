@@ -7,6 +7,7 @@
     "nails": "./bin/lib/nails.js"
   },
   "scripts": {
+    "copyreadme": "mammoth README.md templates/client/README.html",
     "test": "mocha --exit spec",
     "debug": "mocha --exit debug spec"
   },
@@ -25,10 +26,9 @@
   "dependencies": {
     "@babel/core": "*",
     "@babel/preset-react": "*",
-    "body-parser": "^1.20.2",
+    "body-parser": "^2.2.0",
     "ejs": "*",
     "express": "*",
-    "express-react-views": "*",
     "express-ws": "*",
     "mime": "*",
     "mongodb": "^4.17.2",
@@ -36,6 +36,7 @@
     "mongoose": "^6.13.0",
     "react": "*",
     "react-dom": "^16.13.1",
+    "showdown": "^2.1.0",
     "wrench": "*"
   },
   "devDependencies": {

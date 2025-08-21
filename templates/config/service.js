@@ -1,19 +1,22 @@
 // Initializes application before server starts
 // Each of these is REQUIRED
-import path from 'node:path';
-import fs from 'node:fs';
+import routes from './routes.js';
+import mimes from './mimes.js';
+import db from './db.js';
 
+import path from 'node:path';
 var SERVER_ROOT = path.resolve(import.meta.dirname, '..');
-var APP_ROOT = path.resolve(SERVER_ROOT, 'app');
+var APP_ROOT = path.resolve(SERVER_ROOT, 'server');
 
 // Only for reading the certificates for SSL
-const PRIVATE_KEY_FILE = fs.readFileSync(`${__dirname}/ssl/key.pem`);
-const CERTIFICATE_FILE = fs.readFileSync(`${__dirname}/ssl/certificate.pem`);
+import fs from 'node:fs';
+const PRIVATE_KEY_FILE = fs.readFileSync(`${import.meta.dirname}/ssl/key.pem`);
+const CERTIFICATE_FILE = fs.readFileSync(`${import.meta.dirname}/ssl/certificate.pem`);
 
 var config = {
   APP_ROOT: APP_ROOT,
   // root directory for delivering static assets
-  PUBLIC_ROOT: SERVER_ROOT + '/public',
+  PUBLIC_ROOT: SERVER_ROOT + '/client',
   CONTROLLERS_ROOT: APP_ROOT + '/controllers',
   VIEWS_ROOT: APP_ROOT + '/views',
   //MODELS_ROOT: APP_ROOT + '/models',
@@ -34,7 +37,9 @@ var config = {
   CERTIFICATE: CERTIFICATE_FILE,
 };
 
-import routes from './routes.js';
-import mimes from './mimes.js';
-import db from './db.js';
-export default {routes, mimes, db, config};
+export default {
+  config,
+  routes,
+  mimes,
+  db
+}

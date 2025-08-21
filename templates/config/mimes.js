@@ -19,7 +19,7 @@
     };
     */
 
-var mimes = {
+export default {
     html: {
         type: 'page',
         contentType: 'text/html'
@@ -57,5 +57,3 @@ var mimes = {
         contentType: 'application/json'
     }
 }
-
-export default mimes;

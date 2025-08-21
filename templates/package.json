@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js"
+        "start": "vite build & node bin/server.js"
     },
     "author": "",
     "license": "BSD",
@@ -19,9 +19,20 @@
       }
     },
     "dependencies": {
-        "nails-boilerplate": ">=0.1.0",
-        "express-react-views": "*",
-        "react": "*",
-        "react-dom": "*"
+      "nails-boilerplate": ">=0.1.0",
+      "react": "^19.1.0",
+      "react-dom": "^19.1.0",
+      "react-router-dom": "^7.7.0"
+    },
+    "devDependencies": {
+      "vite": "^6.3.5",
+      "vitest": "^3.2.4",
+      "@vitejs/plugin-legacy": "^6.1.1",
+      "@vitejs/plugin-react": "^4.7.0",
+      "@emotion/react": "^11.14.0",
+      "@emotion/styled": "^11.14.1",
+      "@mui/material": "^7.3.1",
+      "@mui/icons-material": "^7.3.1",
+      "@mui/types": "^7.4.5"
     }
 }
