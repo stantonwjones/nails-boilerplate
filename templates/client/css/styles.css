@@ -1,0 +1,17 @@
+#AppRoot {
+  height: 100vh;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+main, footer {
+  flex-direction: column;
+  display: flex;
+}
+
+main {
+  overflow-y: scroll;
+  flex-grow: 1;
+  padding-top: 1em;
+}

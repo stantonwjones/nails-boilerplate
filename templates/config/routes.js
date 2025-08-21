@@ -27,6 +27,9 @@ export default [
   // Maps the first two parts of the path to controller and action, and the third to the id parameter
   ['get', "/:controller/:action/:id"],
 
+  // For all other GET requests, render HomeController#index
+  ['get', '/:catchall', {controller: 'home'}],
+
   // Defines a WebSocket handler
   // ['ws', "/:controller/:action/:id"]
 ];

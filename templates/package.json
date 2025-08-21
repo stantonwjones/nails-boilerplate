@@ -6,7 +6,8 @@
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "vite build & node bin/server.js"
+        "start": "vite build & node bin/server.js",
+        "build": "vite build"
     },
     "author": "",
     "license": "BSD",
