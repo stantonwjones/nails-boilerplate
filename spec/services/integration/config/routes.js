@@ -38,4 +38,4 @@ var routes = [
   ['ws', "/voodoo", {controller: 'websocket', action: 'voodoo'}]
 ];
 
-module.exports = routes;
+export default routes;

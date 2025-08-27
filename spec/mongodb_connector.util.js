@@ -1,5 +1,5 @@
-const MongoDBConnector = require('../lib/mongodb_connector.js');
-const {MongoMemoryServer} = require('mongodb-memory-server');
+import MongoDBConnector from '../lib/mongodb_connector.js';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 
 let singularInstanceCreated = false;
 let promisedMongod = null;
@@ -27,4 +27,4 @@ class MongoDBConnectorUtil {
   }
 }
 
-module.exports = MongoDBConnectorUtil;
+export default MongoDBConnectorUtil;

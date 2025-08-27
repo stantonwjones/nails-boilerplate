@@ -1,6 +1,6 @@
-const Controller =
-    require("../../../../../index.js").Controller;
-module.exports = class WebsocketController extends Controller {
+import nails from "../../../../../index.js";
+
+export default class WebsocketController extends nails.Controller {
   index(params, ws, request) {
     ws.send("It worked");
     ws.close();

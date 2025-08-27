@@ -1,8 +1,12 @@
 // Install script which adds commands for running nails
 // to the path
-var fs = require('fs');
-var wrench = require('wrench');
-var exec = require('child_process').exec;
+import path from 'node:path';
+import fs from 'node:fs';
+// TODO: wrench is deprecated. check out node-fs-extra
+import wrench from 'wrench';
+// var wrench = require('wrench');
+import {exec} from 'child_process';
+// var exec = require('child_process').exec;
 var args = process.argv.slice(2);
 
 var appName = args[0];
@@ -40,38 +44,39 @@ function isNailsApp( originalDir, directory ) {
 }
 
 function createApp( name ) {
-    var templateRoot =  __dirname + "/../../templates";
+    var templateRoot =  path.resolve(import.meta.dirname, "../../templates");
     if (!fs.existsSync(name)) fs.mkdirSync(name);
-    fs.open(name + '/NAILS','w', 0666, function(err, fd) {
+    fs.open(name + '/NAILS','w', 0o666, function(err, fd) {
         if (err) throw err;
         fs.writeFileSync(name + '/NAILS', '/* This marks the root of the NAILS app */');
         fs.closeSync(fd);
 
-        wrench.copyDirSyncRecursive(templateRoot + '/server', name + '/server');
-        wrench.copyDirSyncRecursive(templateRoot + '/client', name + '/client');
-        wrench.copyDirSyncRecursive(templateRoot + '/config', name + '/config');
-        wrench.copyDirSyncRecursive(templateRoot + '/common', name + '/common');
-        wrench.copyDirSyncRecursive(templateRoot + '/spec', name + '/spec');
-        wrench.copyDirSyncRecursive(templateRoot + '/bin', name + '/bin');
+        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './server'), name + '/server');
+        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './client'), name + '/client');
+        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './config'), name + '/config');
+        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './common'), name + '/common');
+        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './spec'), name + '/spec');
+        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './bin'), name + '/bin');
 
         checkWrites();
     });
 
     //fs.copyFileSync(templateRoot + '/.babelrc', name + '/.babelrc');
+    fs.copyFileSync(path.resolve(templateRoot, './vite.config.ts'), name + '/vite.config.ts');
 
-    fs.open(name + '/server.js','w', 0666, function(err, fd) {
-        if (err) throw err;
-        fs.readFile(templateRoot + '/server.js', 'utf8', function(err, data) {
-            if (err) throw err;
-            fs.writeFileSync( name + '/server.js', data );
-            fs.closeSync(fd);
-            checkWrites();
-        });
-    });
+    // fs.open(name + 'bin/server.js','w', 0o666, function(err, fd) {
+    //     if (err) throw err;
+    //     fs.readFile(path.resolve(templateRoot,'./bin/server.js'), 'utf8', function(err, data) {
+    //         if (err) throw err;
+    //         fs.writeFileSync( name + '/server.js', data );
+    //         fs.closeSync(fd);
+    //         checkWrites();
+    //     });
+    // });
 
     //TODO: use toJSON to dynamically create package.json
     //TODO: install dependencies after writing package.json
-    fs.open(name + '/package.json','w', 0666, function(err, fd) {
+    fs.open(name + '/package.json','w', 0o666, function(err, fd) {
         if (err) throw err;
         fs.readFile(templateRoot + '/package.json', 'utf8', function(err, data) {
             if (err) throw err;
@@ -85,7 +90,7 @@ function createApp( name ) {
 var numWrites = 0;
 function checkWrites() {
     numWrites++;
-    if (numWrites == 3) {
+    if (numWrites == 2) {
         console.log("Initialized new Nails Application successfully");
         console.log("installing nails locally");
         // change into app directory

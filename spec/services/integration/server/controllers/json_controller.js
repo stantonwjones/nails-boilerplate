@@ -1,6 +1,6 @@
-const Controller =
-    require("../../../../../index.js").Controller;
-class JsonController extends Controller {
+import nails from "../../../../../index.js";
+
+export default class JsonController extends nails.Controller {
   testparams(params, request, response) {
     // should just render the params as JSON
   }
@@ -13,5 +13,3 @@ class JsonController extends Controller {
     return {json_testpromise: true};
   }
 }
-
-module.exports = JsonController;

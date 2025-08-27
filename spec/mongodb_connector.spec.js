@@ -1,5 +1,5 @@
-var assert = require('assert');
-const MongoDBConnectorUtil = require("./mongodb_connector.util.js");
+import assert from 'assert';
+import MongoDBConnectorUtil from './mongodb_connector.util.js';
 
 describe('MongoDBConnector', function() {
   var util;

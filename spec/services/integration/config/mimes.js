@@ -58,4 +58,4 @@ var mimes = {
     }
 }
 
-module.exports = mimes;
+export default mimes;

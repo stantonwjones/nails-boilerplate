@@ -1,5 +1,5 @@
-const MongooseMemoryConnector = require('../lib/mongoose_mem_connector.js');
-const mongoose = require('mongoose');
+import MongooseMemoryConnector from '../lib/mongoose_mem_connector.js';
+import mongoose from 'mongoose';
 
 class MongooseConnectorUtil {
   constructor() {
@@ -17,4 +17,4 @@ class MongooseConnectorUtil {
   }
 }
 
-module.exports = MongooseConnectorUtil;
+export default MongooseConnectorUtil;

@@ -1,6 +1,6 @@
-const Controller =
-    require("../../../../../index.js").Controller;
-class ClassbasedController extends Controller {
+import nails from "../../../../../index.js";
+    // require("../../../../../index.js").Controller;
+export default class ClassbasedController extends nails.Controller {
   // DO NOT OVERRIDE CONSTRUCTOR
   index(params, request, response) {
     response.json({
@@ -20,5 +20,3 @@ class ClassbasedController extends Controller {
     });
   }
 }
-
-module.exports = ClassbasedController;

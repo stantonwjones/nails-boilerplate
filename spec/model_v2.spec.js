@@ -1,6 +1,6 @@
-const assert = require('assert');
-const Model = require('../lib/model_v2.js');
-const MongooseConnectorUtil = require("./mongoose_connector.util.js");
+import assert from 'assert';
+import Model from '../lib/model_v2.js';
+import MongooseConnectorUtil from './mongoose_connector.util.js';
 
 const testSchema = {
   name: String,

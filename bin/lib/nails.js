@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
 // The entry point for the nails executable
-var exec = require('child_process').exec;
+import { exec } from 'child_process';
+// var exec = require('child_process').exec;
 console.log('nailsargs are: ', process.argv);
 var args = process.argv.splice(2);
 
 // TODO: print version and help info if called with no arguments
 
-var command = 'node ' + __dirname + '/' + args[0] + '.js';
+var command = 'node ' + import.meta.dirname + '/' + args[0] + '.js';
 
 for (var i = 1; i < args.length; i++) {
     command = command + " " + args[i];

@@ -2,6 +2,7 @@
   "name": "nails-boilerplate",
   "version": "0.15.0",
   "description": "A node.js webserver scaffold",
+  "type": "module",
   "main": "index.js",
   "bin": {
     "nails": "./bin/lib/nails.js"

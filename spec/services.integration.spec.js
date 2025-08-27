@@ -1,33 +1,46 @@
 // Import the dependencies for testing
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-const WebSocket = require('ws');
+import * as chai from 'chai';
+import {default as chaiHttp, request} from "chai-http";
+// import chaiHttp from 'chai-http';
+import { assert } from 'chai';
+// import { WebSocket } from 'ws';
+import WebSocket from 'ws';
+// const WebSocket = require('ws');
 
 var express_app;
-const assert = require('assert');
-const {MongoMemoryServer} = require('mongodb-memory-server');
+// const {MongoMemoryServer} = require('mongodb-memory-server');
 let mongod = null;
-var service_config = require('./services/integration/config/service.js');
 
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
 
 describe("Integration", function() {
-  before(function(done) {
+  before(async function() {
+      // this.timeout(30000);
+      try {
+        var nails = (await import('./services/integration/server.js')).default;
+      } catch (e) {
+        console.log("could not import server");
+        console.log(e);
+      }
+      console.log("got here");
+      express_app = nails.application;
+      return new Promise((resolve, reject) => {
+        nails.events.on("ready", () => {
+          console.log("ready was emitted!");
+          resolve();
+        });
+      });
+    // })
     // MongoMemoryServer.create({instance: service_config.db}).then((mongodb) => {
     //   mongod = mongodb;
-      var nails = require('./services/integration/server.js');
-      express_app = nails.application;
-      nails.events.on("ready", () => {
-        console.log("ready was emitted!");
-        done();
-      });
+      
     // });
   });
   describe("GET /", function() {
     it('should return the expected JSON from index', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/')
           .end((err, res) => {
             res.should.have.status(200);
@@ -38,7 +51,7 @@ describe("Integration", function() {
   });
   describe("GET /classbased", function() {
     it('should return the expected JSON from index', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/classbased')
           .end((err, res) => {
             res.should.have.status(200);
@@ -49,7 +62,7 @@ describe("Integration", function() {
   });
   describe("GET /^\\/(\\w+)\\/(\\w+)$/i", function() {
     it ('should route to home_controller#testaction', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/home/testaction')
           .end((err, res) => {
             res.should.have.status(200);
@@ -58,7 +71,7 @@ describe("Integration", function() {
           });
     });
     it('should route to classbased_controller#testaction', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/classbased/testaction')
           .end((err, res) => {
             res.should.have.status(200);
@@ -67,7 +80,7 @@ describe("Integration", function() {
           });
     });
     it('should render correctly when a promise is returned', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/classbased/testpromise')
           .end((err, res) => {
             res.should.have.status(200);
@@ -79,7 +92,7 @@ describe("Integration", function() {
 
   describe("GET /error/fivehundred", function() {
     it('should log the stack trace', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/error/fivehundred/500')
           .end((err, res) => {
             res.should.have.status(500);
@@ -90,7 +103,7 @@ describe("Integration", function() {
           })
     });
     it('should return meaningful JSON', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/error/fivehundred')
           .end((err, res) => {
             res.should.have.status(500);
@@ -107,7 +120,7 @@ describe("Integration", function() {
   describe("WebSockets", function() {
     it("should listen on /", function(done) {
       this.timeout(2000);
-      var requester = chai.request(express_app).keepOpen();
+      var requester = request.execute(express_app).keepOpen();
       var wsClient = new WebSocket("ws://localhost:3333/");
 
       wsClient.on('close', () => done());
@@ -117,7 +130,7 @@ describe("Integration", function() {
     });
     it("should listen on /voodoo", function(done) {
       this.timeout(2000);
-      var requester = chai.request(express_app).keepOpen();
+      var requester = request.execute(express_app).keepOpen();
       var wsClient = new WebSocket("ws://localhost:3333/voodoo");
 
       wsClient.on('message', (message) => {
@@ -129,7 +142,7 @@ describe("Integration", function() {
       // TODO: this doesn't fail. Figure out why.
       //done();
       this.timeout(2000);
-      var requester = chai.request(express_app).keepOpen();
+      var requester = request.execute(express_app).keepOpen();
       var wsClient = new WebSocket("ws://localhost:3333/voodootwo");
 
       wsClient.on('close', (code, reason) => {
@@ -146,7 +159,8 @@ describe("Integration", function() {
 
   describe("GET /json/:action", function() {
     it('should render params if nothing is returned by the action',
-      function(done) {chai.request(express_app)
+      function(done) {
+        request.execute(express_app)
           // Route to index action.
           .get('/json/testparams?testkey=testvalue')
           .end((err, res) => {
@@ -157,7 +171,7 @@ describe("Integration", function() {
       }
     );
     it('should render the returned object as json', function(done) {
-      chai.request(express_app)
+      request.execute(express_app)
           .get('/json/testaction')
           .end((err, res) => {
             res.should.have.status(200);
@@ -167,7 +181,7 @@ describe("Integration", function() {
     });
     it('should asynchronously render the resolved promise as json',
       function(done) {
-        chai.request(express_app)
+        request.execute(express_app)
             .get('/json/testpromise')
             .end((err, res) => {
               res.should.have.status(200);
@@ -181,7 +195,7 @@ describe("Integration", function() {
     it("./testmanualrenderasync Should not throw an exception after manually"
        + " rendering json asynchronously",
       done => {
-        chai.request(express_app)
+        request.execute(express_app)
             .get("/manualrenderasync/testmanualrenderasync")
             .end((err, res) => {
               res.should.have.status(200);
@@ -195,7 +209,7 @@ describe("Integration", function() {
          + " manually rendering json asynchronously using the async function"
          + " tag",
         done => {
-          chai.request(express_app)
+          request.execute(express_app)
               .get("/manualrenderasync/testmanualrenderexplicitasync")
               .end((err, res) => {
                 res.should.have.status(200);
@@ -213,18 +227,18 @@ describe("Integration", function() {
     afterEach(async function() {
       //await mongod.stop();
     });
-    it('should save to the correct database', async function() {
+    it('should save to the correct database', function(done) {
       let dogName = "Penny";
       let dogId = null;
-      chai.request(express_app)
+      request.execute(express_app)
           .get(`/modeltest/createdog?name=${dogName}`)
           .end((err, res) => {
             res.should.have.status(200);
-            dogId = res.text;
-            chai.request(express_app)
-                .get(`modeltest/getdogbyid?id=${dogId}`)
+            dogId = res.text.replaceAll('"', '');
+            request.execute(express_app)
+                .get(`/modeltest/getdogbyid?id=${dogId}`)
                 .end((err, res) => {
-                  assert.equals(
+                  assert.equal(
                     res.text, JSON.stringify({name: dogName, good: true}));
                   done();
                 });

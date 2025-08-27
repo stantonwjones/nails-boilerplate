@@ -1,3 +1,4 @@
 // Sets the Nails global object
-module.exports =  require('./lib/nails.js');
+import nails from './lib/nails.js';
+export default nails;
 // set up Nails here

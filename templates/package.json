@@ -7,7 +7,9 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "vite build & node bin/server.js",
-        "build": "vite build"
+        "build": "vite build",
+        "rollout": "NAME=$npm_package_name ./bin/rollout.sh",
+        "promote": "./bin/promote.sh"
     },
     "author": "",
     "license": "BSD",

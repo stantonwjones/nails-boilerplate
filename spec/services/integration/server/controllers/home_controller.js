@@ -1,4 +1,4 @@
-module.exports = function HomeController() {
+export default function HomeController() {
   this.index = function(params, request, response) {
     console.log("HOME::INDEX");
     response.json({

@@ -1,7 +1,9 @@
-var Router = require('../lib/router.js');
-var assert = require('assert');
-var express_app = require('../lib/application.js');
-express_app.set("public_root", __dirname + "/services/integration/public");
+// var express_app = require('../lib/application.js');
+import Router from '../lib/router.js';
+import assert from 'assert';
+import express_app from '../lib/application.js';
+
+express_app.set("public_root", import.meta.dirname + "/services/integration/public");
 var testRoutes = [
     ['GET', '^/$', {controller: 'testController', action: 'testAction'}],
     ['GET', /^\/public\/*/, {public: true}]

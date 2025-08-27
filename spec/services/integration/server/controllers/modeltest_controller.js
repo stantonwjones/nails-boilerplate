@@ -1,7 +1,7 @@
-const Controller =
-    require("../../../../../index.js").Controller;
-const Dog = require("../models/dog.js");
-module.exports = class ModeltestController extends Controller {
+import nails from "../../../../../index.js";
+import Dog from "../models/dog.js";
+
+export default class ModeltestController extends nails.Controller {
   async createdog(params, request, response) {
     let dog = new Dog({good: true, name: params.name});
     await dog.save();

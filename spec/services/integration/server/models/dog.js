@@ -1,6 +1,6 @@
-const Model = require("../../../../../index.js").Model;
+import nails from '../../../../../index.js';
 const dogSchema = {
   good: Boolean,
   name: String
 };
-module.exports = class Dog extends new Model("Dog", {schema: dogSchema}) {};
+export default class Dog extends new nails.Model("Dog", {schema: dogSchema}) {};

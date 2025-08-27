@@ -1,6 +1,6 @@
-const assert = require('assert');
-const Model = require('../lib/model.js');
-const MongoDBConnectorUtil = require("./mongodb_connector.util.js");
+import assert from 'assert';
+import Model from '../lib/model.js';
+import MongoDBConnectorUtil from './mongodb_connector.util.js';
 
 var test_model = new Model();
 var model_prot = Model.prototype;

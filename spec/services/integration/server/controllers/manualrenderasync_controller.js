@@ -1,6 +1,5 @@
-const Controller =
-    require("../../../../../index.js").Controller;
-class ManualRenderAsyncController extends Controller {
+import nails from "../../../../../index.js";
+export default class ManualRenderAsyncController extends nails.Controller {
   testmanualrenderasync(params, request, response) {
     return new Promise((resolve, reject) => {
       response.json({json_testmanualrenderasync: true});
@@ -13,5 +12,3 @@ class ManualRenderAsyncController extends Controller {
     });
   }
 }
-
-module.exports = ManualRenderAsyncController;
