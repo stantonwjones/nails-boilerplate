@@ -31,14 +31,16 @@
     "ejs": "*",
     "express": "*",
     "express-ws": "*",
+    "fs-extra": "^11.3.2",
     "mime": "*",
     "mongodb": "^4.17.2",
     "mongodb-memory-server": "^8.16.0",
     "mongoose": "^6.13.0",
     "react": "*",
     "react-dom": "^16.13.1",
+    "sequelize": "^6.37.7",
     "showdown": "^2.1.0",
-    "wrench": "*"
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "chai": "*",

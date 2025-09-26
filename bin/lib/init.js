@@ -2,9 +2,7 @@
 // to the path
 import path from 'node:path';
 import fs from 'node:fs';
-// TODO: wrench is deprecated. check out node-fs-extra
-import wrench from 'wrench';
-// var wrench = require('wrench');
+import {copySync} from 'fs-extra/esm';
 import {exec} from 'child_process';
 // var exec = require('child_process').exec;
 var args = process.argv.slice(2);
@@ -51,12 +49,12 @@ function createApp( name ) {
         fs.writeFileSync(name + '/NAILS', '/* This marks the root of the NAILS app */');
         fs.closeSync(fd);
 
-        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './server'), name + '/server');
-        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './client'), name + '/client');
-        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './config'), name + '/config');
-        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './common'), name + '/common');
-        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './spec'), name + '/spec');
-        wrench.copyDirSyncRecursive(path.resolve(templateRoot, './bin'), name + '/bin');
+        copySync(path.resolve(templateRoot, './server'), name + '/server');
+        copySync(path.resolve(templateRoot, './client'), name + '/client');
+        copySync(path.resolve(templateRoot, './config'), name + '/config');
+        copySync(path.resolve(templateRoot, './common'), name + '/common');
+        copySync(path.resolve(templateRoot, './spec'), name + '/spec');
+        copySync(path.resolve(templateRoot, './bin'), name + '/bin');
 
         checkWrites();
     });
