@@ -2,8 +2,8 @@
 
 This framework is designed to provide a lightweight, configurable MVC backend
 for node developers.  With minimal dependencies, Nails offers a greater
-syntactical familiarity than php alongside the creative freedom of bleeding edge
-solutions like Rails and Django.
+syntactical familiarity than php alongside the creative freedom of well developed
+server framework solutions like Rails and Django.
 
 This boilerplate offers the basic necessities to get your MVC site off the ground.
 The modules used in Nails Boilerplate can be easily extended to produce the custom
@@ -53,7 +53,7 @@ service.js contains information necessary to run your server. By default, it
 specifies the port and the location of important libraries. To override these
 values in different runtime environments, add a child object.
 ```js
-module.exports = {
+export default {
   ...
   PORT: 3000,
   PROD: {
@@ -77,7 +77,7 @@ var service_config = require('nails-boilerplate').config
 If the config contains a custom field,
 
 ```js
-module.exports = {
+export default {
   ...
   PORT: 3000,
   yourCustomField: 'yourCustomValue'
@@ -137,7 +137,16 @@ parameters work.
   to dynamically route your request to the appropriate handler.
 
 #### db.js
--- Coming soon... For now, take a look at the files in the example config directory --
+
+Quickly configure your database connection here. Nails comes pre-configured to
+use the sequelize connector, giving your models sequelize support. The initial setup
+uses an in-memory *sqlite3* database. Change the address to change the location and
+version of your desired sql database. Check out [Sequelize](https://sequelize.org)
+for more info.
+
+Alternatively, you can configure a connection to MongoDB using the mongoose_connector.js.
+If enabled, models will accept [Mongoose](https://mongoosejs.com/docs/) schemas and will
+be backed by the desired MongoDB. Consider using the in-memory DB during development.
 
 ## Controller
 
@@ -148,8 +157,10 @@ actions, receiving **params**, **request**, and **response** as arguments.
 
 For Example:
 ``` js
-const Controller = requre("nails-boilerplate").Controller
-class HomeController extends Controller {
+// const Controller = requre("nails-boilerplate").Controller
+import nails from 'nails-boilerplate';
+
+class HomeController extends nails.Controller {
   index(params, request, response) {
     // default action
   }
@@ -158,7 +169,7 @@ class HomeController extends Controller {
     // does something then renders a view
   }
 }
-module.exports = HomeController;
+export default HomeController;
 
 function helperMethod() {
   // does something but does not have access to response
@@ -167,6 +178,42 @@ function helperMethod() {
 
 defines a controller which will match any route to *home#\<action\>*. **index**
 and **signin** are actions which can be used to render a response to the client.
+
+### Local Routes
+
+You can define a local routing table directly in the controller.
+Local routes take precidence over global routes. All local routes
+are prefixed with the controller name unless they start with '/'.
+For example, in HomeController the following route:
+
+`["get", "data", {action: 'getData', json: true}],`
+
+will accept GET requests to /home/data and respond with the json
+object returned by the getData function. If the route is changed to:
+
+`["get", "/data", {action: 'getData', json: true}],`
+
+it will accept GET requests to /data instead. All local routes are
+implicitly routed to their respective parent controllers.
+
+```js
+export default class UsersController extends nails.Controller {
+  routes = [
+    // Routes requests to /absolute/path
+    ['get', '/absolute/path', {action: 'actionA'}],
+    // Routes requests to /users/relative/path
+    ['get', './relative/path', {action: 'actionB'}],
+    // Routes requests to /users/relative/path
+    ['get', 'relative/path', {action: 'actionB'}],
+  ]
+
+  // Handles requests to /absolute/path
+  actionA(request, response, params) {}
+
+  // Handles requests to /users/relative/path
+  actionB(request, response, params) {}
+}
+```
 
 ### Actions
 Actions are used to define how nails should respond to an incoming request.
@@ -218,23 +265,50 @@ overridden to allow for the rendering of views by name.
 ## Model
 
 Models are programmatic representations of data you wish to persist in a
-database. By default, models are subclasses of
+database. The constructor for Model accepts two arguments: the `modelName` and an
+`options` object which is passed to the database connector module.
+
+### Sequelize Models
+
+Sequelize models are subclasses of
+[Sequelize Models][sequelize_model_docs], and come with the `count()`, `findAll()`,
+and `create()` methods, to name a few. You can define your own models by
+extending an instance of the `Model` class provided by Nails:
+
+```js
+// const Model = require("nails-boilerplate").Model;
+import nails from 'nails-boilerplate';
+import {DataTypes} from 'sequelize';
+userSchema = {
+  name: {type: DataTypes.STRING, allowNull: false},
+  email: {type: DataTypes.STRING, allowNull: false}
+};
+export default class User extends new Model("User", userSchema) {
+  /**
+   * It is not recommended to add helper methods to Sequelize models. Define
+   * them in the schema instead.
+   */
+};
+
+```
+
+### Mongoose Models
+Mongoose models are subclasses of
 [Mongoose Models][mongoose_model_docs], and come with the `save()`, `find()`,
 and `where()` methods, to name a few. You can define your own models by
 extending an instance of the `Model` class provided by Nails:
 
 ``` js
-const Model = require("nails-boilerplate").Model;
+// const Model = require("nails-boilerplate").Model;
+import nails from 'nails-boilerplate';
 const userSchema = {name: String, email: String};
-module.exports = class User extends new Model("User", {schema: userSchema}) {
+export default class User extends new Model("User", {schema: userSchema}) {
   // Define your helper methods here
 };
 ```
 
-The constructor for Model accepts two arguments: the `modelName` and an
-`options` object which is passed to the database connector module. The
-Mongoose connector accepts a schema field that is used to describe how
-documents are stored in MongoDB.
+The `schema` option for Mongoose Models accepts a schema field that is used
+to define how documents are stored in MongoDB.
 
 ### Database Connectors
 
@@ -268,3 +342,4 @@ Enjoy! Feature requests, bug reports, and comments are welcome on github.
 [express_routing_docs]: https://expressjs.com/en/guide/routing.html
 [express_request_docs]: https://expressjs.com/en/5x/api.html#req
 [mongoose_model_docs]: https://mongoosejs.com/docs/api/model.html
+[sequelize_model_docs]: https://sequelize.org/docs/v6/core-concepts/model-basics/

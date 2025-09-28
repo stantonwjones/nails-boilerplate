@@ -1,8 +1,8 @@
 <h1 id="nailsboilerplateanodewebserviceframework">Nails-Boilerplate: A Node Webservice Framework</h1>
 <p>This framework is designed to provide a lightweight, configurable MVC backend
 for node developers.  With minimal dependencies, Nails offers a greater
-syntactical familiarity than php alongside the creative freedom of bleeding edge
-solutions like Rails and Django.</p>
+syntactical familiarity than php alongside the creative freedom of well developed
+server framework solutions like Rails and Django.</p>
 <p>This boilerplate offers the basic necessities to get your MVC site off the ground.
 The modules used in Nails Boilerplate can be easily extended to produce the custom
 functionality to fit your needs, and you are encouraged to do so.</p>
@@ -37,7 +37,7 @@ help you tailor your service to your needs.</p>
 <p>service.js contains information necessary to run your server. By default, it
 specifies the port and the location of important libraries. To override these
 values in different runtime environments, add a child object.</p>
-<pre><code class="js language-js">module.exports = {
+<pre><code class="js language-js">export default {
   ...
   PORT: 3000,
   PROD: {
@@ -54,7 +54,7 @@ module:</p>
 <pre><code class="js language-js">var service_config = require('nails-boilerplate').config
 </code></pre>
 <p>If the config contains a custom field,</p>
-<pre><code class="js language-js">module.exports = {
+<pre><code class="js language-js">export default {
   ...
   PORT: 3000,
   yourCustomField: 'yourCustomValue'
@@ -107,15 +107,24 @@ than indices. You can name your regex captures "controller" and/or "action"
 to dynamically route your request to the appropriate handler.</li>
 </ul>
 <h4 id="dbjs">db.js</h4>
-<p>-- Coming soon… For now, take a look at the files in the example config directory --</p>
+<p>Quickly configure your database connection here. Nails comes pre-configured to
+use the sequelize connector, giving your models sequelize support. The initial setup
+uses an in-memory <em>sqlite3</em> database. Change the address to change the location and
+version of your desired sql database. Check out <a href="https://sequelize.org">Sequelize</a>
+for more info.</p>
+<p>Alternatively, you can configure a connection to MongoDB using the mongoose_connector.js.
+If enabled, models will accept <a href="https://mongoosejs.com/docs/">Mongoose</a> schemas and will
+be backed by the desired MongoDB. Consider using the in-memory DB during development.</p>
 <h2 id="controller">Controller</h2>
 <p>Controllers are defined in app/controllers/. Each controller module should
 define a Controller subclass. The name will be used to match routes defined in
 config/routes.js for incoming requests. Methods on the controller can be used as
 actions, receiving <strong>params</strong>, <strong>request</strong>, and <strong>response</strong> as arguments.</p>
 <p>For Example:</p>
-<pre><code class="js language-js">const Controller = requre("nails-boilerplate").Controller
-class HomeController extends Controller {
+<pre><code class="js language-js">// const Controller = requre("nails-boilerplate").Controller
+import nails from 'nails-boilerplate';
+
+class HomeController extends nails.Controller {
   index(params, request, response) {
     // default action
   }
@@ -124,7 +133,7 @@ class HomeController extends Controller {
     // does something then renders a view
   }
 }
-module.exports = HomeController;
+export default HomeController;
 
 function helperMethod() {
   // does something but does not have access to response
@@ -132,6 +141,34 @@ function helperMethod() {
 </code></pre>
 <p>defines a controller which will match any route to <em>home#\<action></em>. <strong>index</strong>
 and <strong>signin</strong> are actions which can be used to render a response to the client.</p>
+<h3 id="localroutes">Local Routes</h3>
+<p>You can define a local routing table directly in the controller.
+Local routes take precidence over global routes. All local routes
+are prefixed with the controller name unless they start with '/'.
+For example, in HomeController the following route:</p>
+<p><code>["get", "data", {action: 'getData', json: true}],</code></p>
+<p>will accept GET requests to /home/data and respond with the json
+object returned by the getData function. If the route is changed to:</p>
+<p><code>["get", "/data", {action: 'getData', json: true}],</code></p>
+<p>it will accept GET requests to /data instead. All local routes are
+implicitly routed to their respective parent controllers.</p>
+<pre><code class="js language-js">export default class UsersController extends nails.Controller {
+  routes = [
+    // Routes requests to /absolute/path
+    ['get', '/absolute/path', {action: 'actionA'}],
+    // Routes requests to /users/relative/path
+    ['get', './relative/path', {action: 'actionB'}],
+    // Routes requests to /users/relative/path
+    ['get', 'relative/path', {action: 'actionB'}],
+  ]
+
+  // Handles requests to /absolute/path
+  actionA(request, response, params) {}
+
+  // Handles requests to /users/relative/path
+  actionB(request, response, params) {}
+}
+</code></pre>
 <h3 id="actions">Actions</h3>
 <p>Actions are used to define how nails should respond to an incoming request.
 If no action has been defined for a route, nails will default to the index
@@ -172,20 +209,41 @@ params object:</p>
 overridden to allow for the rendering of views by name.</p>
 <h2 id="model">Model</h2>
 <p>Models are programmatic representations of data you wish to persist in a
-database. By default, models are subclasses of
+database. The constructor for Model accepts two arguments: the <code>modelName</code> and an
+<code>options</code> object which is passed to the database connector module.</p>
+<h3 id="sequelizemodels">Sequelize Models</h3>
+<p>Sequelize models are subclasses of
+<a href="https://sequelize.org/docs/v6/core-concepts/model-basics/">Sequelize Models</a>, and come with the <code>count()</code>, <code>findAll()</code>,
+and <code>create()</code> methods, to name a few. You can define your own models by
+extending an instance of the <code>Model</code> class provided by Nails:</p>
+<pre><code class="js language-js">// const Model = require("nails-boilerplate").Model;
+import nails from 'nails-boilerplate';
+import {DataTypes} from 'sequelize';
+userSchema = {
+  name: {type: DataTypes.STRING, allowNull: false},
+  email: {type: DataTypes.STRING, allowNull: false}
+};
+export default class User extends new Model("User", userSchema) {
+  /**
+   * It is not recommended to add helper methods to Sequelize models. Define
+   * them in the schema instead.
+   */
+};
+</code></pre>
+<h3 id="mongoosemodels">Mongoose Models</h3>
+<p>Mongoose models are subclasses of
 <a href="https://mongoosejs.com/docs/api/model.html">Mongoose Models</a>, and come with the <code>save()</code>, <code>find()</code>,
 and <code>where()</code> methods, to name a few. You can define your own models by
 extending an instance of the <code>Model</code> class provided by Nails:</p>
-<pre><code class="js language-js">const Model = require("nails-boilerplate").Model;
+<pre><code class="js language-js">// const Model = require("nails-boilerplate").Model;
+import nails from 'nails-boilerplate';
 const userSchema = {name: String, email: String};
-module.exports = class User extends new Model("User", {schema: userSchema}) {
+export default class User extends new Model("User", {schema: userSchema}) {
   // Define your helper methods here
 };
 </code></pre>
-<p>The constructor for Model accepts two arguments: the <code>modelName</code> and an
-<code>options</code> object which is passed to the database connector module. The
-Mongoose connector accepts a schema field that is used to describe how
-documents are stored in MongoDB.</p>
+<p>The <code>schema</code> option for Mongoose Models accepts a schema field that is used
+to define how documents are stored in MongoDB.</p>
 <h3 id="databaseconnectors">Database Connectors</h3>
 <p>Database connectors are intermediaries which define how a Model interacts with
 a database. Database connector modules need to export two methods:</p>

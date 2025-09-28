@@ -8,7 +8,7 @@
     "nails": "./bin/lib/nails.js"
   },
   "scripts": {
-    "copyreadme": "mammoth README.md templates/client/README.html",
+    "copyreadme": "node bin/convertreadmetohtml.js",
     "test": "mocha --exit spec",
     "debug": "mocha --exit debug spec"
   },
