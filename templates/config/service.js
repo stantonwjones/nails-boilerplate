@@ -16,7 +16,7 @@ const CERTIFICATE_FILE = fs.readFileSync(`${import.meta.dirname}/ssl/certificate
 var config = {
   APP_ROOT: APP_ROOT,
   // root directory for delivering static assets
-  PUBLIC_ROOT: SERVER_ROOT + '/client',
+  PUBLIC_ROOT: SERVER_ROOT + '/public',
   CONTROLLERS_ROOT: APP_ROOT + '/controllers',
   VIEWS_ROOT: APP_ROOT + '/views',
   //MODELS_ROOT: APP_ROOT + '/models',

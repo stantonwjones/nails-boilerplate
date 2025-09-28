@@ -7,7 +7,7 @@ import Home from './HomePage';
 import About from './AboutPage';
 import Readme from './ReadmePage';
 
-import '../css/styles.css';
+import './styles/appstyles.css';
 
 function App() {
   console.log("rendering app");

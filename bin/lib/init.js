@@ -50,7 +50,8 @@ function createApp( name ) {
         fs.closeSync(fd);
 
         copySync(path.resolve(templateRoot, './server'), name + '/server');
-        copySync(path.resolve(templateRoot, './client'), name + '/client');
+        copySync(path.resolve(templateRoot, './src'), name + '/src');
+        copySync(path.resolve(templateRoot, './public'), name + '/public');
         copySync(path.resolve(templateRoot, './config'), name + '/config');
         copySync(path.resolve(templateRoot, './common'), name + '/common');
         copySync(path.resolve(templateRoot, './spec'), name + '/spec');

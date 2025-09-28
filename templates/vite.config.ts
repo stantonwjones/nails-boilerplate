@@ -20,11 +20,11 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'client/src/app.jsx', // Your library's main entry file
+      entry: './src/app.jsx', // Your library's main entry file
       name: 'NailsReactApp',
       fileName: 'nails-react-app',
     },
-    outDir: 'client/dist',
+    outDir: './public/dist',
   },
   esbuild: {
     minifyIdentifiers: false,
