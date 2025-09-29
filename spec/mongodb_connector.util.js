@@ -1,4 +1,4 @@
-import MongoDBConnector from '../lib/mongodb_connector.js';
+import MongooseConnector from '../lib/mongoose_connector.js';
 import {MongoMemoryServer} from 'mongodb-memory-server';
 
 let singularInstanceCreated = false;
@@ -19,7 +19,7 @@ class MongoDBConnectorUtil {
     const dbConfig =
         {uri: uri, port: port, database: dbName, dbPath: dbPath};
     //console.log(JSON.stringify(dbConfig));
-    return new MongoDBConnector(dbConfig);
+    return new MongooseConnector(dbConfig);
   }
 
   async cleanup() {
