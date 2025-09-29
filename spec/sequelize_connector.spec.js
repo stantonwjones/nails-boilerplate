@@ -19,7 +19,7 @@ describe('ModelV2 using SequelizeConnector', function() {
   let util;
   beforeEach(async function() {
     util = new SequelizeConnectorUtil();
-    let connector = await util.getTestConnector();
+    const connector = await util.getTestConnector();
     Model.setConnector(connector);
     TestSequelizeModel =
         class TestSequelizeModel extends new Model("TestSequelizeModel", TEST_SCHEMA) {

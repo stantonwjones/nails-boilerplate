@@ -89,6 +89,35 @@ describe("Integration", function () {
         });
     });
   });
+  describe("Get /defaultjson/arbi/trary", function () {
+    it("Should default to json if not present in route options", function(done) {
+      request.execute(express_app)
+        .get('/defaultjson/arbi/trary/testautojson')
+        .end((err, res) => {
+          res.should.have.status(200);
+          assert(res.text == JSON.stringify({ json_testautojson: true }));
+          done();
+        });
+    });
+    it("Should autoassign the action if not present in route options", function(done) {
+      request.execute(express_app)
+        .get('/defaultjson/arbi/trary/testautoaction')
+        .end((err, res) => {
+          res.should.have.status(200);
+          assert(res.text == JSON.stringify({ json_testautoaction: true }));
+          done();
+        });
+    });
+    it("Should not render json if route options explicitly say not to", function(done) {
+      request.execute(express_app)
+        .get('/defaultjson/arbi/trary/testjsonoverridden')
+        .end((err, res) => {
+          res.should.have.status(200);
+          assert(res.text == 'I am some arbitrary text');
+          done();
+        });
+    })
+  });
   describe("GET /^\\/(\\w+)\\/(\\w+)$/i", function () {
     it('should route to home_controller#testaction', function (done) {
       request.execute(express_app)
