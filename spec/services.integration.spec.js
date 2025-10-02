@@ -15,7 +15,7 @@ let mongod = null;
 chai.use(chaiHttp);
 chai.should();
 
-describe("Integration", function () {
+describe("Integration: Sequelize", function () {
   before(async function () {
     // this.timeout(30000);
     try {
@@ -26,17 +26,6 @@ describe("Integration", function () {
     }
     console.log("got here");
     express_app = nails.application;
-    return new Promise((resolve, reject) => {
-      nails.events.on("ready", () => {
-        console.log("ready was emitted!");
-        resolve();
-      });
-    });
-    // })
-    // MongoMemoryServer.create({instance: service_config.db}).then((mongodb) => {
-    //   mongod = mongodb;
-
-    // });
   });
   describe("GET /", function () {
     it('should return the expected JSON from index', function (done) {

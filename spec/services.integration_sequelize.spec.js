@@ -7,8 +7,6 @@ import WebSocket from 'ws';
 // const WebSocket = require('ws');
 
 var express_app;
-// const {MongoMemoryServer} = require('mongodb-memory-server');
-let mongod = null;
 
 // Configure chai
 chai.use(chaiHttp);
@@ -24,18 +22,13 @@ describe("Integration", function () {
     }
     console.log("got here");
     express_app = nails.application;
-    return new Promise((resolve, reject) => {
-      nails.events.on("ready", () => {
-        console.log("ready was emitted!");
-        resolve();
-      });
-    });
   });
   describe("GET /", function () {
     it('should return the expected JSON from index', function (done) {
       request.execute(express_app)
         .get('/')
         .end((err, res) => {
+          if (err) console.error(err);
           res.should.have.status(200);
           assert(res.text == JSON.stringify({ home_index: true }));
           done();

@@ -25,7 +25,7 @@ var config = {
 
   ENABLE_HTTP: true,
   //IP: "0.0.0.0",
-  PORT: 3333,
+  PORT: 4444,
 
   ASYNC: false,
 

@@ -34,5 +34,6 @@ describe('ModelV2 using SequelizeConnector', function() {
     const models = await TestSequelizeModel.findAll();
     assert(models.length == 1, "Should have one model");
     assert(models[0].name == MODEL_NAME, "Name should be consistent");
+    assert(models[0] instanceof TestSequelizeModel);
   });
 });
