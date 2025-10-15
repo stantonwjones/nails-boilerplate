@@ -28,6 +28,7 @@
     "@babel/core": "*",
     "@babel/preset-react": "*",
     "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
     "ejs": "*",
     "express": "*",
     "express-ws": "*",
