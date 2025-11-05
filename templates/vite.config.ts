@@ -15,8 +15,8 @@ export default defineConfig({
   ],
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
+    // environment: 'jsdom',
+    setupFiles: './spec/setupTests.js',
   },
   build: {
     lib: {
@@ -32,7 +32,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@common': path.resolve(__dirname, './common'), // Alias '@' to the 'src' directory
+      '@common': path.resolve(__dirname, './common'), // Alias '@' to the 'common' directory
+      '@server': path.resolve(__dirname, './server'), // Alias '@' to the 'server' directory
     },
   },
 })
