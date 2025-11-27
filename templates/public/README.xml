@@ -20,7 +20,7 @@ off to a good start.</p>
 
 npm install
 
-node server
+npm start
 </code></pre>
 <h2 id="gettingtoknowyournailsservice">Getting to know your Nails service</h2>
 <p>For your convenience, here is a quick outline of the main components of a nails service.
@@ -51,7 +51,9 @@ above example, PORT will be overridden to 80 if NODE</em>ENV is set to PROD.</p>
 <p>While most of these values don't need to be changed, feel free to add custom
 fields. The resulting config will be available to your service through the nails
 module:</p>
-<pre><code class="js language-js">var service_config = require('nails-boilerplate').config
+<pre><code class="js language-js">import nails from 'nails-boilerplate';
+
+const service_config = nails.config
 </code></pre>
 <p>If the config contains a custom field,</p>
 <pre><code class="js language-js">export default {
@@ -68,7 +70,7 @@ module:</p>
 <code>[method, path, options]</code></p>
 <p><strong>method</strong> is a string defining the HTTP request method of the route. Supported
 methods are <em>GET</em>, <em>PUT</em>, <em>POST</em>, <em>DELETE</em>, and <em>ALL</em>. All is a special case
-which matches all HTTP request methods.</p>
+which matches all HTTP request methods. Lastly, <em>WS</em> routes will handle WebSocket connections.</p>
 <p><strong>path</strong> is a string or regular expression which matches the path of the
 incoming request. If <em>path</em> is a string, then the request must match exactly*.
 You can use route parameters to dynamically match parts of the path and assign
@@ -109,7 +111,7 @@ to dynamically route your request to the appropriate handler.</li>
 <h4 id="dbjs">db.js</h4>
 <p>Quickly configure your database connection here. Nails comes pre-configured to
 use the sequelize connector, giving your models sequelize support. The initial setup
-uses an in-memory <em>sqlite3</em> database. Change the address to change the location and
+uses a <em>sqlite3</em> database file <code>config/development.db</code> and an in-memory database in the test environment. Change the address to change the location and
 version of your desired sql database. Check out <a href="https://sequelize.org">Sequelize</a>
 for more info.</p>
 <p>Alternatively, you can configure a connection to MongoDB using the mongoose_connector.js.
@@ -160,6 +162,9 @@ implicitly routed to their respective parent controllers.</p>
     ['get', './relative/path', {action: 'actionB'}],
     // Routes requests to /users/relative/path
     ['get', 'relative/path', {action: 'actionB'}],
+    // If no action is provided, the last path segment
+    // is used as the action name.
+    ['get', 'actionC']
   ]
 
   // Handles requests to /absolute/path
@@ -167,6 +172,9 @@ implicitly routed to their respective parent controllers.</p>
 
   // Handles requests to /users/relative/path
   actionB(request, response, params) {}
+
+  // Handles requests to /users/actionC
+  actionC(request, response, params) {}
 }
 </code></pre>
 <h3 id="actions">Actions</h3>
@@ -207,6 +215,26 @@ params object:</p>
 <h4 id="response">Response</h4>
 <p>The response object provided by <em>express.js</em>. The <em>#render()</em> method has been
 overridden to allow for the rendering of views by name.</p>
+<h4 id="jsonactions">JSON Actions</h4>
+<p>JSON actions only return JSON objects in the response instead of text or HTML. These actions are ideal for building an API Server. There are three ways to designate JSON Actions:</p>
+<h5 id="expressresponseobject">Express  Response Object</h5>
+<pre><code class="js language-js">  response.json({your: 'jsonresponse'})
+</code></pre>
+<p>Simply use the express Response object directly</p>
+<h5 id="jsonroutes">JSON Routes</h5>
+<p>You can configure an individual route to respond with JSON by setting the <code>json</code> option to <code>true</code>.</p>
+<pre><code class="js language-js">['get', '/your/json/route', {json: true}],
+</code></pre>
+<h5 id="apicontrollers">API Controllers</h5>
+<p>By setting <code>json</code> to <code>true</code>, all actions in a controller will respond with JSON.</p>
+<pre><code class="js language-js">class YourApiController extends nails.Controller {
+  json = true;
+
+  action(params, request, response) {
+    return {your: 'jsonresponse'};
+  }
+}
+</code></pre>
 <h2 id="model">Model</h2>
 <p>Models are programmatic representations of data you wish to persist in a
 database. The constructor for Model accepts two arguments: the <code>modelName</code> and an
@@ -219,15 +247,25 @@ extending an instance of the <code>Model</code> class provided by Nails:</p>
 <pre><code class="js language-js">// const Model = require("nails-boilerplate").Model;
 import nails from 'nails-boilerplate';
 import {DataTypes} from 'sequelize';
-userSchema = {
+schema = {
   name: {type: DataTypes.STRING, allowNull: false},
   email: {type: DataTypes.STRING, allowNull: false}
 };
-export default class User extends new Model("User", userSchema) {
-  /**
-   * It is not recommended to add helper methods to Sequelize models. Define
-   * them in the schema instead.
-   */
+
+options = {
+  indexes: [
+    {
+      unique: true,
+      fields: ['email'],
+    },
+  ],
+};
+
+export default class User extends new Model("User", {schema, options}) {
+  someHelperMethod() {
+    // This method will be available on all instances of User and is
+    // an ideal way to simplify data manipulation.
+  }
 };
 </code></pre>
 <h3 id="mongoosemodels">Mongoose Models</h3>
@@ -244,6 +282,17 @@ export default class User extends new Model("User", {schema: userSchema}) {
 </code></pre>
 <p>The <code>schema</code> option for Mongoose Models accepts a schema field that is used
 to define how documents are stored in MongoDB.</p>
+<h3 id="modellibrary">Model Library</h3>
+<p>Nails will store all instantialized models in a single object called <code>MODELS</code>. By accessing these models via the library, you can avoid circular dependencies and ensure all models have been fully initialized.</p>
+<pre><code class="js language-js">class User extends nails.Model("User", {schema, options}) {
+  // A helper method which depends on anoher model using the
+  // Nails Model Library rather than directly importing the model.
+  async findFriends() {
+    return nails.MODELS.Friend.findByUserId(this.id);
+  }
+}
+</code></pre>
+<p>This design pattern is not always necessary, but will help avoid circular dependencies.</p>
 <h3 id="databaseconnectors">Database Connectors</h3>
 <p>Database connectors are intermediaries which define how a Model interacts with
 a database. Database connector modules need to export two methods:</p>
@@ -257,11 +306,21 @@ a database. Ideally, interfaces will define save() and find() methods, but
 these methods and their implementations are up to the individual connector.</li>
 </ul>
 <h2 id="view">View</h2>
-<p>Views are basically templates used to render an html response for a browser.
-Nails comes prepackaged with React.js serverside templating, and EJS templates.
-If no template engine is specified in the service config, Nails will Default to
+<p>Views are dynamic templates used to render an html response for a browser.
+Nails comes prepackaged with EJS templates.
+If no template engine is specified in the service config, Nails will default to
 EJS. Nails will always attempt to autorender your views unless a response has
 already been sent to the client.</p>
+<h3 id="reactfrontendwithvite">React Frontend with Vite</h3>
+<p>This project uses Vite to build the frontend React application. The source files for the React app are located in the <code>src</code> directory. The server is pre-configured to serve the built React application.</p>
+<p>To rebuild the frontend application, you can run the following command:</p>
+<pre><code class="bash language-bash">npm run build
+</code></pre>
+<h2 id="testing">Testing</h2>
+<p>This project uses <a href="https://vitest.dev/">Vitest</a> for running tests. All test files are located in the <code>spec</code> folder. To run the tests, use the following command:</p>
+<pre><code class="bash language-bash">npm test
+</code></pre>
+<p>For more information on how to write tests with Vitest, please refer to the <a href="https://vitest.dev/guide/">official documentation</a>.</p>
 <p>Stay tuned as nails evolves:</p>
 <ul>
 <li>Server/client redirects</li>

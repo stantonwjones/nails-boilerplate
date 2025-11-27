@@ -13,4 +13,4 @@ SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 echo "Script directory (absolute, resolved): $SCRIPT_DIR"
 
-npm --prefix=$SCRIPT_DIR/.. run $COMMAND
+npm --prefix=$SCRIPT_DIR/.. run $COMMAND -- $2 $3 $4 $5 $6 $7 $8 $9

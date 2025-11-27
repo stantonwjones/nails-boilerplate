@@ -5,6 +5,7 @@ import { beforeAll, test, expect } from "vitest";
 const TEST_USER_EMAIL = "test@test.com";
 const TEST_USER_NAME = "JohnDoe";
 beforeAll(async () => {
+  // Only initialize the Models.
   await nails.MODELS.init( service_config );
 });
 

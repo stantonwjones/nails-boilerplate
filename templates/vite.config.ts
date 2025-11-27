@@ -16,7 +16,10 @@ export default defineConfig({
   test: {
     globals: true,
     // environment: 'jsdom',
-    setupFiles: './spec/setupTests.js',
+    // setupFiles: './spec/setupTests.js',
+    env: {
+      NAILS_RELEASE_STAGE: "test",
+    }
   },
   build: {
     lib: {

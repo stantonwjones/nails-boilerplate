@@ -28,7 +28,7 @@ cd app_name
 
 npm install
 
-node server
+npm start
 ```
 
 ## Getting to know your Nails service
@@ -71,7 +71,9 @@ fields. The resulting config will be available to your service through the nails
 module:
 
 ```js
-var service_config = require('nails-boilerplate').config
+import nails from 'nails-boilerplate';
+
+const service_config = nails.config
 ```
 
 If the config contains a custom field,
@@ -94,7 +96,7 @@ then `service_config.yourCustomField` as defined above will be equal to
 
 **method** is a string defining the HTTP request method of the route. Supported
 methods are *GET*, *PUT*, *POST*, *DELETE*, and *ALL*. All is a special case
-which matches all HTTP request methods.
+which matches all HTTP request methods. Lastly, *WS* routes will handle WebSocket connections.
 
 **path** is a string or regular expression which matches the path of the
 incoming request. If *path* is a string, then the request must match exactly*.
@@ -140,7 +142,7 @@ parameters work.
 
 Quickly configure your database connection here. Nails comes pre-configured to
 use the sequelize connector, giving your models sequelize support. The initial setup
-uses an in-memory *sqlite3* database. Change the address to change the location and
+uses a *sqlite3* database file `config/development.db` and an in-memory database in the test environment. Change the address to change the location and
 version of your desired sql database. Check out [Sequelize](https://sequelize.org)
 for more info.
 
@@ -205,6 +207,9 @@ export default class UsersController extends nails.Controller {
     ['get', './relative/path', {action: 'actionB'}],
     // Routes requests to /users/relative/path
     ['get', 'relative/path', {action: 'actionB'}],
+    // If no action is provided, the last path segment
+    // is used as the action name.
+    ['get', 'actionC']
   ]
 
   // Handles requests to /absolute/path
@@ -212,6 +217,9 @@ export default class UsersController extends nails.Controller {
 
   // Handles requests to /users/relative/path
   actionB(request, response, params) {}
+
+  // Handles requests to /users/actionC
+  actionC(request, response, params) {}
 }
 ```
 
@@ -262,6 +270,34 @@ An [express Request object][express_request_docs].
 The response object provided by *express.js*. The *#render()* method has been
 overridden to allow for the rendering of views by name.
 
+#### JSON Actions
+JSON actions only return JSON objects in the response instead of text or HTML. These actions are ideal for building an API Server. There are three ways to designate JSON Actions:
+
+##### Express  Response Object
+  ```js
+  response.json({your: 'jsonresponse'})
+  ```
+  Simply use the express Response object directly
+
+##### JSON Routes
+You can configure an individual route to respond with JSON by setting the `json` option to `true`.
+```js
+['get', '/your/json/route', {json: true}],
+```
+
+##### API Controllers
+By setting `json` to `true`, all actions in a controller will respond with JSON.
+
+```js
+class YourApiController extends nails.Controller {
+  json = true;
+  
+  action(params, request, response) {
+    return {your: 'jsonresponse'};
+  }
+}
+```
+
 ## Model
 
 Models are programmatic representations of data you wish to persist in a
@@ -279,15 +315,25 @@ extending an instance of the `Model` class provided by Nails:
 // const Model = require("nails-boilerplate").Model;
 import nails from 'nails-boilerplate';
 import {DataTypes} from 'sequelize';
-userSchema = {
+schema = {
   name: {type: DataTypes.STRING, allowNull: false},
   email: {type: DataTypes.STRING, allowNull: false}
 };
-export default class User extends new Model("User", userSchema) {
-  /**
-   * It is not recommended to add helper methods to Sequelize models. Define
-   * them in the schema instead.
-   */
+
+options = {
+  indexes: [
+    {
+      unique: true,
+      fields: ['email'],
+    },
+  ],
+};
+
+export default class User extends new Model("User", {schema, options}) {
+  someHelperMethod() {
+    // This method will be available on all instances of User and is
+    // an ideal way to simplify data manipulation.
+  }
 };
 
 ```
@@ -310,6 +356,20 @@ export default class User extends new Model("User", {schema: userSchema}) {
 The `schema` option for Mongoose Models accepts a schema field that is used
 to define how documents are stored in MongoDB.
 
+### Model Library
+Nails will store all instantialized models in a single object called `MODELS`. By accessing these models via the library, you can avoid circular dependencies and ensure all models have been fully initialized.
+
+```js
+class User extends nails.Model("User", {schema, options}) {
+  // A helper method which depends on anoher model using the
+  // Nails Model Library rather than directly importing the model.
+  async findFriends() {
+    return nails.MODELS.Friend.findByUserId(this.id);
+  }
+}
+```
+This design pattern is not always necessary, but will help avoid circular dependencies.
+
 ### Database Connectors
 
 Database connectors are intermediaries which define how a Model interacts with
@@ -323,11 +383,31 @@ a database. Database connector modules need to export two methods:
   these methods and their implementations are up to the individual connector.
 
 ## View
-Views are basically templates used to render an html response for a browser.
-Nails comes prepackaged with React.js serverside templating, and EJS templates.
-If no template engine is specified in the service config, Nails will Default to
+Views are dynamic templates used to render an html response for a browser.
+Nails comes prepackaged with EJS templates.
+If no template engine is specified in the service config, Nails will default to
 EJS. Nails will always attempt to autorender your views unless a response has
 already been sent to the client.
+
+### React Frontend with Vite
+
+This project uses Vite to build the frontend React application. The source files for the React app are located in the `src` directory. The server is pre-configured to serve the built React application.
+
+To rebuild the frontend application, you can run the following command:
+
+```bash
+npm run build
+```
+
+## Testing
+
+This project uses [Vitest](https://vitest.dev/) for running tests. All test files are located in the `spec` folder. To run the tests, use the following command:
+
+```bash
+npm test
+```
+
+For more information on how to write tests with Vitest, please refer to the [official documentation](https://vitest.dev/guide/).
 
 Stay tuned as nails evolves:
 

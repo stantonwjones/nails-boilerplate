@@ -7,6 +7,7 @@ import { chai, beforeAll, test, expect } from "vitest";
 let express_app;
 
 beforeAll(async () => {
+  // Initialize the application and start the server
   (await nails( service_config )).startServer();
   express_app = nails.application;
   chai.use(chaiHttp);
