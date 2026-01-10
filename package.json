@@ -4,9 +4,7 @@
   "description": "A node.js webserver scaffold",
   "type": "module",
   "main": "index.js",
-  "bin": {
-    "nails": "./bin/lib/nails.js"
-  },
+  "bin": "./bin/lib/nails.js",
   "scripts": {
     "copyreadme": "node bin/convertreadmetohtml.js",
     "test": "mocha --exit spec",
@@ -41,14 +39,14 @@
     "react-dom": "^16.13.1",
     "sequelize": "^6.37.7",
     "showdown": "^2.1.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "ws": "*"
   },
   "devDependencies": {
     "chai": "*",
     "chai-http": "*",
     "mocha": "^10.2.0",
-    "sinon": "*",
-    "ws": "*"
+    "sinon": "*"
   },
   "config": {
     "mongodbMemoryServer": {
