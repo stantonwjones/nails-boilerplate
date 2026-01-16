@@ -50,21 +50,15 @@ help you tailor your service to your needs.
 
 #### service.js
 service.js contains information necessary to run your server. By default, it
-specifies the port and the location of important libraries. To override these
-values in different runtime environments, add a child object.
+specifies the port and the location of important libraries.
 ```js
 export default {
   ...
-  PORT: 3000,
-  PROD: {
-    PORT: 80
-  }
+  SERVER_ROOT: "/path/to/my/nails/service",
+  PORT: 3333,
+  SSL_PORT: 3334,
 }
 ```
-
-Nails checks the NODE_ENV environment variable. If a matching child config
-object is present, then those values will override the parent config. In the
-above example, PORT will be overridden to 80 if NODE_ENV is set to PROD.
 
 While most of these values don't need to be changed, feel free to add custom
 fields. The resulting config will be available to your service through the nails
