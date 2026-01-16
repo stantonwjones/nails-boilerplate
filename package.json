@@ -4,7 +4,9 @@
   "description": "A node.js webserver scaffold",
   "type": "module",
   "main": "index.js",
-  "bin": "./bin/lib/nails.js",
+  "bin": {
+    "nails-boilerplate": "bin/lib/nails.js"
+  },
   "scripts": {
     "copyreadme": "node bin/convertreadmetohtml.js",
     "test": "mocha --exit spec",
@@ -12,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:stantonwjones/nails-boilerplate.git"
+    "url": "git+ssh://git@github.com/stantonwjones/nails-boilerplate.git"
   },
   "keywords": [
     "nails",
