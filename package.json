@@ -1,5 +1,5 @@
 {
-  "name": "nails-boilerplate",
+  "name": "@projectinvicta/nails",
   "version": "2.0.14",
   "description": "A node.js webserver scaffold",
   "type": "module",
