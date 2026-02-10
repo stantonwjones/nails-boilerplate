@@ -1,0 +1,332 @@
+<h1 id="nailsboilerplateanodewebserviceframework">Nails-Boilerplate: A Node Webservice Framework</h1>
+<p>This framework is designed to provide a lightweight, configurable MVC backend
+for node developers.  With minimal dependencies, Nails offers a greater
+syntactical familiarity than php alongside the creative freedom of well developed
+server framework solutions like Rails and Django.</p>
+<p>This boilerplate offers the basic necessities to get your MVC site off the ground.
+The modules used in Nails Boilerplate can be easily extended to produce the custom
+functionality to fit your needs, and you are encouraged to do so.</p>
+<h2 id="install">Install</h2>
+<pre><code>sudo npm install -g nails-boilerplate
+
+nails init &lt;app_name&gt;
+</code></pre>
+<p>This will initialize a barebones app in the directory of the same name.  Take a
+look at the self-documented config files and example controller and view before
+getting started.  Additional controllers and views will automatically be imported
+into nails.  Now just hook the new controllers in with some new routes and you're
+off to a good start.</p>
+<pre><code>cd app_name
+
+npm install
+
+npm start
+</code></pre>
+<h2 id="gettingtoknowyournailsservice">Getting to know your Nails service</h2>
+<p>For your convenience, here is a quick outline of the main components of a nails service.
+Remember: each object comes with an example file to use for reference when building your service.</p>
+<h3 id="config">Config</h3>
+<p>Your configuration files are stored in app_name/config/. There are three default config files:</p>
+<pre><code>service.js
+routes.js
+db.js
+</code></pre>
+<p>Each default config file is annotated with comments documenting each field to
+help you tailor your service to your needs.</p>
+<h4 id="servicejs">service.js</h4>
+<p>service.js contains information necessary to run your server. By default, it
+specifies the port and the location of important libraries. To override these
+values in different runtime environments, add a child object.</p>
+<pre><code class="js language-js">export default {
+  ...
+  PORT: 3000,
+  PROD: {
+    PORT: 80
+  }
+}
+</code></pre>
+<p>Nails checks the NODE<em>ENV environment variable. If a matching child config
+object is present, then those values will override the parent config. In the
+above example, PORT will be overridden to 80 if NODE</em>ENV is set to PROD.</p>
+<p>While most of these values don't need to be changed, feel free to add custom
+fields. The resulting config will be available to your service through the nails
+module:</p>
+<pre><code class="js language-js">import nails from 'nails-boilerplate';
+
+const service_config = nails.config
+</code></pre>
+<p>If the config contains a custom field,</p>
+<pre><code class="js language-js">export default {
+  ...
+  PORT: 3000,
+  yourCustomField: 'yourCustomValue'
+}
+</code></pre>
+<p>then <code>service_config.yourCustomField</code> as defined above will be equal to
+<code>'yourCustomValue'</code>.</p>
+<h4 id="routesjs">routes.js</h4>
+<p><em>routes.js</em> is a list defining mappings from a url path to a <em>Controller</em> and
+<em>Action</em>. Each entry in the list is an array with three elements:
+<code>[method, path, options]</code></p>
+<p><strong>method</strong> is a string defining the HTTP request method of the route. Supported
+methods are <em>GET</em>, <em>PUT</em>, <em>POST</em>, <em>DELETE</em>, and <em>ALL</em>. All is a special case
+which matches all HTTP request methods. Lastly, <em>WS</em> routes will handle WebSocket connections.</p>
+<p><strong>path</strong> is a string or regular expression which matches the path of the
+incoming request. If <em>path</em> is a string, then the request must match exactly*.
+You can use route parameters to dynamically match parts of the path and assign
+them to the *params* object. For example, if you define a route with the path:
+<code>'/users/:userId'</code>
+and your service receives a request with the path:
+<code>'/users/777'</code>
+then <em>userId</em> will be set in the params object:</p>
+<pre><code class="js language-js">{ userId: 777 }
+</code></pre>
+<p>You can define <em>:controller</em> and <em>:action</em> as route parameters as well. Not only
+will those values be set in the params object, but the request will be routed
+to the matching controller and action. See
+<a href="https://expressjs.com/en/guide/routing.html">express routes</a> for more information on how route
+parameters work.</p>
+<p>*requests for static assets will only match the prefix of the path.</p>
+<p><strong>options</strong> is a JSON object which modifies how the request will be routed:</p>
+<ul>
+<li><em>controller</em> a String indicating the controller to route to.</li>
+<li><em>action</em> a String indicating the action to route to.</li>
+<li><em>json</em> a boolean indicating whether to render a JSON response rather than an
+HTML response. If true, nails will not attempt to render a view for this
+route. Instead, your service will respond with JSON for this route.</li>
+<li><em>public</em> a boolean indicating whether this route is for static assets. If
+true, the router will only attempt to match the prefix of the request path.
+The child portion of the path will be forwarded to the <em>public/</em> folder in
+your service directory. For route:
+<code>['GET', '/public_url_path', {public: true}]</code>
+if your service receives a request to:
+<code>/public_url_path/js/index.js</code>
+then the response will be the file:
+<code>your_service_root_path/public/js/index.js</code></li>
+<li><em>0, 1, 2…</em> a string which gives regex captures named keys in the params
+object. This will give your regex captures more meaningful named keys rather
+than indices. You can name your regex captures "controller" and/or "action"
+to dynamically route your request to the appropriate handler.</li>
+</ul>
+<h4 id="dbjs">db.js</h4>
+<p>Quickly configure your database connection here. Nails comes pre-configured to
+use the sequelize connector, giving your models sequelize support. The initial setup
+uses a <em>sqlite3</em> database file <code>config/development.db</code> and an in-memory database in the test environment. Change the address to change the location and
+version of your desired sql database. Check out <a href="https://sequelize.org">Sequelize</a>
+for more info.</p>
+<p>Alternatively, you can configure a connection to MongoDB using the mongoose_connector.js.
+If enabled, models will accept <a href="https://mongoosejs.com/docs/">Mongoose</a> schemas and will
+be backed by the desired MongoDB. Consider using the in-memory DB during development.</p>
+<h2 id="controller">Controller</h2>
+<p>Controllers are defined in app/controllers/. Each controller module should
+define a Controller subclass. The name will be used to match routes defined in
+config/routes.js for incoming requests. Methods on the controller can be used as
+actions, receiving <strong>params</strong>, <strong>request</strong>, and <strong>response</strong> as arguments.</p>
+<p>For Example:</p>
+<pre><code class="js language-js">// const Controller = requre("nails-boilerplate").Controller
+import nails from 'nails-boilerplate';
+
+class HomeController extends nails.Controller {
+  index(params, request, response) {
+    // default action
+  }
+
+  signin(params, request, response) {
+    // does something then renders a view
+  }
+}
+export default HomeController;
+
+function helperMethod() {
+  // does something but does not have access to response
+}
+</code></pre>
+<p>defines a controller which will match any route to <em>home#\<action></em>. <strong>index</strong>
+and <strong>signin</strong> are actions which can be used to render a response to the client.</p>
+<h3 id="localroutes">Local Routes</h3>
+<p>You can define a local routing table directly in the controller.
+Local routes take precidence over global routes. All local routes
+are prefixed with the controller name unless they start with '/'.
+For example, in HomeController the following route:</p>
+<p><code>["get", "data", {action: 'getData', json: true}],</code></p>
+<p>will accept GET requests to /home/data and respond with the json
+object returned by the getData function. If the route is changed to:</p>
+<p><code>["get", "/data", {action: 'getData', json: true}],</code></p>
+<p>it will accept GET requests to /data instead. All local routes are
+implicitly routed to their respective parent controllers.</p>
+<pre><code class="js language-js">export default class UsersController extends nails.Controller {
+  routes = [
+    // Routes requests to /absolute/path
+    ['get', '/absolute/path', {action: 'actionA'}],
+    // Routes requests to /users/relative/path
+    ['get', './relative/path', {action: 'actionB'}],
+    // Routes requests to /users/relative/path
+    ['get', 'relative/path', {action: 'actionB'}],
+    // If no action is provided, the last path segment
+    // is used as the action name.
+    ['get', 'actionC']
+  ]
+
+  // Handles requests to /absolute/path
+  actionA(request, response, params) {}
+
+  // Handles requests to /users/relative/path
+  actionB(request, response, params) {}
+
+  // Handles requests to /users/actionC
+  actionC(request, response, params) {}
+}
+</code></pre>
+<h3 id="actions">Actions</h3>
+<p>Actions are used to define how nails should respond to an incoming request.
+If no action has been defined for a route, nails will default to the index
+action.*</p>
+<p>For example, HomeController#index will attempt to render the view defined in
+//app/views/home/index.jsx</p>
+<p>The view each action searches for will always follow the pattern:
+//app/views/<em>[controller name]</em>/<em>[action name]</em>.jsx</p>
+<p>The file extension may differ based on which template engine you configure.</p>
+<p>Depending on the return value, Nails will pass a different set of parameters to
+the view engine:</p>
+<ul>
+<li><strong>undefined</strong> If there is no return statement in the action, Nails will pass
+the <em>params</em> obect to the rendering engine.</li>
+<li><strong>Object</strong> If a generic object is returned, Nails will attempt to autorender
+the view immediately using the returned object instead of <em>params</em>.**</li>
+<li><strong>Promise</strong> If a promise is returned, Nails will wait to autorender the view
+until the <em>Promise</em> resolves. If it resolves with no return value, the view
+is rendered using <em>params</em>. Otherwise, the view is rendered using the
+resolved value of the <em>Promise</em>**</li>
+</ul>
+<p>*If a response has already been sent to the client, autorender will be skipped.
+**For JSON routes, the returned object will be rendered as stringified JSON.</p>
+<h4 id="params">Params</h4>
+<p>Params is a generic JSON object which represents the request details. Usually,
+Params will correspond to the query portion of your request.</p>
+<p>For example, a GET request to <em>//some/path?item0=a&item1=b</em> will generate the
+params object:</p>
+<pre><code class="js language-js">{
+  item0: "a",
+  item1: "b"
+}
+</code></pre>
+<h4 id="request">Request</h4>
+<p>An <a href="https://expressjs.com/en/5x/api.html#req">express Request object</a>.</p>
+<h4 id="response">Response</h4>
+<p>The response object provided by <em>express.js</em>. The <em>#render()</em> method has been
+overridden to allow for the rendering of views by name.</p>
+<h4 id="jsonactions">JSON Actions</h4>
+<p>JSON actions only return JSON objects in the response instead of text or HTML. These actions are ideal for building an API Server. There are three ways to designate JSON Actions:</p>
+<h5 id="expressresponseobject">Express  Response Object</h5>
+<pre><code class="js language-js">  response.json({your: 'jsonresponse'})
+</code></pre>
+<p>Simply use the express Response object directly</p>
+<h5 id="jsonroutes">JSON Routes</h5>
+<p>You can configure an individual route to respond with JSON by setting the <code>json</code> option to <code>true</code>.</p>
+<pre><code class="js language-js">['get', '/your/json/route', {json: true}],
+</code></pre>
+<h5 id="apicontrollers">API Controllers</h5>
+<p>By setting <code>json</code> to <code>true</code>, all actions in a controller will respond with JSON.</p>
+<pre><code class="js language-js">class YourApiController extends nails.Controller {
+  json = true;
+
+  action(params, request, response) {
+    return {your: 'jsonresponse'};
+  }
+}
+</code></pre>
+<h2 id="model">Model</h2>
+<p>Models are programmatic representations of data you wish to persist in a
+database. The constructor for Model accepts two arguments: the <code>modelName</code> and an
+<code>options</code> object which is passed to the database connector module.</p>
+<h3 id="sequelizemodels">Sequelize Models</h3>
+<p>Sequelize models are subclasses of
+<a href="https://sequelize.org/docs/v6/core-concepts/model-basics/">Sequelize Models</a>, and come with the <code>count()</code>, <code>findAll()</code>,
+and <code>create()</code> methods, to name a few. You can define your own models by
+extending an instance of the <code>Model</code> class provided by Nails:</p>
+<pre><code class="js language-js">// const Model = require("nails-boilerplate").Model;
+import nails from 'nails-boilerplate';
+import {DataTypes} from 'sequelize';
+schema = {
+  name: {type: DataTypes.STRING, allowNull: false},
+  email: {type: DataTypes.STRING, allowNull: false}
+};
+
+options = {
+  indexes: [
+    {
+      unique: true,
+      fields: ['email'],
+    },
+  ],
+};
+
+export default class User extends new Model("User", {schema, options}) {
+  someHelperMethod() {
+    // This method will be available on all instances of User and is
+    // an ideal way to simplify data manipulation.
+  }
+};
+</code></pre>
+<h3 id="mongoosemodels">Mongoose Models</h3>
+<p>Mongoose models are subclasses of
+<a href="https://mongoosejs.com/docs/api/model.html">Mongoose Models</a>, and come with the <code>save()</code>, <code>find()</code>,
+and <code>where()</code> methods, to name a few. You can define your own models by
+extending an instance of the <code>Model</code> class provided by Nails:</p>
+<pre><code class="js language-js">// const Model = require("nails-boilerplate").Model;
+import nails from 'nails-boilerplate';
+const userSchema = {name: String, email: String};
+export default class User extends new Model("User", {schema: userSchema}) {
+  // Define your helper methods here
+};
+</code></pre>
+<p>The <code>schema</code> option for Mongoose Models accepts a schema field that is used
+to define how documents are stored in MongoDB.</p>
+<h3 id="modellibrary">Model Library</h3>
+<p>Nails will store all instantialized models in a single object called <code>MODELS</code>. By accessing these models via the library, you can avoid circular dependencies and ensure all models have been fully initialized.</p>
+<pre><code class="js language-js">class User extends nails.Model("User", {schema, options}) {
+  // A helper method which depends on anoher model using the
+  // Nails Model Library rather than directly importing the model.
+  async findFriends() {
+    return nails.MODELS.Friend.findByUserId(this.id);
+  }
+}
+</code></pre>
+<p>This design pattern is not always necessary, but will help avoid circular dependencies.</p>
+<h3 id="databaseconnectors">Database Connectors</h3>
+<p>Database connectors are intermediaries which define how a Model interacts with
+a database. Database connector modules need to export two methods:</p>
+<ul>
+<li><em>connect(db</em>config)_ uses the db config defined in <em>db.js</em> to connect to
+a database. This function will be called once by Nails.</li>
+<li><em>generateModelSuperclass(name, options)</em> uses the provided Model name and
+options to generate a Model prototype for use as an interface. A Model
+interface is generated for each of your models, allowing them to interact with
+a database. Ideally, interfaces will define save() and find() methods, but
+these methods and their implementations are up to the individual connector.</li>
+</ul>
+<h2 id="view">View</h2>
+<p>Views are dynamic templates used to render an html response for a browser.
+Nails comes prepackaged with EJS templates.
+If no template engine is specified in the service config, Nails will default to
+EJS. Nails will always attempt to autorender your views unless a response has
+already been sent to the client.</p>
+<h3 id="reactfrontendwithvite">React Frontend with Vite</h3>
+<p>This project uses Vite to build the frontend React application. The source files for the React app are located in the <code>src</code> directory. The server is pre-configured to serve the built React application.</p>
+<p>To rebuild the frontend application, you can run the following command:</p>
+<pre><code class="bash language-bash">npm run build
+</code></pre>
+<h2 id="testing">Testing</h2>
+<p>This project uses <a href="https://vitest.dev/">Vitest</a> for running tests. All test files are located in the <code>spec</code> folder. To run the tests, use the following command:</p>
+<pre><code class="bash language-bash">npm test
+</code></pre>
+<p>For more information on how to write tests with Vitest, please refer to the <a href="https://vitest.dev/guide/">official documentation</a>.</p>
+<p>Stay tuned as nails evolves:</p>
+<ul>
+<li>Server/client redirects</li>
+<li>Custom Request middleware</li>
+<li>Fancy Logging</li>
+<li>Sessions</li>
+<li>Server security</li>
+</ul>
+<p>Enjoy! Feature requests, bug reports, and comments are welcome on github.</p>

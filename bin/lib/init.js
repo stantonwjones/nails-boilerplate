@@ -42,7 +42,8 @@ function isNailsApp( originalDir, directory ) {
 }
 
 function createApp( name ) {
-    var templateRoot =  path.resolve(import.meta.dirname, "../../templates");
+    const templateStyle = 'default'
+    var templateRoot =  path.resolve(import.meta.dirname, `../../templates/${templateStyle}`);
     if (!fs.existsSync(name)) fs.mkdirSync(name);
     fs.open(name + '/NAILS','w', 0o666, function(err, fd) {
         if (err) throw err;
