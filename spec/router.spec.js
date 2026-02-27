@@ -1,7 +1,7 @@
 // var express_app = require('../lib/application.js');
-import Router from '../lib/router.js';
+import Router from '../lib/Router.ts';
 import assert from 'assert';
-import express_app from '../lib/application.js';
+import express_app from '../lib/application.ts';
 
 express_app.set("public_root", import.meta.dirname + "/services/integration/public");
 var testRoutes = [
@@ -28,7 +28,7 @@ describe('Router', function() {
             var testFunctionCalled;
             router.on('dispatchTo:application', test);
 
-            function test(action, params, request, response) {
+            function test({action, params, request, response}) {
                 testFunctionCalled = true;
                 assert.equal(action, expectedAction);
                 assert.equal(typeof(params), 'object');
@@ -56,7 +56,7 @@ describe('Router', function() {
             var testFunctionCalled;
             router.on('dispatchTo:test', test);
 
-            function test(action, params, request, response) {
+            function test({action, params, request, response}) {
                 testFunctionCalled = true;
                 assert.equal(action, expectedAction);
                 assert.equal(params._controller, mockParams._controller);
@@ -84,7 +84,7 @@ describe('Router', function() {
             var testFunctionCalled;
             router.on('dispatchTo:test', test);
 
-            function test(action, params, request, response) {
+            function test({action, params, request, response}) {
                 testFunctionCalled = true;
                 assert.equal(action, expectedAction);
                 assert.equal(params._controller, mockQuery._controller);

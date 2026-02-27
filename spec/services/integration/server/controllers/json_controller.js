@@ -1,6 +1,6 @@
-import nails from "../../../../../index.js";
+import {Controller} from "../../../../../index.ts";
 
-export default class JsonController extends nails.Controller {
+export default class JsonController extends Controller {
   testparams(params, request, response) {
     // should just render the params as JSON
   }

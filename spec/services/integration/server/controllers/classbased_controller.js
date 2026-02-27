@@ -1,6 +1,6 @@
-import nails from "../../../../../index.js";
+import nails, {Controller} from "../../../../../index.ts";
     // require("../../../../../index.js").Controller;
-export default class ClassbasedController extends nails.Controller {
+export default class ClassbasedController extends Controller {
   routes = [
     ["get", "./arbi/trary/testLocalRoutes", {action: 'testLocalRoutes', json: true}],
     ["get", "arbi00/trary00/testLocalRoutes", {action: 'testLocalRoutes', json: true}],

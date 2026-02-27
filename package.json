@@ -3,18 +3,22 @@
   "version": "2.0.15",
   "description": "A node.js webserver scaffold",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "bin": {
-    "nails-boilerplate": "bin/lib/nails.js"
+    "nails": "bin/lib/nails.js"
   },
   "scripts": {
     "copyreadme": "node bin/convertreadmetohtml.js",
     "test": "mocha --exit spec",
-    "debug": "mocha --exit debug spec"
+    "debug": "mocha --exit debug spec",
+    "test_init": "bash bin/test/test_init.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/stantonwjones/nails-boilerplate.git"
+    "url": "git+ssh://git@github.com/projectinvicta/nails.git"
   },
   "keywords": [
     "nails",
@@ -25,8 +29,6 @@
     "rails"
   ],
   "dependencies": {
-    "@babel/core": "*",
-    "@babel/preset-react": "*",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "ejs": "*",
@@ -34,17 +36,18 @@
     "express-ws": "*",
     "fs-extra": "^11.3.2",
     "mime": "*",
-    "mongodb": "^4.17.2",
-    "mongodb-memory-server": "^8.16.0",
-    "mongoose": "^6.13.0",
     "react": "*",
     "react-dom": "^16.13.1",
     "sequelize": "^6.37.7",
     "showdown": "^2.1.0",
-    "sqlite3": "^5.1.7",
+    "sqlite3": "^5.0.2",
     "ws": "*"
   },
   "devDependencies": {
+    "@types/cookie-parser": "*",
+    "@types/express": "*",
+    "@types/express-ws": "*",
+    "@types/node": "*",
     "chai": "*",
     "chai-http": "*",
     "mocha": "^10.2.0",

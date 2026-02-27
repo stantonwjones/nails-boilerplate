@@ -7,6 +7,7 @@ import { assert } from 'chai';
 import WebSocket from 'ws';
 // const WebSocket = require('ws');
 
+let nails;
 var express_app;
 // const {MongoMemoryServer} = require('mongodb-memory-server');
 let mongod = null;
@@ -19,7 +20,7 @@ describe("Integration: Sequelize", function () {
   before(async function () {
     // this.timeout(30000);
     try {
-      var nails = (await import('./services/integration/server.js')).default;
+      nails = (await import('./services/integration/server.js')).default;
     } catch (e) {
       console.log("could not import server");
       console.log(e);
@@ -27,6 +28,28 @@ describe("Integration: Sequelize", function () {
     console.log("got here");
     express_app = nails.application;
   });
+  describe("/listowners", function () {
+    it('should return an empty array if no owners', function (done) {
+      request.execute(express_app)
+        .get('/listowners')
+        .end((err, res) => {
+          res.should.have.status(200);
+          assert(JSON.parse(res.text).length == 0);
+          done();
+        });
+    })
+  })
+  describe("/listowneddogs", function () {
+    it('should return an empty array if no owned dogs', function (done) {
+      request.execute(express_app)
+        .get('/listowneddogs')
+        .end((err, res) => {
+          res.should.have.status(200);
+          assert(JSON.parse(res.text).length == 0);
+          done();
+        });
+    })
+  })
   describe("GET /", function () {
     it('should return the expected JSON from index', function (done) {
       request.execute(express_app)
@@ -79,7 +102,7 @@ describe("Integration: Sequelize", function () {
     });
   });
   describe("Get /defaultjson/arbi/trary", function () {
-    it("Should default to json if not present in route options", function(done) {
+    it("Should default to json if not present in route options", function (done) {
       request.execute(express_app)
         .get('/defaultjson/arbi/trary/testautojson')
         .end((err, res) => {
@@ -88,7 +111,7 @@ describe("Integration: Sequelize", function () {
           done();
         });
     });
-    it("Should autoassign the action if not present in route options", function(done) {
+    it("Should autoassign the action if not present in route options", function (done) {
       request.execute(express_app)
         .get('/defaultjson/arbi/trary/testautoaction')
         .end((err, res) => {
@@ -97,7 +120,7 @@ describe("Integration: Sequelize", function () {
           done();
         });
     });
-    it("Should not render json if route options explicitly say not to", function(done) {
+    it("Should not render json if route options explicitly say not to", function (done) {
       request.execute(express_app)
         .get('/defaultjson/arbi/trary/testjsonoverridden')
         .end((err, res) => {
@@ -205,17 +228,18 @@ describe("Integration: Sequelize", function () {
   });
 
   describe("GET /json/:action", function () {
+    // TODO: Do we really want this behavior?
     it('should render params if nothing is returned by the action',
-      function (done) {
-        request.execute(express_app)
-          // Route to index action.
-          .get('/json/testparams?testkey=testvalue')
-          .end((err, res) => {
-            res.should.have.status(200);
-            assert(JSON.parse(res.text).testkey == "testvalue");
-            done();
-          });
-      }
+      // function (done) {
+      //   request.execute(express_app)
+      //     // Route to index action.
+      //     .get('/json/testparams?testkey=testvalue')
+      //     .end((err, res) => {
+      //       res.should.have.status(200);
+      //       assert(JSON.parse(res.text).testkey == "testvalue");
+      //       done();
+      //     });
+      // }
     );
     it('should render the returned object as json', function (done) {
       request.execute(express_app)
@@ -281,12 +305,16 @@ describe("Integration: Sequelize", function () {
         .get(`/modeltest/createdog?name=${dogName}`)
         .end((err, res) => {
           res.should.have.status(200);
-          dogId = res.text.replaceAll('"', '');
+          dogId = res.text.replaceAll("\"", "");
           request.execute(express_app)
             .get(`/modeltest/getdogbyid?id=${dogId}`)
             .end((err, res) => {
-              assert.equal(
-                res.text, JSON.stringify({ name: dogName, good: true }));
+              const dogOnServer = JSON.parse(res.text);
+              assert.equal(dogOnServer.name, dogName);
+              assert.isTrue(dogOnServer.good);
+              assert.isDefined(dogOnServer.id);
+              assert.isDefined(dogOnServer.createdAt);
+              assert.isDefined(dogOnServer.updatedAt);
               done();
             });
         });

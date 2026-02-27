@@ -1,10 +1,10 @@
-import Controller from '../lib/controller.js';
+import Controller from '../lib/Controller.ts';
 import assert from 'assert';
 import sinon from 'sinon';
 import {EventEmitter} from 'node:events';
 
-function TestController() {
-    this.testAction = function () {};
+class TestController extends Controller {
+    testAction() {};
 };
 
 class TestEs6Controller extends Controller {
@@ -34,57 +34,11 @@ describe('Controller', function() {
       sinon.spy(testController, "testEs6Action");
 
       mockRouter.emit(
-        'dispatchTo:testes6', 'testEs6Action', mockParams, mockRequest, mockResponse);
+        'dispatchTo:testes6',
+        {action: 'testEs6Action', params: mockParams, request: mockRequest, response: mockResponse});
 
       assert(testController.testEs6Action.calledWith(
           mockParams, mockRequest, mockResponse));
-    });
-  });
-  describe('Controller.extend', function() {
-    it('should error if an anonymous function is passed', function() {
-      try {
-        let testController = Controller.extend(function(){});
-        assert(false); // Fail if we get here.
-      } catch(e) {
-      }
-    });
-
-    it('should set the appropriate listener on the router',
-        function() {
-      let mockRouter = new EventEmitter();
-      let mockParams = {_controller: "test"};
-      let mockRequest = {};
-      let mockResponse = {headersSent: true};
-      Controller.setRouter(mockRouter);
-      let testController = Controller.extend(TestController);
-      sinon.spy(testController, "testAction");
-
-      mockRouter.emit(
-        'dispatchTo:test', 'testAction', mockParams, mockRequest, mockResponse);
-
-      assert(testController.testAction.calledWith(
-          mockParams, mockRequest, mockResponse));
-    });
-    it('should set itself as the prototype of the passed constructor method',
-      function() {
-        let mockRouter = new EventEmitter();
-        Controller.setRouter(mockRouter);
-        let testController = Controller.extend(TestController);
-        assert(testController instanceof Controller);
-      }
-    );
-    it('should return an initialized instance of the constructor', function() {
-      let mockRouter = new EventEmitter();
-      Controller.setRouter(mockRouter);
-      let testController = Controller.extend(TestController);
-      assert(testController instanceof TestController);
-    });
-    it('should raise an error if no router has been set', function() {
-      try {
-        let testController = Controller.extend(TestController);
-        assert(false); // Fail if we get here.
-      } catch (expectedError) {
-      }
     });
   });
   describe('#_do', function() {

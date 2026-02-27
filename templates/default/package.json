@@ -22,17 +22,23 @@
             "version": "latest"
         }
     },
+    "imports": {
+      "#models/*": "./server/models/*",
+      "#common/*": "./common/*",
+      "#config/*": "./config/*"
+    },
     "dependencies": {
+        "@projectinvicta/nails": "*",
         "@mui/icons-material": "^7.3.1",
         "@mui/material": "^7.3.1",
         "@vitejs/plugin-legacy": "^6.1.1",
         "@vitejs/plugin-react": "^4.7.0",
-        "nails-boilerplate": ">=1.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "react-router-dom": "^7.7.0",
         "sequelize": "^6.37.7",
-        "vite": "^6.3.5"
+        "vite": "^6.3.5",
+        "chai-http": "*"
     },
     "devDependencies": {
         "@emotion/react": "^11.14.0",

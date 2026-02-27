@@ -1,23 +1,22 @@
 // Initializes application before server starts
 // Each of these is REQUIRED
-
 import routes from './routes.js';
 import mimes from './mimes.js';
-import db from './db.ts';
+import db from './db.js';
 
-var SERVER_ROOT = import.meta.dirname + '/..';
-var APP_ROOT = SERVER_ROOT + '/server';
+import path from 'node:path';
+var SERVER_ROOT = path.resolve(import.meta.dirname, '..');
+var APP_ROOT = path.resolve(SERVER_ROOT, 'server');
 
 // Only for reading the certificates for SSL
 import fs from 'node:fs';
-// const fs = require('fs');
 const PRIVATE_KEY_FILE = fs.readFileSync(`${import.meta.dirname}/ssl/key.pem`);
 const CERTIFICATE_FILE = fs.readFileSync(`${import.meta.dirname}/ssl/certificate.pem`);
 
 var service = {
   APP_ROOT: APP_ROOT,
   // root directory for delivering static assets
-  PUBLIC_ROOT: SERVER_ROOT + '/client',
+  PUBLIC_ROOT: SERVER_ROOT + '/public',
   CONTROLLERS_ROOT: APP_ROOT + '/controllers',
   VIEWS_ROOT: APP_ROOT + '/views',
   MODELS_ROOT: APP_ROOT + '/models',
@@ -27,22 +26,20 @@ var service = {
   //IP: "0.0.0.0",
   PORT: 3333,
 
-  ASYNC: false,
+  // Uncomment these to use serverside react view engine.
+  //VIEW_ENGINE: require('express-react-views').createEngine(),
+  //VIEW_ENGINE_EXT: 'jsx',
 
   // For HTTPS
-  ENABLE_HTTPS: false,
-  // SSL_PORT: 3334,
-  // PRIVATE_KEY: PRIVATE_KEY_FILE,
-  // CERTIFICATE: CERTIFICATE_FILE,
+  ENABLE_HTTPS: true,
+  SSL_PORT: 3334,
+  PRIVATE_KEY: PRIVATE_KEY_FILE,
+  CERTIFICATE: CERTIFICATE_FILE,
 };
-
-// module.exports.routes = require('./routes.js');
-// module.exports.mimes = require('./mimes.js');
-// module.exports.db = require('./db.js');
 
 export default {
   service,
   routes,
-  db,
   mimes,
+  db
 }

@@ -1,33 +1,34 @@
-# Nails-Boilerplate: A Node Webservice Framework
+# Nails: A Node Webservice Framework
 
-This framework is designed to provide a lightweight, configurable MVC backend
-for node developers.  With minimal dependencies, Nails offers a greater
-syntactical familiarity than php alongside the creative freedom of well developed
-server framework solutions like Rails and Django.
+Nails is a lightweight, configurable MVC-inspired backend framework for Node.js. With minimal dependencies, Nails offers a familiar syntax for developers coming from frameworks like Ruby on Rails or Django, while providing the flexibility of JavaScript.
 
-This boilerplate offers the basic necessities to get your MVC site off the ground.
-The modules used in Nails Boilerplate can be easily extended to produce the custom
-functionality to fit your needs, and you are encouraged to do so.
+Nails provides the essential building blocks to get your MVC-style application up and running quickly. The modules used in Nails can be easily extended to produce the custom functionality to fit your needs, and you are encouraged to do so.
 
-## Install
+## Getting Started
 
+There are two recommended ways to get started with Nails.
+
+### Using NPX (Recommended)
+You can create a new Nails project without a global installation using `npx`:
+
+```bash
+npx @projectinvicta/nails init <app_name>
 ```
-sudo npm install -g nails-boilerplate
+
+### Using Global Install
+Alternatively, you can install the package globally:
+
+```bash
+npm install -g @projectinvicta/nails
 
 nails init <app_name>
 ```
 
-This will initialize a barebones app in the directory of the same name.  Take a
-look at the self-documented config files and example controller and view before
-getting started.  Additional controllers and views will automatically be imported
-into nails.  Now just hook the new controllers in with some new routes and you're
-off to a good start.
+After initializing your app, navigate into the new directory and start the server:
 
-```
-cd app_name
-
+```bash
+cd <app_name>
 npm install
-
 npm start
 ```
 
@@ -36,14 +37,14 @@ npm start
 For your convenience, here is a quick outline of the main components of a nails service.
 Remember: each object comes with an example file to use for reference when building your service.
 
-### Config
-Your configuration files are stored in app_name/config/. There are three default config files:
+### Named Exports
+`nails` now provides a number of useful named exports. You can import them as follows:
+```js
+import Nails, { Controller, Model, DataTypes, /* config types */ } from '@projectinvicta/nails';
+```
 
-```
-service.js
-routes.js
-db.js
-```
+### Config
+Your configuration files are stored in app_name/config/.
 
 Each default config file is annotated with comments documenting each field to
 help you tailor your service to your needs.
@@ -65,7 +66,7 @@ fields. The resulting config will be available to your service through the nails
 module:
 
 ```js
-import nails from 'nails-boilerplate';
+import Nails from '@projectinvicta/nails';
 
 const service_config = nails.config
 ```
@@ -85,7 +86,7 @@ then `service_config.yourCustomField` as defined above will be equal to
 
 #### routes.js
 *routes.js* is a list defining mappings from a url path to a *Controller* and
-*Action*. Each entry in the list is an array with three elements:
+*Action*. Routes are now strongly typed (see `lib/config.ts` and `lib/Router.ts`). Each entry in the list is an array with three elements:
 `[method, path, options]`
 
 **method** is a string defining the HTTP request method of the route. Supported
@@ -134,15 +135,9 @@ parameters work.
 
 #### db.js
 
-Quickly configure your database connection here. Nails comes pre-configured to
-use the sequelize connector, giving your models sequelize support. The initial setup
-uses a *sqlite3* database file `config/development.db` and an in-memory database in the test environment. Change the address to change the location and
-version of your desired sql database. Check out [Sequelize](https://sequelize.org)
-for more info.
-
-Alternatively, you can configure a connection to MongoDB using the mongoose_connector.js.
-If enabled, models will accept [Mongoose](https://mongoosejs.com/docs/) schemas and will
-be backed by the desired MongoDB. Consider using the in-memory DB during development.
+Quickly configure your database connection here. The initial setup uses a *sqlite3* database file `config/development.db`
+and an in-memory database in the test environment. Change the address to change the location and
+version of your desired sql database. Check out [Sequelize](https://sequelize.org) for more info.
 
 ## Controller
 
@@ -153,10 +148,9 @@ actions, receiving **params**, **request**, and **response** as arguments.
 
 For Example:
 ``` js
-// const Controller = requre("nails-boilerplate").Controller
-import nails from 'nails-boilerplate';
+import { Controller } from '@projectinvicta/nails';
 
-class HomeController extends nails.Controller {
+class HomeController extends Controller {
   index(params, request, response) {
     // default action
   }
@@ -193,7 +187,9 @@ it will accept GET requests to /data instead. All local routes are
 implicitly routed to their respective parent controllers.
 
 ```js
-export default class UsersController extends nails.Controller {
+import { Controller } from '@projectinvicta/nails';
+
+export default class UsersController extends Controller {
   routes = [
     // Routes requests to /absolute/path
     ['get', '/absolute/path', {action: 'actionA'}],
@@ -280,12 +276,15 @@ You can configure an individual route to respond with JSON by setting the `json`
 ```
 
 ##### API Controllers
-By setting `json` to `true`, all actions in a controller will respond with JSON.
+By setting `json` to `true`, all actions in a controller will respond with JSON by default.
+This can be overridden for individual routes by setting `{json: false}` in the route options.
 
 ```js
-class YourApiController extends nails.Controller {
+import { Controller } from '@projectinvicta/nails';
+
+class YourApiController extends Controller {
   json = true;
-  
+
   action(params, request, response) {
     return {your: 'jsonresponse'};
   }
@@ -294,27 +293,28 @@ class YourApiController extends nails.Controller {
 
 ## Model
 
-Models are programmatic representations of data you wish to persist in a
-database. The constructor for Model accepts two arguments: the `modelName` and an
-`options` object which is passed to the database connector module.
+Models are programmatic representations of data you wish to persist in a database. Nails connects to
+your database of choice using the Sequelize ORM.
 
 ### Sequelize Models
 
 Sequelize models are subclasses of
 [Sequelize Models][sequelize_model_docs], and come with the `count()`, `findAll()`,
 and `create()` methods, to name a few. You can define your own models by
-extending an instance of the `Model` class provided by Nails:
+extending an instance of the `Model` class provided by Nails. Model files must export the Model subclass as a default export and a named `schema` export.
+They can also export an `options` object to provide ModelInitializationOptions as well as `defer`, `finalize`, and `migrate` functions.
 
 ```js
-// const Model = require("nails-boilerplate").Model;
-import nails from 'nails-boilerplate';
-import {DataTypes} from 'sequelize';
-schema = {
+import { Model, DataTypes } from '@projectinvicta/nails';
+
+// REQUIRED
+export const schema = {
   name: {type: DataTypes.STRING, allowNull: false},
   email: {type: DataTypes.STRING, allowNull: false}
 };
 
-options = {
+// Optional
+export const options = {
   indexes: [
     {
       unique: true,
@@ -323,38 +323,37 @@ options = {
   ],
 };
 
-export default class User extends new Model("User", {schema, options}) {
+// REQUIRED
+export default class User extends Model {
   someHelperMethod() {
     // This method will be available on all instances of User and is
     // an ideal way to simplify data manipulation.
   }
 };
 
+// Optional
+export async function defer(models) {
+  // define associations here
+}
+
+// Optional
+export async function finalize(models) {
+  // any final model setup
+}
+
+// Optional
+export async function migrate(queryInterface) {
+  // migration logic
+}
 ```
-
-### Mongoose Models
-Mongoose models are subclasses of
-[Mongoose Models][mongoose_model_docs], and come with the `save()`, `find()`,
-and `where()` methods, to name a few. You can define your own models by
-extending an instance of the `Model` class provided by Nails:
-
-``` js
-// const Model = require("nails-boilerplate").Model;
-import nails from 'nails-boilerplate';
-const userSchema = {name: String, email: String};
-export default class User extends new Model("User", {schema: userSchema}) {
-  // Define your helper methods here
-};
-```
-
-The `schema` option for Mongoose Models accepts a schema field that is used
-to define how documents are stored in MongoDB.
 
 ### Model Library
 Nails will store all instantialized models in a single object called `MODELS`. By accessing these models via the library, you can avoid circular dependencies and ensure all models have been fully initialized.
 
 ```js
-class User extends nails.Model("User", {schema, options}) {
+import Nails, { Model } from '@projectinvicta/nails';
+// ...
+class User extends Model {
   // A helper method which depends on anoher model using the
   // Nails Model Library rather than directly importing the model.
   async findFriends() {
@@ -363,18 +362,6 @@ class User extends nails.Model("User", {schema, options}) {
 }
 ```
 This design pattern is not always necessary, but will help avoid circular dependencies.
-
-### Database Connectors
-
-Database connectors are intermediaries which define how a Model interacts with
-a database. Database connector modules need to export two methods:
-* _connect(db_config)_ uses the db config defined in *db.js* to connect to
-  a database. This function will be called once by Nails.
-* _generateModelSuperclass(name, options)_ uses the provided Model name and
-  options to generate a Model prototype for use as an interface. A Model
-  interface is generated for each of your models, allowing them to interact with
-  a database. Ideally, interfaces will define save() and find() methods, but
-  these methods and their implementations are up to the individual connector.
 
 ## View
 Views are dynamic templates used to render an html response for a browser.
@@ -415,5 +402,4 @@ Enjoy! Feature requests, bug reports, and comments are welcome on github.
 
 [express_routing_docs]: https://expressjs.com/en/guide/routing.html
 [express_request_docs]: https://expressjs.com/en/5x/api.html#req
-[mongoose_model_docs]: https://mongoosejs.com/docs/api/model.html
 [sequelize_model_docs]: https://sequelize.org/docs/v6/core-concepts/model-basics/

@@ -1,6 +1,6 @@
-import nails from "nails-boilerplate";
+import {Controller} from "@projectinvicta/nails";
 
-export default class HomeController extends nails.Controller {
+export default class HomeController extends Controller {
   /**
    * You can define a local routing table directly in the controller.
    * Local routes take precidence over global routes. All local routes

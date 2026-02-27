@@ -1,6 +1,6 @@
-import nails from "../../../../../index.js";
+import nails, {Controller} from "../../../../../index.ts";
 
-export default class ErrorController extends nails.Controller {
+export default class ErrorController extends Controller {
   // DO NOT OVERRIDE CONSTRUCTOR
   index(params, request, response) {
     response.json({

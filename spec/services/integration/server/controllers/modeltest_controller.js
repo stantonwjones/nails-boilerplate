@@ -1,18 +1,15 @@
-import nails from "../../../../../index.js";
+import nails from "../../../../../index.ts";
 import Dog from "../models/dog.js";
 
 export default class ModeltestController extends nails.Controller {
   async createdog(params, request, response) {
-    let dog = new Dog({good: true, name: params.name});
-    await dog.save();
-    return dog._id.toString();
+    let dog = await Dog.create({good: true, name: params.name});
+    console.log("CREATED DOG ID:", dog.id);
+    return dog.id.toString();
   }
 
   async getdogbyid(params, request, response) {
-    let dog = await Dog.findById(params.id);
-    return {
-      name: dog.name,
-      good: dog.good
-    };
+    console.error("DOG ID IS:", params.id);
+    return await Dog.findByPk(params.id);
   }
 }

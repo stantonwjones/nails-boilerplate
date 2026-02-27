@@ -1,4 +1,4 @@
-import {Model, DataTypes} from '../../../../../index.ts';
+import {Model, DataTypes} from "@projectinvicta/nails";
 
 export const schema = {
   good: DataTypes.BOOLEAN,

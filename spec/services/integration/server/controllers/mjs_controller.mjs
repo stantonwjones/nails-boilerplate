@@ -1,9 +1,5 @@
-/*
-const Controller =
-    require("../../../../../index.js").Controller;
-    */
-import nails from "../../../../../index.js";
-export default class MjsController extends nails.Controller {
+import {Controller} from "../../../../../index.ts";
+export default class MjsController extends Controller {
   // DO NOT OVERRIDE CONSTRUCTOR
   index(params, request, response) {
     response.json({

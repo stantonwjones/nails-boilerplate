@@ -1,4 +1,4 @@
-import nails from 'nails-boilerplate';
+import Nails from "@projectinvicta/nails";
 // import chai from 'chai';
 import {default as chaiHttp, request} from 'chai-http';
 import service_config from '../config/service.js';
@@ -8,8 +8,8 @@ let express_app;
 
 beforeAll(async () => {
   // Initialize the application and start the server
-  (await nails( service_config )).startServer();
-  express_app = nails.application;
+  await new Nails( service_config ).startServer();
+  express_app = Nails.application;
   chai.use(chaiHttp);
   chai.should();
 })
