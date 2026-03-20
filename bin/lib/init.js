@@ -3,14 +3,10 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import {copySync} from 'fs-extra/esm';
-import {exec} from 'child_process';
-// var exec = require('child_process').exec;
 var args = process.argv.slice(2);
 
 var appName = args[0];
 var originalDir = process.cwd();
-var lastDir;
-var notRoot = true;
 
 // Make sure an app name was passed
 if ( !appName ) {

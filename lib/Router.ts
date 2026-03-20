@@ -85,7 +85,7 @@ class NailsRouter extends EventEmitter {
     console.log('the action is:', controller, action, params);
     console.log('the params are:', params);
     console.log('ws router emitting:', 'dispatchTo:' + controller);
-    this.emit('dispatchTo:' + controller, action, params, request, null, ws);
+    this.emit('dispatchTo:' + controller, {action, params, request, ws});
 
     if (!(request as any).handled_by_controller) {
       params.error = { message: 'controller ' + controller + ' does not exist' };

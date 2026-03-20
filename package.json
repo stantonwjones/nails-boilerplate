@@ -12,8 +12,8 @@
   },
   "scripts": {
     "copyreadme": "node bin/convertreadmetohtml.js",
-    "test": "mocha --exit spec",
-    "debug": "mocha --exit debug spec",
+    "test": "vitest run ./tests",
+    "debug": "vitest --inspect-brk run ./tests",
     "test_init": "bash bin/test/test_init.sh"
   },
   "repository": {
@@ -48,10 +48,9 @@
     "@types/express": "*",
     "@types/express-ws": "*",
     "@types/node": "*",
-    "chai": "*",
     "chai-http": "*",
-    "mocha": "^10.2.0",
-    "sinon": "*"
+    "vite": "^8.0.1",
+    "vitest": "^4.1.0"
   },
   "config": {
     "mongodbMemoryServer": {
