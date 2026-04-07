@@ -97,7 +97,7 @@ export default class Nails {
 
   async initializeModels() {
     await this.loadModels(this.config.service.MODELS_ROOT);
-    await Promise.all(this.modelFinalizations);
+    await Promise.all(this.modelFinalizations.map((finalization) => finalization()));
     await this.sequelize.sync();
   }
 
@@ -174,7 +174,9 @@ export default class Nails {
     const schema = modelModule.schema;
     const options = modelModule.options;
     const defer = modelModule.defer as (() => Promise<void>) | undefined;
-    this.modelFinalizations.push(modelModule.finalize as () => Promise<void>);
+    if (modelModule.finalize) {
+      this.modelFinalizations.push(modelModule.finalize as () => Promise<void>);
+    }
     this.modelMigrations.push(modelModule.migrate as () => Promise<void>);
 
     modelClass.init(schema, { sequelize: this.sequelize, ...options });

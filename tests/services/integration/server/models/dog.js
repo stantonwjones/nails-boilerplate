@@ -1,4 +1,5 @@
 import {Model, DataTypes} from '../../../../../index.ts';
+import Owner from './owner.js';
 
 export const schema = {
   good: DataTypes.BOOLEAN,
@@ -6,3 +7,8 @@ export const schema = {
 };
 
 export default class Dog extends Model {};
+
+export async function finalize() {
+  Dog.belongsTo(Owner);
+  await Dog.sync({alter: {drop: false}});
+}
