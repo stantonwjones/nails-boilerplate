@@ -9,5 +9,4 @@ export default class Owner extends Model {};
 
 export async function defer() {
   Owner.hasMany(Dog);
-  await Dog.sync({alter: {drop: false}});
 }

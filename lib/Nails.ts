@@ -98,7 +98,8 @@ export default class Nails {
   async initializeModels() {
     await this.loadModels(this.config.service.MODELS_ROOT);
     await Promise.all(this.modelFinalizations.map((finalization) => finalization()));
-    await this.sequelize.sync();
+    // TODO: Implement a migration strategy
+    await this.sequelize.sync({alter: {drop: false}});
   }
 
   async startServer() {

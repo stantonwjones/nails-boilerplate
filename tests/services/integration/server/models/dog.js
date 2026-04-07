@@ -10,5 +10,4 @@ export default class Dog extends Model {};
 
 export async function finalize() {
   Dog.belongsTo(Owner);
-  await Dog.sync({alter: {drop: false}});
 }
