@@ -175,8 +175,12 @@ export default class Nails {
     const schema = modelModule.schema;
     const options = modelModule.options;
     const defer = modelModule.defer as (() => Promise<void>) | undefined;
+    const afterInitialize = modelModule.afterInitialize as (() => Promise<void>) | undefined;
     if (modelModule.finalize) {
       this.modelFinalizations.push(modelModule.finalize as () => Promise<void>);
+    }
+    if (modelModule.afterInitializeAll) {
+      this.modelFinalizations.push(modelModule.afterInitializeAll as () => Promise<void>);
     }
     this.modelMigrations.push(modelModule.migrate as () => Promise<void>);
 
@@ -185,6 +189,9 @@ export default class Nails {
       console.log('imported model:', modelClass.name);
       if (defer) {
         await defer();
+      }
+      if (afterInitialize) {
+        await afterInitialize();
       }
       await modelClass.sync();
     }
