@@ -1,5 +1,5 @@
 import {Controller} from "@projectinvicta/nails";
-import User from "../models/User";
+import User from "../models/User.ts";
 
 export default class UsersController extends Controller {
   /**

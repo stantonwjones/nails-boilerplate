@@ -1,6 +1,6 @@
-import nails from 'nails-boilerplate';
+import Nails from '@projectinvicta/nails';
 
-// See self-documented config files
-import service_config from '../config/service.js';
+import service_config from '../config/service.ts';
 
-(await nails( service_config )).startServer();
+const nails = new Nails(service_config);
+await nails.startServer();
