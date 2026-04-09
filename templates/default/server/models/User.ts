@@ -9,6 +9,10 @@ export const schema = {
 
 export default class User extends Model {};
 
-export async function defer() {
+export async function afterInitialize() {
+  // Add hooks here
+}
+
+export async function afterInitializeAll() {
   await User.hasMany(Dog);
 }

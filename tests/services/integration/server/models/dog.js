@@ -8,6 +8,6 @@ export const schema = {
 
 export default class Dog extends Model {};
 
-export async function finalize() {
+export async function afterInitializeAll() {
   Dog.belongsTo(Owner);
 }

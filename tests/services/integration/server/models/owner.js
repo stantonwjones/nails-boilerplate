@@ -7,6 +7,6 @@ export const schema = {
 };
 export default class Owner extends Model {};
 
-export async function defer() {
+export async function afterInitializeAll() {
   Owner.hasMany(Dog);
 }
