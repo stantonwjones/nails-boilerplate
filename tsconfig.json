@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    /* Base Options */
+    "target": "ES2022",                // High target to keep modern syntax (async/await, etc.)
+    "module": "NodeNext",              // Best for modern Node.js ESM/CJS compatibility
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    
+    /* Output */
+    "outDir": "./dist",                // Where the JS goes
+    "rootDir": "./lib",                // Where your TS lives
+    "declaration": true,               // Generates .d.ts files (essential for libraries)
+    "sourceMap": true,                 // Helps with debugging the original TS
+    "removeComments": false,           // Keeping comments is usually better for library users
+    
+    /* Strictness & Safety */
+    "strict": true,                    // Recommended to ensure your types are actually valid
+    "esModuleInterop": true,           // Ensures compatibility with older packages
+    "skipLibCheck": true,              // Speeds up build by not checking node_modules
+    "forceConsistentCasingInFileNames": true,
+
+    /* Emit Behavior */
+    "emitDeclarationOnly": false,      // We want both JS and type definitions
+    "isolatedModules": true            // Ensures each file can be safely transpiled independently
+  },
+  "include": ["lib/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
+}
