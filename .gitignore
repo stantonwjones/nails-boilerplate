@@ -7,5 +7,5 @@ npm-debug.log
 /.idea
 .DS_Store
 *.sublime*
-dist
+templates/**/dist
 .idx

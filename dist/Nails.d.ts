@@ -1,0 +1,35 @@
+import https, { type Server as HttpsServer } from 'node:https';
+import { type Server as HttpServer } from 'node:http';
+import { type Application } from 'express-ws';
+import { Model, Sequelize } from 'sequelize';
+import Router from './Router.js';
+import { type Config } from './config.ts';
+import Controller from './Controller.js';
+export default class Nails {
+    static Controller: typeof Controller;
+    private static instance;
+    static get sequelize(): Sequelize;
+    static get initialized(): Promise<void>;
+    static get config(): Config;
+    static get application(): Application;
+    static get httpServer(): HttpServer<typeof import("http").IncomingMessage, typeof import("http").ServerResponse>;
+    static get httpsServer(): https.Server<typeof import("http").IncomingMessage, typeof import("http").ServerResponse>;
+    ready: Promise<boolean>;
+    config: Config;
+    application: Application;
+    Controller: typeof Controller;
+    sequelize: Sequelize;
+    initialized: Promise<void>;
+    router: Router;
+    Model: Model;
+    httpServer: HttpServer;
+    httpsServer: HttpsServer;
+    private modelFinalizations;
+    private modelMigrations;
+    constructor(appConfig: Config);
+    configure(): Promise<void>;
+    initializeModels(): Promise<void>;
+    startServer(): Promise<void>;
+    loadModels(absolutePath: string): Promise<void>;
+    private initializeControllers;
+}
