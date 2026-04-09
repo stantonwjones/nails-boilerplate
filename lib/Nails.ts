@@ -6,11 +6,11 @@ import {type Server as HttpServer} from 'node:http';
 
 import { type Application } from 'express-ws';
 import { type InitOptions, Model, Sequelize, type ModelAttributes, type ModelStatic } from 'sequelize';
-import expressApp from './application.ts';
-import Router from './Router.ts';
+import expressApp from './application.js';
+import Router from './Router.js';
 
 import { type Config } from './config.ts';
-import Controller from './Controller.ts';
+import Controller from './Controller.js';
 
 export default class Nails {
   static Controller = Controller;

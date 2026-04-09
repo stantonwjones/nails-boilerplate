@@ -1,4 +1,4 @@
-import {Controller} from "../../../../../index.ts";
+import {Controller} from "../../../../../index.js";
 
 export default class JsonController extends Controller {
   testparams(params, request, response) {

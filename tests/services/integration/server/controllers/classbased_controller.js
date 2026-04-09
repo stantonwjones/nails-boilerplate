@@ -1,4 +1,4 @@
-import nails, {Controller} from "../../../../../index.ts";
+import {Controller} from "../../../../../index.js";
     // require("../../../../../index.js").Controller;
 export default class ClassbasedController extends Controller {
   routes = [

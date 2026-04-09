@@ -1,7 +1,7 @@
-import nails from "../../../../../index.ts";
+import {Controller} from "../../../../../index.js";
 import Dog from "../models/dog.js";
 
-export default class ModeltestController extends nails.Controller {
+export default class ModeltestController extends Controller {
   async createdog(params, request, response) {
     let dog = await Dog.create({good: true, name: params.name});
     console.log("CREATED DOG ID:", dog.id);

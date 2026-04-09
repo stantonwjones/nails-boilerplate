@@ -1,4 +1,4 @@
-import {Model, DataTypes} from '../../../../../index.ts';
+import {Model, DataTypes} from '../../../../../index.js';
 import Owner from './owner.js';
 
 export const schema = {

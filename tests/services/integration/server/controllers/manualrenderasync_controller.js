@@ -1,4 +1,4 @@
-import {Controller} from "../../../../../index.ts";
+import {Controller} from "../../../../../index.js";
 export default class ManualRenderAsyncController extends Controller {
   testmanualrenderasync(params, request, response) {
     return new Promise((resolve, reject) => {

@@ -1,4 +1,4 @@
-import {Model} from '../../../../../index.ts';
+import {Model} from '../../../../../index.js';
 import { DataTypes } from 'sequelize';
 import Dog from './dog.js';
 

@@ -1,4 +1,4 @@
-import nails, {Controller} from "../../../../../index.ts";
+import {Controller} from "../../../../../index.js";
 
 export default class ErrorController extends Controller {
   // DO NOT OVERRIDE CONSTRUCTOR

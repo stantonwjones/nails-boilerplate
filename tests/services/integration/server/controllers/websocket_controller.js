@@ -1,6 +1,6 @@
-import nails from "../../../../../index.ts";
+import Nails from "../../../../../index.js";
 
-export default class WebsocketController extends nails.Controller {
+export default class WebsocketController extends Nails.Controller {
   index(params, ws, request) {
     ws.send("It worked");
     ws.close();

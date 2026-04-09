@@ -3,7 +3,7 @@
   "version": "3.0.6",
   "description": "A node.js webserver scaffold",
   "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "engines": {
     "node": ">=24.0.0"
   },
@@ -14,7 +14,8 @@
     "copyreadme": "node bin/convertreadmetohtml.js",
     "test": "vitest run ./tests",
     "debug": "vitest --inspect-brk run ./tests",
-    "test_init": "bash bin/test/test_init.sh"
+    "test_init": "bash bin/test/test_init.sh",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -49,13 +50,12 @@
     "@types/express-ws": "*",
     "@types/node": "*",
     "chai-http": "*",
+    "typescript": "^6.0.2",
     "vite": "^8.0.1",
     "vitest": "^4.1.0"
   },
-  "config": {
-    "mongodbMemoryServer": {
-      "version": "latest"
-    }
+  "imports": {
+    "#nails": "./dist/nails.js"
   },
   "author": "Stanton W. Jones",
   "license": "MIT"

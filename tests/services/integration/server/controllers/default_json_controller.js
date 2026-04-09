@@ -1,4 +1,4 @@
-import { Controller } from "../../../../../index.ts";
+import { Controller } from "../../../../../index.js";
 import Dog from "../models/dog.js";
 import Owner from "../models/owner.js";
 

@@ -1,4 +1,4 @@
-import Nails from '../../../index.ts';
+import Nails from '../../../index.js';
 import service_config from './config/service.js';
 
 // See self-documented config files

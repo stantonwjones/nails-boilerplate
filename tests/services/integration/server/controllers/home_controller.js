@@ -1,4 +1,4 @@
-import { Controller } from "../../../../../index.ts";
+import { Controller } from "../../../../../index.js";
 
 export default class HomeController extends Controller {
   index(params, request, response) {
