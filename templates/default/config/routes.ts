@@ -1,6 +1,4 @@
-import { type RoutesConfig } from '@projectinvicta/nails';
-
-const routes: RoutesConfig = [
+const routes = [
 	// Routes the root request to index.html, as well as all other requests to static
   ['get', "/", {controller: 'home'}],
   // Routes all requests starting with /public as static requests to the public folder.

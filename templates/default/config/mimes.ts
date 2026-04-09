@@ -1,6 +1,4 @@
-import { type MimesConfig } from '@projectinvicta/nails';
-
-const mimes: MimesConfig = {
+const mimes = {
     html: {
         type: 'page',
         contentType: 'text/html'
