@@ -3,7 +3,7 @@ import {type WebSocket} from "ws";
 import express, {type NextFunction, type Request, type Response} from 'express';
 import expressWs, {type Router as WsRouter, type Application as WsApplication, type WebsocketRequestHandler} from 'express-ws';
 import app, {expressRouter, ExpressRouter, expressStatic} from './application.js';
-import { type RouteDefinition, type RouteOptions } from './config.js';
+import { type RouteDefinition, type RouteOptions } from './types.js';
 
 interface ExpressWsType {
     app: any;
@@ -33,7 +33,7 @@ class NailsRouter extends EventEmitter {
 
   private application: WsApplication = app; // TODO: Type this more specifically if application.js is also converted to TS
   public expressRouter: WsRouter = expressRouter; // express-ws adds a ws method
-  public routes: any[]; // TODO: Type this more specifically
+  public routes: any[] = []; // TODO: Type this more specifically
 
   constructor(routes: RouteDefinition[]) { // TODO: Type routes more specifically
     super();
@@ -63,7 +63,7 @@ class NailsRouter extends EventEmitter {
         expressStatic(this.application.get('public_root'))
       );
     } else {
-      this.expressRouter[method](
+      (this.expressRouter[method as keyof typeof this.expressRouter] as (matcher: any, handler: any) => void )(
         path_matcher,
         this.get_express_route_handler(consequences)
       );

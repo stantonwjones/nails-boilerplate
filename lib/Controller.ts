@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 import { type WebSocket } from 'ws';
-import { type RouteOptions, type RouteDefinition, type ControllerDoRouteParams } from './config.ts'; // Assuming RouteDefinition is exported from Config.ts
+import { type RouteOptions, type RouteDefinition, type ControllerDoRouteParams } from './types.js'; // Assuming RouteDefinition is exported from Config.ts
 
 // Define a basic Router interface based on its usage
 interface Router {
@@ -21,40 +21,76 @@ const NAME_REQUIRED_ERROR = (): Error => {
 
 const DISABLE_AUTORENDER = new (class DisableAutorender {});
 
-// The base controller definition
+/**
+ * The base controller definition.
+ */
 class Controller {
-  // Static properties
-  static router: Router; // Static reference to the router
-  static models: Record<string, any>; // Static reference to models, assuming key-value pairs
+  /**
+   * Static reference to the router.
+   */
+  static router: Router;
+  /**
+   * Static reference to models, assuming key-value pairs.
+   */
+  static models: Record<string, any>;
 
+  /**
+   * Returns an instance of `DISABLE_AUTORENDER` to prevent automatic rendering.
+   * @returns {DisableAutorender} An instance of `DisableAutorender`.
+   */
   static get DISABLE_AUTORENDER(): typeof DISABLE_AUTORENDER {
     return DISABLE_AUTORENDER;
   }
 
+  /**
+   * Sets the router singleton for the Controller.
+   * @param {Router} router_singleton - The router instance to be used.
+   */
   static setRouter(router_singleton: Router): void {
     Controller.router = router = router_singleton;
   }
 
+  /**
+   * Sets the models object for the Controller prototype.
+   * @param {Record<string, any>} models - An object containing key-value pairs of models.
+   */
   static setModels(models: Record<string, any>): void {
     Controller.prototype.models = models;
   }
 
-  // Instance properties
-  models: Record<string, any>; // This will be assigned via Controller.setModels
-  routes: RouteDefinition[]; // Assuming routes are defined on subclasses
-  json: boolean;
+  /** @type {Record<string, any>} */
+  models: Record<string, any> = {};
 
+  /** @type {RouteDefinition[]} */
+  routes: RouteDefinition[] = [];
+
+  /**
+   * Flag indicating if the controller should default to JSON responses.
+   * 
+   * @type {boolean}
+   */
+  json: boolean = false;
+
+  /**
+   * Creates an instance of Controller.
+   */
   constructor() {
     const controllerName = this._getControllerName();
     router.removeAllListeners('dispatchTo:' + controllerName);
     router.on('dispatchTo:' + controllerName, this._do.bind(this));
   }
 
+  /**
+   * Gets the lowercased controller name without the 'Controller' suffix.
+   * @returns {string} The formatted controller name.
+   */
   _getControllerName(): string {
     return this.constructor.name.toLowerCase().replace(/controller$/, '');
   }
 
-  /** Initializes local and global routes defined on the Controller subclass */
+  /**
+   * Initializes local and global routes defined on the Controller subclass.
+   */
   _registerControllerRoutes(): void {
     // `this.json` is not explicitly defined on Controller, but expected on subclasses
     // assuming it's a boolean or undefined
@@ -191,7 +227,7 @@ class Controller {
 
 const error_codes = [404, 500];
 error_codes.forEach((ec) => {
-  Controller.prototype[ec] = function (params: Record<string, any>, request: Request, response: Response): void {
+  (Controller.prototype as any)[ec] = function (params: Record<string, any>, request: Request, response: Response): void {
     //this._render('404');
     console.error(ec.toString() + ' error with params', params);
     const error = params['error'] || {};
@@ -201,7 +237,7 @@ error_codes.forEach((ec) => {
     response.statusCode = ec;
     response.end(message + '\n\n' + stack_trace);
   };
-  (Controller.prototype as any)[ec.toString()] = Controller.prototype[ec];
+  (Controller.prototype as any)[ec.toString()] = (Controller.prototype as any)[ec];
 });
 
 export default Controller;

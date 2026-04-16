@@ -17,7 +17,7 @@ class NailsRouter extends EventEmitter {
     }
     application = app; // TODO: Type this more specifically if application.js is also converted to TS
     expressRouter = expressRouter; // express-ws adds a ws method
-    routes; // TODO: Type this more specifically
+    routes = []; // TODO: Type this more specifically
     constructor(routes) {
         super();
         this.addRoutes(routes);

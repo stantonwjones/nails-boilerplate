@@ -1,8 +1,8 @@
 // Initializes application before server starts
 // Each of these is REQUIRED
-import routes from './routes.ts';
-import mimes from './mimes.ts';
-import db from './db.ts';
+import routes from './routes.js';
+import mimes from './mimes.js';
+import db from './db.js';
 
 import path from 'node:path';
 var SERVER_ROOT = path.resolve(import.meta.dirname, '..');

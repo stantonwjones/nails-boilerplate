@@ -9,7 +9,7 @@ import { type InitOptions, Model, Sequelize, type ModelAttributes, type ModelSta
 import expressApp from './application.js';
 import Router from './Router.js';
 
-import { type Config } from './config.ts';
+import { type Config } from './types.js';
 import Controller from './Controller.js';
 
 export default class Nails {
@@ -53,6 +53,7 @@ export default class Nails {
   declare initialized: Promise<void>;
   declare router: Router;
   declare Model: Model;
+  declare Models: Record<string, typeof Model>;
   declare httpServer: HttpServer;
   declare httpsServer: HttpsServer;
 
@@ -63,6 +64,7 @@ export default class Nails {
     Nails.instance = this;
     this.config = appConfig;
     this.application = expressApp;
+    this.Models = {};
     this.Controller = Controller;
     this.sequelize = this.config.db.options
       ? new Sequelize(
@@ -172,6 +174,7 @@ export default class Nails {
       console.error(errorMessage);
       throw errorMessage;
     }
+    this.Models[modelClass.name] = modelClass as typeof Model;
     const schema = modelModule.schema;
     const options = modelModule.options;
     const defer = modelModule.defer as (() => Promise<void>) | undefined;

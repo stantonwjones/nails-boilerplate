@@ -1,6 +1,7 @@
 import { chai, describe, it, expect, beforeAll } from 'vitest';
 import {default as chaiHttp, request} from 'chai-http';
 import WebSocket from 'ws';
+import Owner from "./services/integration/server/models/owner.js";
 
 let nails;
 var express_app;
@@ -24,6 +25,14 @@ describe("Integration: Sequelize", () => {
       console.log(e);
     }
     express_app = nails.application;
+  });
+
+  it("Can directly access models", async () => {
+    const owners = await Owner.findAll();
+  });
+
+  it("Can directly access models via Nails model Library", async () => {
+    const owners = await Owner.findAll();
   });
 
   describe("/listowners", () => {

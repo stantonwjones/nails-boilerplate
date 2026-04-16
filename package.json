@@ -57,6 +57,7 @@
   "imports": {
     "#nails": "./dist/nails.js"
   },
+  "types": "dist/types.d.ts",
   "author": "Stanton W. Jones",
   "license": "MIT"
 }

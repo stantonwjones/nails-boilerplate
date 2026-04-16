@@ -2,7 +2,7 @@ import { EventEmitter } from 'node:events';
 import { type WebSocket } from "ws";
 import { type NextFunction, type Request, type Response } from 'express';
 import { type Router as WsRouter, type WebsocketRequestHandler } from 'express-ws';
-import { type RouteDefinition, type RouteOptions } from './config.js';
+import { type RouteDefinition, type RouteOptions } from './types.js';
 interface ExpressWsType {
     app: any;
     getWss: () => any;

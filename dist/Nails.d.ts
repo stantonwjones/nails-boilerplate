@@ -3,7 +3,7 @@ import { type Server as HttpServer } from 'node:http';
 import { type Application } from 'express-ws';
 import { Model, Sequelize } from 'sequelize';
 import Router from './Router.js';
-import { type Config } from './config.ts';
+import { type Config } from './types.js';
 import Controller from './Controller.js';
 export default class Nails {
     static Controller: typeof Controller;
@@ -22,6 +22,7 @@ export default class Nails {
     initialized: Promise<void>;
     router: Router;
     Model: Model;
+    Models: Record<string, typeof Model>;
     httpServer: HttpServer;
     httpsServer: HttpsServer;
     private modelFinalizations;

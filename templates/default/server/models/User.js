@@ -1,5 +1,5 @@
 import {Model, DataTypes} from "@projectinvicta/nails";
-import Dog from "./Dog.ts";
+import Dog from "./Dog.js";
 
 export const schema = {
   name: DataTypes.STRING,

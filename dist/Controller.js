@@ -7,33 +7,67 @@ const NAME_REQUIRED_ERROR = () => {
 };
 const DISABLE_AUTORENDER = new (class DisableAutorender {
 });
-// The base controller definition
+/**
+ * The base controller definition.
+ */
 class Controller {
-    // Static properties
-    static router; // Static reference to the router
-    static models; // Static reference to models, assuming key-value pairs
+    /**
+     * Static reference to the router.
+     */
+    static router;
+    /**
+     * Static reference to models, assuming key-value pairs.
+     */
+    static models;
+    /**
+     * Returns an instance of `DISABLE_AUTORENDER` to prevent automatic rendering.
+     * @returns {DisableAutorender} An instance of `DisableAutorender`.
+     */
     static get DISABLE_AUTORENDER() {
         return DISABLE_AUTORENDER;
     }
+    /**
+     * Sets the router singleton for the Controller.
+     * @param {Router} router_singleton - The router instance to be used.
+     */
     static setRouter(router_singleton) {
         Controller.router = router = router_singleton;
     }
+    /**
+     * Sets the models object for the Controller prototype.
+     * @param {Record<string, any>} models - An object containing key-value pairs of models.
+     */
     static setModels(models) {
         Controller.prototype.models = models;
     }
-    // Instance properties
-    models; // This will be assigned via Controller.setModels
-    routes; // Assuming routes are defined on subclasses
-    json;
+    /** @type {Record<string, any>} */
+    models = {};
+    /** @type {RouteDefinition[]} */
+    routes = [];
+    /**
+     * Flag indicating if the controller should default to JSON responses.
+     *
+     * @type {boolean}
+     */
+    json = false;
+    /**
+     * Creates an instance of Controller.
+     */
     constructor() {
         const controllerName = this._getControllerName();
         router.removeAllListeners('dispatchTo:' + controllerName);
         router.on('dispatchTo:' + controllerName, this._do.bind(this));
     }
+    /**
+     * Gets the lowercased controller name without the 'Controller' suffix.
+     * @returns {string} The formatted controller name.
+     */
     _getControllerName() {
         return this.constructor.name.toLowerCase().replace(/controller$/, '');
     }
-    /** Initializes local and global routes defined on the Controller subclass */
+    /**
+     * Initializes local and global routes defined on the Controller subclass.
+     */
     _registerControllerRoutes() {
         // `this.json` is not explicitly defined on Controller, but expected on subclasses
         // assuming it's a boolean or undefined

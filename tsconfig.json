@@ -23,6 +23,7 @@
     "emitDeclarationOnly": false,      // We want both JS and type definitions
     "isolatedModules": true            // Ensures each file can be safely transpiled independently
   },
+  // "files": ["./index.ts"],
   "include": ["lib/*"],
   "exclude": ["node_modules", "**/*.test.ts"]
 }

@@ -32,6 +32,7 @@ export default class Nails {
         Nails.instance = this;
         this.config = appConfig;
         this.application = expressApp;
+        this.Models = {};
         this.Controller = Controller;
         this.sequelize = this.config.db.options
             ? new Sequelize(this.config.db.address, this.config.db.options)
@@ -135,6 +136,7 @@ export default class Nails {
             console.error(errorMessage);
             throw errorMessage;
         }
+        this.Models[modelClass.name] = modelClass;
         const schema = modelModule.schema;
         const options = modelModule.options;
         const defer = modelModule.defer;
