@@ -9,3 +9,5 @@ npm-debug.log
 *.sublime*
 templates/**/dist
 .idx
+templates/**/android
+templates/**/mobile-dist

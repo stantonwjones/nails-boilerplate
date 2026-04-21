@@ -59,6 +59,8 @@ function createApp( name ) {
 
     //fs.copyFileSync(templateRoot + '/.babelrc', name + '/.babelrc');
     fs.copyFileSync(path.resolve(templateRoot, './vite.config.ts'), name + '/vite.config.ts');
+    fs.copyFileSync(path.resolve(templateRoot, './vite-mobile.config.ts'), name + '/vite-mobile.config.ts');
+    fs.copyFileSync(path.resolve(templateRoot, './capacitor.config.ts'), name + '/capacitor.config.ts');
 
     // fs.open(name + 'bin/server.js','w', 0o666, function(err, fd) {
     //     if (err) throw err;
