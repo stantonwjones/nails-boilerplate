@@ -8,9 +8,7 @@
     "scripts": {
         "test": "vitest run",
         "start": "vite build && node bin/server.js",
-        "start:mobile": "vite dev --config vite-mobile.config.ts",
         "build": "vite build",
-        "build:mobile": "vite build --config vite-mobile.config.ts",
         "rollout": "NAME=$npm_package_name ./bin/rollout.sh",
         "promote": "./bin/promote.sh"
     },
@@ -31,14 +29,6 @@
     },
     "dependencies": {
         "@projectinvicta/nails": "*",
-        "@capacitor/android": "^7.4.4",
-        "@capacitor/app": "7.1.0",
-        "@capacitor/browser": "^7.0.2",
-        "@capacitor/core": "7.4.4",
-        "@capacitor/google-maps": "^7.2.0",
-        "@capacitor/haptics": "7.0.2",
-        "@capacitor/keyboard": "7.0.2",
-        "@capacitor/status-bar": "7.0.2",
         "@mui/icons-material": "^7.3.1",
         "@mui/material": "^7.3.1",
         "@vitejs/plugin-legacy": "^6.1.1",
