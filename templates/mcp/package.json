@@ -1,0 +1,51 @@
+{
+    "name": "nails_app",
+    "version": "0.0.0",
+    "description": "A basic nails application",
+    "main": "server.js",
+    "type": "module",
+    "bin": "./bin/start.sh",
+    "scripts": {
+        "test": "vitest run",
+        "start": "vite build && node bin/server.js",
+        "build": "vite build",
+        "rollout": "NAME=$npm_package_name ./bin/rollout.sh",
+        "promote": "./bin/promote.sh"
+    },
+    "author": "",
+    "license": "BSD",
+    "bugs": {
+        "url": "https://github.com/stantonwjones/nails-boilerplate/issues"
+    },
+    "config": {
+        "mongodbMemoryServer": {
+            "version": "latest"
+        }
+    },
+    "imports": {
+      "#models/*": "./server/models/*",
+      "#common/*": "./common/*",
+      "#config/*": "./config/*"
+    },
+    "dependencies": {
+        "@projectinvicta/nails": "*",
+        "@mui/icons-material": "^7.3.1",
+        "@mui/material": "^7.3.1",
+        "@vitejs/plugin-legacy": "^6.1.1",
+        "@vitejs/plugin-react": "^4.7.0",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-router-dom": "^7.7.0",
+        "sequelize": "^6.37.7",
+        "vite": "^6.3.5",
+        "chai-http": "*"
+    },
+    "devDependencies": {
+        "@capacitor/cli": "7.4.4",
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@mui/types": "^7.4.5",
+        "typescript": "^5.9.3",
+        "vitest": "^3.2.4"
+    }
+}
