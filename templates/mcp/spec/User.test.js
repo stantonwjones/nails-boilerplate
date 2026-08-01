@@ -7,7 +7,7 @@ const TEST_USER_EMAIL = "test@test.com";
 const TEST_USER_NAME = "JohnDoe";
 beforeAll(async () => {
   // Only initialize the Models.
-  await new Nails(service_config).configure();
+  await new Nails(service_config).initialized;
   // await nails.MODELS.init( service_config );
 });
 

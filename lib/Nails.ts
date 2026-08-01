@@ -1,8 +1,8 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import https, {type Server as HttpsServer} from 'node:https';
-import {type Server as HttpServer} from 'node:http';
+import https, { type Server as HttpsServer } from 'node:https';
+import { type Server as HttpServer } from 'node:http';
 
 import { type Application } from 'express-ws';
 import { type InitOptions, Model, Sequelize, type ModelAttributes, type ModelStatic } from 'sequelize';
@@ -101,7 +101,7 @@ export default class Nails {
     await this.loadModels(this.config.service.MODELS_ROOT);
     await Promise.all(this.modelFinalizations.map((finalization) => finalization()));
     // TODO: Implement a migration strategy
-    await this.sequelize.sync({alter: {drop: false}});
+    await this.sequelize.sync({ alter: { drop: false } });
   }
 
   async startServer() {

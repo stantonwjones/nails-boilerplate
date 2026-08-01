@@ -14,6 +14,6 @@ export default {
   /** Sequelize Connector */
   connector: 'sequelize_connector.js',
   address: process.env.NAILS_RELEASE_STAGE == 'test'
-    ? 'sqlite::memory:'
+    ? 'sqlite:///:memory:'
     : DB_ADDRESS,
 }

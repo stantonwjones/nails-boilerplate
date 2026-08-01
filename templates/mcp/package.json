@@ -29,6 +29,8 @@
     },
     "dependencies": {
         "@projectinvicta/nails": "*",
+        "@modelcontextprotocol/sdk": "^1.4.0",
+        "zod": "^3.23.8",
         "@mui/icons-material": "^7.3.1",
         "@mui/material": "^7.3.1",
         "@vitejs/plugin-legacy": "^6.1.1",

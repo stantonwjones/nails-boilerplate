@@ -4,7 +4,7 @@ if (!DB_ADDRESS) DB_ADDRESS = 'sqlite://' + import.meta.dirname + '/development.
 const db = {
   /** Sequelize Connector */
   address: process.env.NAILS_RELEASE_STAGE == 'test'
-    ? 'sqlite::memory:'
+    ? 'sqlite:///:memory:'
     : DB_ADDRESS,
 };
 

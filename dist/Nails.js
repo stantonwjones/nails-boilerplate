@@ -34,9 +34,18 @@ export default class Nails {
         this.application = expressApp;
         this.Models = {};
         this.Controller = Controller;
-        this.sequelize = this.config.db.options
-            ? new Sequelize(this.config.db.address, this.config.db.options)
-            : new Sequelize(this.config.db.address);
+        if (this.config.db.address === 'sqlite::memory:') {
+            this.sequelize = new Sequelize({
+                dialect: 'sqlite',
+                storage: ':memory:',
+                ...this.config.db.options
+            });
+        }
+        else {
+            this.sequelize = this.config.db.options
+                ? new Sequelize(this.config.db.address, this.config.db.options)
+                : new Sequelize(this.config.db.address);
+        }
         this.router = new Router([]);
         this.initialized = this.configure();
     }
