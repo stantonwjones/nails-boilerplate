@@ -11,25 +11,27 @@ const server = new McpServer({
 // TODO: may want to use registerResource instead
 // https://github.com/modelcontextprotocol/typescript-sdk?tab=readme-ov-file#resources
 server.registerTool(
-  'query_google_news',
+  'generate_random',
   {
-    title: 'Query Google News',
-    description: 'Tool to retrieve the last 7 days of news articles for a given topic',
+    title: 'Generate Random Numbers',
+    description: 'Tool to generate random numbers',
     inputSchema: {
-      topic: z.string().describe("The topic to search for"),
+      numRandoms: z.number().int().describe("The number of random numbers to generate"),
+      type: z.enum(['integer', 'decimal']).describe("The type of random numbers to generate"),
+      scale: z.number().describe("The scale/maximum value for the numbers (e.g. 1, 10, 100, etc.)"),
     },
   },
-  async ({ topic }) => {
-    // For now, return a simple static response
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    const lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7);
-    const newsFound = await generateMcpToolExecutionResults(topic, 7);
-    console.log("FOUND NEWS");
+  async ({ numRandoms, type, scale }) => {
+    const numbers = [];
+    for (let i = 0; i < numRandoms; i++) {
+      let val = Math.random() * scale;
+      if (type === 'integer') {
+        val = Math.floor(val);
+      }
+      numbers.push(val);
+    }
     return {
-      content: [{type: "text", text: JSON.stringify(newsFound)}]
+      content: [{type: "text", text: JSON.stringify(numbers)}]
     };
   }
 );
@@ -41,7 +43,7 @@ export default class MpcController extends nails.Controller {
     ['post', '/mcp'],
     ['get', '/mcp', {action: 'unsupportedMcpAction'}],
     ['delete', '/mcp', {action: 'unsupportedMcpAction'}],
-    ['post', '/invoke/query_google_news'],
+    ['post', '/invoke/generate_random'],
   ];
 
   async mcp(params, req, res) {
@@ -74,9 +76,9 @@ export default class MpcController extends nails.Controller {
   }
 
 
-  async query_google_news(params, request, response) {
+  async generate_random(params, request, response) {
     const inputData = request.body;
-    return await server.invokeTool('query_google_news', inputData);
+    return await server.invokeTool('generate_random', inputData);
   }
 }
 
