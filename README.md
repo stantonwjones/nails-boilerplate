@@ -6,31 +6,67 @@ Nails provides the essential building blocks to get your MVC-style application u
 
 ## Getting Started
 
-There are two recommended ways to get started with Nails.
+Nails supports multiple template types depending on your needs. The two primary initializations are:
+1. **Default Initialization**: A Node/Express server paired with a React frontend.
+2. **MCP Server Initialization**: A Node/Express server configured as a Model Context Protocol (MCP) server for integration with LLMs (e.g., Claude, Cursor, Gemini).
 
-### Using NPX (Recommended)
-You can create a new Nails project without a global installation using `npx`:
+---
 
+### 1. Default Initialization (Server with React Frontend)
+
+This template sets up a lightweight Node.js web server and a React frontend built with Vite.
+
+#### Using NPX (Recommended)
+Create a new project without global installation:
 ```bash
 npx @projectinvicta/nails init <app_name>
 ```
 
-### Using Global Install
-Alternatively, you can install the package globally:
-
+#### Using Global Install
+Alternatively, install the package globally and initialize your app:
 ```bash
 npm install -g @projectinvicta/nails
-
 nails init <app_name>
 ```
 
-After initializing your app, navigate into the new directory and start the server:
-
+#### Running the Default App
+After initializing:
 ```bash
 cd <app_name>
 npm install
 npm start
 ```
+The server will start (default port: `3333` for HTTP, `3334` for HTTPS) and build/serve the React frontend located in the `src` directory.
+
+---
+
+### 2. MCP Server Initialization (For LLM Integration)
+
+This template configures a Nails service specifically for Model Context Protocol (MCP), exposing endpoints that allow LLMs to invoke tools and read resources programmatically.
+
+#### Initialization
+Initialize a new MCP project using the `--template mcp` option:
+```bash
+npx @projectinvicta/nails init <app_name> --template mcp
+```
+*(Or globally: `nails init <app_name> --template mcp`)*
+
+#### Running the MCP Server
+After initializing:
+```bash
+cd <app_name>
+npm install
+npm start
+```
+
+#### How it works
+- The MCP server runs on the standard HTTP port (default: `3333`).
+- **Endpoint**: The default MCP tool/resource endpoint is hosted at `http://localhost:3333/mcp`.
+- **Tools**: By default, it registers an example tool called `generate_random` defined in `server/controllers/mcp_controller.js`.
+- You can extend the MCP server with more tools, resources, and custom logic directly in the controller or by using the `@modelcontextprotocol/sdk`.
+
+---
+
 
 ## Getting to know your Nails service
 
@@ -370,9 +406,9 @@ If no template engine is specified in the service config, Nails will default to
 EJS. Nails will always attempt to autorender your views unless a response has
 already been sent to the client.
 
-### React Frontend with Vite
+### React Frontend with Vite (Default Template Only)
 
-This project uses Vite to build the frontend React application. The source files for the React app are located in the `src` directory. The server is pre-configured to serve the built React application.
+For the default template, this project uses Vite to build the frontend React application. The source files for the React app are located in the `src` directory. The server is pre-configured to serve the built React application.
 
 To rebuild the frontend application, you can run the following command:
 
