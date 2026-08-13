@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      version_changed: ${{ steps.check_version.outputs.version_changed }}
 
     steps:
       - name: Checkout repository
@@ -52,3 +54,11 @@ jobs:
           gh release create ${{ steps.check_version.outputs.new_version }} \
             --title "${{ steps.check_version.outputs.new_version }}" \
             --generate-notes
+
+  publish:
+    needs: release
+    if: needs.release.outputs.version_changed == 'true'
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/npm-publish.yml
