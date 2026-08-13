@@ -32,7 +32,7 @@ jobs:
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           
           # Get the previous version from the last commit
-          PREVIOUS_VERSION=$(git show HEAD~1:package.json | node -p "JSON.parse(process.argv[1]).version" -- -)
+          PREVIOUS_VERSION=$(git show HEAD~1:package.json | node -p "JSON.parse(require('fs').readFileSync(0, 'utf-8')).version")
           
           echo "Previous version: $PREVIOUS_VERSION"
           echo "Current version: $CURRENT_VERSION"
