@@ -1,0 +1,6 @@
+export const HOST_IPS = {
+    ANDROID_EMULATOR_HOST_MACHINE: "10.0.2.2",
+    IPHONE_EMULATOR_HOST_MACHINE: "",
+    LOCAL: "127.0.0.1",
+    LOCAL_ZEROED: "0.0.0.0",
+}
