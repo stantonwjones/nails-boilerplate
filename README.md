@@ -416,6 +416,32 @@ To rebuild the frontend application, you can run the following command:
 npm run build
 ```
 
+## Release Stages & Scripts
+
+Nails utilizes the `NAILS_RELEASE_STAGE` environment variable to configure the environment stage under which the application is running.
+
+### Console Commands
+Nails supports an interactive REPL console (located in `bin/console.js` for each template) which allows developers to interact with the initialized `nails` instance and all models.
+
+* **`npm run console`**: Starts the console in the default `development` stage.
+* **`npm run console:dev`**: Starts the console in the `development` stage.
+* **`npm run console:test`**: Starts the console in the `test` stage.
+* **`npm run console:qa`**: Starts the console in the `qa` stage.
+* **`npm run console:staging`**: Starts the console in the `staging` stage.
+* **`npm run console:prod`**: Starts the console in the `production` stage.
+
+### Start Commands
+Similarly, start commands are provided to run the application server under different release stages:
+
+* **`npm start`**: Starts the server in the default `development` stage.
+* **`npm run start:dev`**: Starts the server in the `development` stage.
+* **`npm run start:test`**: Starts the server in the `test` stage.
+* **`npm run start:qa`**: Starts the server in the `qa` stage.
+* **`npm run start:staging`**: Starts the server in the `staging` stage.
+* **`npm run start:prod`**: Starts the server in the `production` stage.
+
+*(Note: The mobile template also includes `start:mobile` for running the Vite dev server for mobile).*
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) for running tests. All test files are located in the `spec` folder. To run the tests, use the following command:

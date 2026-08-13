@@ -6,8 +6,19 @@
     "type": "module",
     "bin": "./bin/start.sh",
     "scripts": {
+        "console": "export NAILS_RELEASE_STAGE=development TZ=America/Los_Angeles && node bin/console.js",
+        "console:dev": "export NAILS_RELEASE_STAGE=development TZ=America/Los_Angeles && node bin/console.js",
+        "console:test": "export NAILS_RELEASE_STAGE=test TZ=America/Los_Angeles && node bin/console.js",
+        "console:qa": "export NAILS_RELEASE_STAGE=qa TZ=America/Los_Angeles && node bin/console.js",
+        "console:staging": "export NAILS_RELEASE_STAGE=staging TZ=America/Los_Angeles && node bin/console.js",
+        "console:prod": "export NAILS_RELEASE_STAGE=production TZ=America/Los_Angeles && node bin/console.js",
         "test": "vitest run",
-        "start": "vite build && node bin/server.js",
+        "start": "export NAILS_RELEASE_STAGE=development TZ=America/Los_Angeles && vite build && node bin/server.js",
+        "start:dev": "export NAILS_RELEASE_STAGE=development TZ=America/Los_Angeles && vite build && node bin/server.js",
+        "start:test": "export NAILS_RELEASE_STAGE=test TZ=America/Los_Angeles && vite build && node bin/server.js",
+        "start:qa": "export NAILS_RELEASE_STAGE=qa TZ=America/Los_Angeles && vite build && node bin/server.js",
+        "start:staging": "export NAILS_RELEASE_STAGE=staging TZ=America/Los_Angeles && vite build && node bin/server.js",
+        "start:prod": "export NAILS_RELEASE_STAGE=production TZ=America/Los_Angeles && vite build && node bin/server.js",
         "build": "vite build",
         "rollout": "NAME=$npm_package_name ./bin/rollout.sh",
         "promote": "./bin/promote.sh"
@@ -23,9 +34,9 @@
         }
     },
     "imports": {
-      "#models/*": "./server/models/*",
-      "#common/*": "./common/*",
-      "#config/*": "./config/*"
+        "#models/*": "./server/models/*",
+        "#common/*": "./common/*",
+        "#config/*": "./config/*"
     },
     "dependencies": {
         "@projectinvicta/nails": "*",
