@@ -1,6 +1,6 @@
 {
   "name": "@projectinvicta/nails",
-  "version": "3.1.6",
+  "version": "3.1.5",
   "description": "A node.js webserver scaffold",
   "type": "module",
   "main": "index.js",
@@ -60,8 +60,5 @@
   },
   "types": "dist/types.d.ts",
   "author": "Stanton W. Jones",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  }
+  "license": "MIT"
 }
